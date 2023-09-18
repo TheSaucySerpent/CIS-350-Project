@@ -27,7 +27,6 @@ while running:
     keys = pygame.key.get_pressed()
     mc.move(keys)
     enemy.move_towards_character()
-
     # Check for collisions between character and enemies
     for enemy in enemies:
         if mc.x < enemy.x + enemy.width and mc.x + mc.width > enemy.x \
@@ -35,6 +34,19 @@ while running:
             # Characters are colliding, character takes damage
             mc.take_damage(10)
             enemy.take_damage(10)
+
+    # Check for collisions between character and items
+    #for item in objects:
+    #    if mc.x < item.x + item.width and mc.x + mc.width > item.x \
+    #       and mc.y < item.y + item.height and mc.y + mc.height > item.y:
+            # Character is colliding, character takes item
+    #        if item = smallHealth:
+    #            mc.heal(25)
+    #        elif item = bigHealth:
+    #            mc.heal(100)
+    #        elif item = key:
+    #            key.pop
+    #            print("Player Obtained Key")
 
     #Make sure objects can't be clipped
     for ob in objects:
