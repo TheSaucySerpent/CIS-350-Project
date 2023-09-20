@@ -2,8 +2,10 @@ import pygame
 screen_width = 1200
 screen_height = 700
 
+#I added getters, and health can no longer be negative. Also adds a gun to the init so you can shoot any gun you add
+
 class Character:
-    def __init__(self, x, y, width, height, speed, health, armor):
+    def __init__(self, x, y, width, height, speed, health, armor, gun):
         self.x = x
         self.y = y
         self.width = width
@@ -11,6 +13,13 @@ class Character:
         self.speed = speed
         self.health = health
         self.armor = armor
+        self.gun = gun
+
+    def get_x(self):
+        return self.x
+
+    def get_y(self):
+        return self.y
 
     def move(self, keys):
         new_x = self.x
@@ -41,8 +50,8 @@ class Character:
             self.health -= extra_damage
         else:
             self.health -= damage
-
-
+        if self.health < 0:
+            self.health = 0
 
     def heal(self, amount):
         maxhealth = 100 #VALUE WE WANT FOR MAX HEALTH
@@ -50,4 +59,7 @@ class Character:
             self.health = maxhealth
         else:
             self.health += amount
+
+
+
 

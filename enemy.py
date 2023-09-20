@@ -3,15 +3,11 @@ from character import Character
 screen_width = 1200
 screen_height = 700
 
-class Enemy():
-    def __init__(self, x, y, width, height, speed, health, armor, character):
-        self.x = x
-        self. y = y
-        self.width = width
-        self.height = height
-        self.speed = speed
-        self.health = health
-        self.armor = armor
+#Now a child of Character, this way they can have guns. move_towards_character should be heavily adjusted to account for firearms
+
+class Enemy(Character):
+    def __init__(self, x, y, width, height, speed, health, armor, gun, character):
+        super().__init__(x, y, width, height, speed, health, armor, gun)
         self.character = character
 
     def move_towards_character(self):
@@ -30,14 +26,3 @@ class Enemy():
         self.y += dy * self.speed
 
 
-    def take_damage(self, damage):
-        extra_damage = 0
-        if self.armor > 0:
-            self.armor -= damage
-            if self.armor < 0:
-                extra_damage = self.armor * -1
-                self.armor = 0
-        if extra_damage > 0:
-            self.health -= extra_damage
-        else:
-            self.health -= damage
