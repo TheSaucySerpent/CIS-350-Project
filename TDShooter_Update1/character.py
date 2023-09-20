@@ -53,6 +53,11 @@ class Character:
         if self.health < 0:
             self.health = 0
 
+    def heal(self, amount):
+        maxHealth = 100
+        self.health += amount
+        if  self.health > maxHealth:
+            self.health = maxHealth
 
 
 
