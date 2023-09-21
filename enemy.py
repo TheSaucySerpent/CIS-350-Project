@@ -3,7 +3,7 @@ from character import Character
 screen_width = 1200
 screen_height = 700
 
-#Now a child of Character, this way they can have guns. move_towards_character should be heavily adjusted to account for firearms
+
 
 class Enemy(Character):
     def __init__(self, x, y, width, height, speed, health, armor, gun, character):
