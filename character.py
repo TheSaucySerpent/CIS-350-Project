@@ -4,7 +4,8 @@ screen_height = 700
 
 
 class Character:
-    def __init__(self, x, y, width, height, speed, health, armor, gun):
+    def __init__(self, name, x, y, width, height, speed, health, armor, gun):
+        self.name = name
         self.x = x
         self.y = y
         self.width = width
@@ -44,13 +45,29 @@ class Character:
             self.x = new_x
             self.y = new_y
 
+
         self.invulnerable = False
 
     def take_damage(self, damage):
         if not self.invulnerable:
             current_time = pygame.time.get_ticks()
-            #To change invulnerability time, change value of 100
-            if current_time - self.last_hurt > 300:
+            if self.name == 'Player':
+                #To change invulnerability time, change value of 300
+                if current_time - self.last_hurt > 300:
+                    extra_damage = 0
+                    if self.armor > 0:
+                        self.armor -= damage
+                        if self.armor < 0:
+                            extra_damage = self.armor * -1
+                            self.armor = 0
+                    if extra_damage > 0:
+                        self.health -= extra_damage
+                    else:
+                        self.health -= damage
+                    if self.health < 0:
+                        self.health = 0
+                    self.last_hurt = current_time
+            else:
                 extra_damage = 0
                 if self.armor > 0:
                     self.armor -= damage
@@ -63,7 +80,6 @@ class Character:
                     self.health -= damage
                 if self.health < 0:
                     self.health = 0
-                self.last_hurt = current_time
 
     def heal(self, amount):
         maxhealth = 100 #VALUE WE WANT FOR MAX HEALTH
