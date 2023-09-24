@@ -12,6 +12,7 @@ class Character:
         self.height = height
         self.speed = speed
         self.health = health
+        self.max_health = 100  # VALUE WE WANT FOR MAX HEALTH
         self.armor = armor
         self.gun = gun
         self.last_hurt = 0
@@ -82,9 +83,8 @@ class Character:
                     self.health = 0
 
     def heal(self, amount):
-        maxhealth = 100 #VALUE WE WANT FOR MAX HEALTH
-        if self.health >= maxhealth:
-            self.health = maxhealth
+        if self.health >= self.max_health:
+            self.health = self.max_health
         else:
             self.health += amount
 
