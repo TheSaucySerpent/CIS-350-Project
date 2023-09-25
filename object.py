@@ -1,4 +1,3 @@
-import pygame
 #Needed for game to run, in theory we could make character be a child of object
 
 class Object:
@@ -8,5 +7,3 @@ class Object:
         self.width = width
         self.height = height
         self.health = health
-        self.obj_rect = pygame.Rect(self.x, self.y, self.width, self.height)
-

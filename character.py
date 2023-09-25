@@ -4,15 +4,13 @@ screen_height = 700
 
 
 class Character:
-    def __init__(self, name, x, y, width, height, speed, health, armor, gun):
-        self.name = name
+    def __init__(self, x, y, width, height, speed, health, armor, gun):
         self.x = x
         self.y = y
         self.width = width
         self.height = height
         self.speed = speed
         self.health = health
-        self.max_health = 100  # VALUE WE WANT FOR MAX HEALTH
         self.armor = armor
         self.gun = gun
         self.last_hurt = 0
@@ -46,29 +44,13 @@ class Character:
             self.x = new_x
             self.y = new_y
 
-
         self.invulnerable = False
 
     def take_damage(self, damage):
         if not self.invulnerable:
             current_time = pygame.time.get_ticks()
-            if self.name == 'Player':
-                #To change invulnerability time, change value of 300
-                if current_time - self.last_hurt > 300:
-                    extra_damage = 0
-                    if self.armor > 0:
-                        self.armor -= damage
-                        if self.armor < 0:
-                            extra_damage = self.armor * -1
-                            self.armor = 0
-                    if extra_damage > 0:
-                        self.health -= extra_damage
-                    else:
-                        self.health -= damage
-                    if self.health < 0:
-                        self.health = 0
-                    self.last_hurt = current_time
-            else:
+            #To change invulnerability time, change value of 100
+            if current_time - self.last_hurt > 300:
                 extra_damage = 0
                 if self.armor > 0:
                     self.armor -= damage
@@ -81,13 +63,14 @@ class Character:
                     self.health -= damage
                 if self.health < 0:
                     self.health = 0
+                self.last_hurt = current_time
 
     def heal(self, amount):
-        if self.health >= self.max_health:
-            self.health = self.max_health
+        maxhealth = 100 #VALUE WE WANT FOR MAX HEALTH
+        if self.health >= maxhealth:
+            self.health = maxhealth
         else:
             self.health += amount
-
 
 
 
