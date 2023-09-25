@@ -8,7 +8,7 @@ screen_height = 700
 
 
 class Weapon(Item):
-    def __init__(self, name, damage, proj_speed, attack_speed, mag_size, mag_count, reload_speed, owner):
+    def __init__(self, name, damage, proj_speed, attack_speed, mag_size, mag_count, reload_speed, owner, room=None):
         super().__init__(name, owner)
         self.damage = damage
         self.attack_speed = attack_speed
@@ -20,6 +20,14 @@ class Weapon(Item):
         self.last_attack = 0
         self.last_reload = 0
         self.projectiles = []
+        self.room = room
+
+    def draw(self, screen):
+        if hasattr(self, 'image') and self.image:
+            screen.blit(self.image, (self.owner.x, self.owner.y))
+        else:
+            # Draw a placeholder for the weapon if no image is set
+            pygame.draw.rect(screen, (255, 0, 0), (self.owner.x, self.owner.y, 50, 50))
 
     def attack(self):
         # Check if enough time has passed since the last shot to fire again
@@ -96,6 +104,8 @@ class Projectile:
             return False
         else:
             return True
+
+
 
 
 class Shotgun(Weapon):
