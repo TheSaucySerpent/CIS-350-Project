@@ -1,6 +1,7 @@
 import pygame
+import UI
+import colors
 import glob_var
-
 
 pygame.init()
 
@@ -8,96 +9,110 @@ screen_width = 1200
 screen_height = 700
 
 screen = pygame.display.set_mode((screen_width, screen_height))
-pygame.display.set_caption("Game Title")
+
+font = pygame.font.Font(None, 36)
 
 # This is just to make it easier to read in the running loop.
-mc = glob_var.mc
+player = glob_var.player
+obj = glob_var.obj
+enemies = glob_var.enemies
 
-
-# Font for displaying text
-font = pygame.font.Font(None, 36)
-current_room = glob_var.room1
 running = True
+game_in_progess = False
 game_over = False
+
+# display the title menu
+UI.display_menu(screen, screen_width, screen_height, font)
+
 while running:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
 
+        # to register key presses
+        elif event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_ESCAPE:
+                running = False
+            elif event.key == pygame.K_SPACE:
+                # starts the game
+                game_in_progess = True
 
-    keys = pygame.key.get_pressed()
-    if not game_over:
+    if game_in_progess:
+        screen.fill(colors.BLACK)
+        # If r is press, calls weapon reload function
+        # If space is pressed and its been 1 second, does a dodge/teleport with invulnerability
+        # wasd to move
+        keys = pygame.key.get_pressed()
+        if not game_over:
+            if keys[pygame.K_r]:
+                player.gun.reload()
+            if keys[pygame.K_SPACE]:
+                current_time = pygame.time.get_ticks()
+                if current_time - player.last_dodge > 1000:
+                    player.move(keys, 200, True)
+                    player.last_dodge = current_time
+                else:
+                    player.move(keys, 0)
+            else:
+                player.move(keys, 0)
 
-        mc.move(keys, 0.0005)
-        if current_room == glob_var.room1:
-
-            screen.blit(glob_var.room1.background, (0, 0)) # to draw background
-            current_room.draw(screen) # draw everything in the room
-
-
-            for enemy in current_room.enemies:
-                enemy.draw(screen)
-                enemy.move_towards_character()
-                if mc.x < enemy.x + enemy.width - 10 and mc.x + mc.width > enemy.x \
-                        and mc.y < enemy.y + enemy.height - 10 and mc.y + mc.height > enemy.y:
-                    # Characters are colliding, character takes damage
-                    mc.take_damage(10)
-
-            mc.draw(screen)
             if pygame.mouse.get_pressed()[0]:  # Left mouse button
-                if mc.gun != 0:
-                    mc.gun.attack()
+                if player.gun != 0:
+                    player.gun.attack()
                 else:
                     print("You don't got a gun!")
 
+        # Labeled separately so I can use pygame's .colliderect()
+        player_rect = (player.x, player.y, player.width, player.height)
 
-            # Display the character's stats
-            health_text = font.render(f"Health: {mc.health}", True, (255, 255, 255))
-            screen.blit(health_text, (10, 10))
-            ammo_text = font.render(f"Ammo: {mc.gun.mag_ammo}", True, (255, 255, 255))
-            screen.blit(ammo_text, (10, 30))
-            mag_text = font.render(f"Mags: {mc.gun.mag_count}", True, (255, 255, 255))
-            screen.blit(mag_text, (10, 50))
+        # Draw the character
+        pygame.draw.rect(screen, (0, 0, 255), player_rect)
 
-        if mc.health == 0:
-            ded_text = font.render(f"You Died.", True, (255, 0, 0))
-            screen.blit(ded_text,
-                        ((screen_width - ded_text.get_width()) // 2, (screen_height - ded_text.get_height()) // 2))
-            game_over = True
+        # Draw projectiles
+        for g in glob_var.guns:
+            for p in g.projectiles:
+                p.move()
+                pygame.draw.rect(screen, (255, 255, 0), (p.x, p.y, p.width, p.height))
+            g.update_projectiles()
 
-            """if 1050 <= mc.x <= 1100 and 260 <= mc.y <= 360:
-            mc.x, mc.y = 100, 100
-            current_room = glob_var.room2"""
+        # Draw and update enemy: makes enemies move towards player, checks for enemy-player collision and
+        # kills them
+        for enemy in enemies:
+            enemy.move_towards_character()
 
-        elif current_room == glob_var.room2:
-            screen.blit(glob_var.room1.background, (0, 0))  # to draw background
-            current_room.draw(screen)  # draw everything in the room
+            if enemy.health > 0:
+                pygame.draw.rect(screen, (255, 0, 0), (enemy.x, enemy.y, enemy.width, enemy.height))
+            else:
+                enemies.remove(enemy)
 
-            for enemy in current_room.enemies:
-                enemy.draw(screen)
-                enemy.move_towards_character()
-                if mc.x < enemy.x + enemy.width - 10 and mc.x + mc.width > enemy.x \
-                        and mc.y < enemy.y + enemy.height - 10 and mc.y + mc.height > enemy.y:
-                    # Characters are colliding, character takes damage
-                    mc.take_damage(10)
+        # Draw objects & handle object collision
+        for obj in glob_var.objs:
+            for entity in glob_var.entities:
+                entity_rect = pygame.Rect(entity.x, entity.y, entity.width, entity.height)
+                if entity_rect.colliderect(obj.obj_rect):
+                    # Left Border
+                    if entity.x + entity.width < obj.x + 2:
+                        entity.x -= 1
+                    # Right Border
+                    elif entity.x > obj.x + obj.width - 2:
+                        entity.x += 1
+                    # Upper Border
+                    elif entity.y < obj.y:
+                        entity.y -= 1
+                    # Lower Board
+                    elif entity.y > obj.y:
+                        entity.y += 1
+            pygame.draw.rect(screen, (192, 192, 192), obj.obj_rect)
 
-            mc.draw(screen)
+            UI.display_player_stats(screen, player, font)
 
-            # Display the character's stats
-            health_text = font.render(f"Health: {mc.health}", True, (255, 255, 255))
-            screen.blit(health_text, (10, 10))
-            ammo_text = font.render(f"Ammo: {mc.gun.mag_ammo}", True, (255, 255, 255))
-            screen.blit(ammo_text, (10, 30))
-            mag_text = font.render(f"Mags: {mc.gun.mag_count}", True, (255, 255, 255))
-            screen.blit(mag_text, (10, 50))
+            # Death Message/Game Over
+            if player.health == 0:
+                ded_text = font.render(f"You Died.", True, (255, 0, 0))
+                screen.blit(ded_text,
+                            ((screen_width - ded_text.get_width()) // 2,
+                             (screen_height - ded_text.get_height()) // 2))
+                game_over = True
 
-        if mc.health == 0:
-            ded_text = font.render(f"You Died.", True, (255, 0, 0))
-            screen.blit(ded_text,
-                        ((screen_width - ded_text.get_width()) // 2, (screen_height - ded_text.get_height()) // 2))
-            game_over = True
-
-
-    pygame.display.update()
-
-pygame.quit()
+        # update the display
+        pygame.display.update()
