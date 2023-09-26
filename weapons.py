@@ -8,7 +8,7 @@ screen_height = 700
 
 
 class Weapon(Item):
-    def __init__(self, name, damage, proj_speed, attack_speed, mag_size, mag_count, reload_speed, owner, room=None):
+    def __init__(self, name, damage, proj_speed, attack_speed, mag_size, mag_count, reload_speed, owner):
         super().__init__(name, owner)
         self.damage = damage
         self.attack_speed = attack_speed
@@ -20,35 +20,37 @@ class Weapon(Item):
         self.last_attack = 0
         self.last_reload = 0
         self.projectiles = []
-        self.room = room
-
-    def draw(self, screen):
-        if hasattr(self, 'image') and self.image:
-            screen.blit(self.image, (self.owner.x, self.owner.y))
-        else:
-            # Draw a placeholder for the weapon if no image is set
-            pygame.draw.rect(screen, (255, 0, 0), (self.owner.x, self.owner.y, 50, 50))
 
     def attack(self):
         # Check if enough time has passed since the last shot to fire again
         current_time = pygame.time.get_ticks()
         if current_time - self.last_attack >= 1000 / self.attack_speed:
             # Obviously there is work to do here, need to implement melee and enemy attack setup
-            if self.owner == glob_var.mc:
+            if self.owner == glob_var.player:
                 if self.mag_ammo > 0:
                     direction = math.degrees(math.atan2(pygame.mouse.get_pos()[1] - self.owner.get_y(), pygame.mouse.get_pos()[0] - self.owner.get_x()))
-                    projectile = Projectile(self.owner.get_x(), self.owner.get_y(), 10, 10, self.proj_speed, direction, self.damage)
+                    projectile = Projectile(self.owner.get_x() + (.5 * self.owner.width), self.owner.get_y() + (.5 * self.owner.height), 10, 10, self.proj_speed, direction, self.damage)
                     self.projectiles.append(projectile)
                     self.mag_ammo -= 1
                     self.last_attack = current_time
+            '''else:
+                direction = math.degrees(math.atan2(self.owner.character.get_x() - self.owner.get_y(), self.owner.character.get_x() - self.owner.get_x()))
+                projectile = Projectile(self.owner.get_x(), self.owner.get_y(), 10, 10, self.proj_speed, direction, self.damage)
+                self.projectiles.append(projectile)
+                self.last_attack = current_time'''
+
 
     def update_projectiles(self):
         # Move and update all active projectiles
         projectiles_to_remove = []
         for projectile in self.projectiles:
             projectile.move()
-            if Projectile.projectile_out_of_bounds(projectile) or Projectile.projectile_hits_enemy(projectile) or Projectile.projectile_hits_object(projectile):
-                projectiles_to_remove.append(projectile)
+            if self.owner == glob_var.player:
+                if Projectile.projectile_out_of_bounds(projectile) or Projectile.projectile_hits_enemy(projectile) or Projectile.projectile_hits_object(projectile):
+                    projectiles_to_remove.append(projectile)
+            else:
+                if Projectile.projectile_out_of_bounds(projectile) or Projectile.projectile_hits_player(projectile) or Projectile.projectile_hits_object(projectile):
+                    projectiles_to_remove.append(projectile)
         # Remove projectiles that are out of bounds or hit something
         for projectile in projectiles_to_remove:
             self.projectiles.remove(projectile)
@@ -99,13 +101,17 @@ class Projectile:
                 x = False
         return x
 
+    def projectile_hits_player(self):
+        if self.x < glob_var.player.x + glob_var.player.width and self.x + self.width > glob_var.player.width \
+            and self.y < glob_var.player.y + glob_var.player.height and self.y + self.height > glob_var.player.y:
+            glob_var.player.take_damage(10)
+            return True
+
     def projectile_out_of_bounds(self):
         if 0 <= self.x <= screen_width - self.width and 0 <= self.y <= screen_height - self.height:
             return False
         else:
             return True
-
-
 
 
 class Shotgun(Weapon):
@@ -117,7 +123,7 @@ class Shotgun(Weapon):
     def attack(self):
         current_time = pygame.time.get_ticks()
         if current_time - self.last_attack >= 1000 / self.attack_speed:
-            if self.owner == glob_var.mc:
+            if self.owner == glob_var.player:
                 if self.mag_ammo > 0:
                     direction = math.degrees(math.atan2(pygame.mouse.get_pos()[1] - self.owner.get_y(), pygame.mouse.get_pos()[0] - self.owner.get_x()))
                     #I don't know how to explain this just look at it and think
