@@ -4,7 +4,7 @@ screen_height = 700
 
 
 class Character:
-    def __init__(self, name, x, y, width, height, speed, health, armor, gun):
+    def __init__(self, name, x, y, width, height, speed, health, armor, gun, image_path=None):
         self.name = name
         self.x = x
         self.y = y
