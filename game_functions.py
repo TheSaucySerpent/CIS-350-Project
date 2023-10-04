@@ -52,7 +52,7 @@ class Game:
                     print("You don't got a gun!")
 
         glob_var.player.draw(screen)
-
+        UI.display_player_stats(self.screen, player, self.font)
 
 
         # Draw projectiles
@@ -68,7 +68,7 @@ class Game:
             enemy.move_towards_character()
 
             if enemy.health > 0:
-                pygame.draw.rect(self.screen, (255, 0, 0), (enemy.x, enemy.y, enemy.width, enemy.height))
+                screen.blit(enemy.image, (enemy.x, enemy.y))
             else:
                 current_room.enemies.remove(enemy)
 

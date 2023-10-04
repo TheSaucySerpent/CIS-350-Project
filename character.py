@@ -24,6 +24,10 @@ class Character:
         self.invulnerable = False
         self.image_path = image_path
 
+        if self.image_path:
+            self.image = pygame.image.load(self.image_path)
+            self.image = pygame.transform.scale(self.image, (self.width, self.height))
+
     def get_x(self):
         return self.x
 
@@ -103,12 +107,10 @@ class Character:
             self.health += amount
 
     def draw(self, screen):
-        if self.image_path:
-            image = pygame.image.load(self.image_path)
-            image = pygame.transform.scale(image, (self.width, self.height))
-            screen.blit(image, (self.x, self.y))
+        if self.image:
+            screen.blit(self.image, (self.x, self.y))
         else:
-            pygame.draw.rect(screen, (0, 255, 0), (self.x, self.y, self.width, self.height))
+            pygame.draw.rect(screen, (0, 0, 255), (self.x, self.y, self.width, self.height))
 
 
 
