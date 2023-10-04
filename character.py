@@ -1,4 +1,8 @@
 import pygame
+import game_functions as gf
+
+import glob_var
+
 screen_width = 1200
 screen_height = 700
 
@@ -25,7 +29,7 @@ class Character:
     def get_y(self):
         return self.y
 
-    def move(self, keys, extra_speed, is_invulnerable = False):
+    def move(self, keys, extra_speed, is_invulnerable=False):
         new_x = self.x
         new_y = self.y
 
@@ -43,9 +47,18 @@ class Character:
 
         # Check if the new position is within the screen bounds
         if 0 <= new_x <= screen_width - self.width and 0 <= new_y <= screen_height - self.height:
+            # Check for collisions with objects
+            entity_rect = pygame.Rect(new_x, new_y, self.width, self.height)
+            for obj in gf.current_room.objects:
+                if entity_rect.colliderect(obj.obj_rect):
+                    # Handle collision with the object
+                    # You can add collision handling logic here as needed.
+                    # For now, we'll just skip the movement.
+                    return
+
+            # Update the position if there are no collisions
             self.x = new_x
             self.y = new_y
-
 
         self.invulnerable = False
 
@@ -87,6 +100,12 @@ class Character:
             self.health = self.max_health
         else:
             self.health += amount
+
+    def draw(self, screen):
+        if hasattr(self, 'image') and self.image:
+            screen.blit(self.image, (self.x, self.y))
+        else:
+            pygame.draw.rect(screen, (0, 0, 255), (self.x, self.y, self.width, self.height))
 
 
 

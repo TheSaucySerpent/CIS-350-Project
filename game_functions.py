@@ -3,11 +3,19 @@ import glob_var
 import colors
 import UI
 
+
+
 # This is just to make it easier to read in the running loop.
 player = glob_var.player
 obj = glob_var.obj
 enemies = glob_var.enemies
+room = glob_var.Room
 
+current_room = glob_var.r1
+screen_width = 1200
+screen_height = 700
+
+screen = pygame.display.set_mode((screen_width, screen_height))
 
 class Game:
     def __init__(self, screen, screen_width, screen_height, font):
@@ -20,10 +28,9 @@ class Game:
     def run_game(self):
 
         game_over = False
-        self.screen.fill(colors.BLACK)
-        # If r is press, calls weapon reload function
-        # If space is pressed and its been 1 second, does a dodge/teleport with invulnerability
-        # wasd to move
+        screen.blit(current_room.background, (0, 0))  # to draw background
+        current_room.draw(screen)
+
         keys = pygame.key.get_pressed()
         if not game_over:
             if keys[pygame.K_r]:
@@ -44,11 +51,9 @@ class Game:
                 else:
                     print("You don't got a gun!")
 
-        # Labeled separately so I can use pygame's .colliderect()
-        player_rect = (player.x, player.y, player.width, player.height)
+        glob_var.player.draw(screen)
 
-        # Draw the character
-        pygame.draw.rect(self.screen, colors.BLUE, player_rect)
+
 
         # Draw projectiles
         for g in glob_var.guns:
@@ -59,34 +64,16 @@ class Game:
 
         # Draw and update enemy: makes enemies move towards player, checks for enemy-player collision and
         # kills them
-        for enemy in enemies:
+        for enemy in current_room.enemies:
             enemy.move_towards_character()
 
             if enemy.health > 0:
                 pygame.draw.rect(self.screen, (255, 0, 0), (enemy.x, enemy.y, enemy.width, enemy.height))
             else:
-                enemies.remove(enemy)
+                current_room.enemies.remove(enemy)
 
-        # Draw objects & handle object collision
-        for obj in glob_var.objs:
-            for entity in glob_var.entities:
-                entity_rect = pygame.Rect(entity.x, entity.y, entity.width, entity.height)
-                if entity_rect.colliderect(obj.obj_rect):
-                    # Left Border
-                    if entity.x + entity.width < obj.x + 2:
-                        entity.x -= 1
-                    # Right Border
-                    elif entity.x > obj.x + obj.width - 2:
-                        entity.x += 1
-                    # Upper Border
-                    elif entity.y < obj.y:
-                        entity.y -= 1
-                    # Lower Board
-                    elif entity.y > obj.y:
-                        entity.y += 1
-            pygame.draw.rect(self.screen, (192, 192, 192), obj.obj_rect)
+            # I made a collison function in character class
 
-            UI.display_player_stats(self.screen, player, self.font)
 
             # Death Message/Game Over
             if player.health == 0:

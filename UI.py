@@ -6,7 +6,7 @@ import colors as c
 
 def display_menu(screen, screen_width, screen_height, font):
     # loads menu background
-    menu_img = pygame.image.load('menu_background2.jpg')
+    menu_img = pygame.image.load('images/menu_background2.jpg')
     menu_img.convert()
 
     # relevant text for the menu

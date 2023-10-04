@@ -8,7 +8,7 @@ screen_height = 700
 
 
 class Weapon(Item):
-    def __init__(self, name, damage, proj_speed, attack_speed, mag_size, mag_count, reload_speed, owner):
+    def __init__(self, name, damage, proj_speed, attack_speed, mag_size, mag_count, reload_speed, owner,image_path = None):
         super().__init__(name, owner)
         self.damage = damage
         self.attack_speed = attack_speed
@@ -20,6 +20,7 @@ class Weapon(Item):
         self.last_attack = 0
         self.last_reload = 0
         self.projectiles = []
+        self.image_path = image_path
 
     def attack(self):
         # Check if enough time has passed since the last shot to fire again
