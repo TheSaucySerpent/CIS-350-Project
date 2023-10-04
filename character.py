@@ -22,6 +22,7 @@ class Character:
         self.last_hurt = 0
         self.last_dodge = 0
         self.invulnerable = False
+        self.image_path = image_path
 
     def get_x(self):
         return self.x
@@ -102,10 +103,13 @@ class Character:
             self.health += amount
 
     def draw(self, screen):
-        if hasattr(self, 'image') and self.image:
-            screen.blit(self.image, (self.x, self.y))
+        if self.image_path:
+            image = pygame.image.load(self.image_path)
+            image = pygame.transform.scale(image, (self.width, self.height))
+            screen.blit(image, (self.x, self.y))
         else:
-            pygame.draw.rect(screen, (0, 0, 255), (self.x, self.y, self.width, self.height))
+            pygame.draw.rect(screen, (0, 255, 0), (self.x, self.y, self.width, self.height))
+
 
 
 

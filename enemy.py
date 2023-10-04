@@ -51,3 +51,11 @@ class Enemy(Character):
             # Update the position if there are no collisions
             self.x = new_x
             self.y = new_y
+
+        def draw(self, screen):
+            if self.image_path:
+                image = pygame.image.load(self.image_path)
+                image = pygame.transform.scale(image, (self.width, self.height))
+                screen.blit(image, (self.x, self.y))
+            else:
+                pygame.draw.rect(screen, (0, 255, 0), (self.x, self.y, self.width, self.height))

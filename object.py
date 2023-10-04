@@ -13,10 +13,9 @@ class Object:
 
     def draw(self, screen):
         if self.image_path:
-            # Load and blit the image if an image path is provided
-            obj_image = pygame.image.load(self.image_path)
-            screen.blit(obj_image, (self.x, self.y))
+            image = pygame.image.load(self.image_path)
+            image = pygame.transform.scale(image, (self.width, self.height))
+            screen.blit(image, (self.x, self.y))
         else:
-            # Draw a rectangle if no image path is provided
-            pygame.draw.rect(screen, (255, 0, 0), (self.x, self.y, self.width, self.height))
+            pygame.draw.rect(screen, (0, 255, 0), (self.x, self.y, self.width, self.height))
 

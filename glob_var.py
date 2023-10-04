@@ -44,7 +44,7 @@ enemies = [enemy1, enemy2, enemy3, enemy4, enemy5]
 
 
 
-obj = Object(x=200, y=150, width=50, height=200, health=1000)
+obj = Object(x=200, y=150, width=50, height=200, health=1000,image_path="images/green monster.png")
 obj2 = Object(x=200, y=150, width=700, height=50, health=1000)
 obj3 = Object(x=850, y=150, width=50, height=200, health=1000)
 obj4 = Object(x=200, y=150, width=300, height=200, health=1000)
