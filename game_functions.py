@@ -2,8 +2,7 @@ import pygame
 import glob_var
 import colors
 import UI
-
-
+import object
 
 # This is just to make it easier to read in the running loop.
 player = glob_var.player
@@ -53,6 +52,19 @@ class Game:
 
         glob_var.player.draw(screen)
         UI.display_player_stats(self.screen, player, self.font)
+        for i in glob_var.objs:
+            for j in glob_var.enemies:
+                i.collision(j)
+        for i in glob_var.objs:
+            i.collision(player)
+
+
+
+        for i in current_room.items:
+            i.bounce()
+        player.pick_up(current_room)
+
+
 
 
         # Draw projectiles

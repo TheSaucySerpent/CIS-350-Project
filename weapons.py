@@ -7,9 +7,12 @@ screen_width = 1200
 screen_height = 700
 
 
-class Weapon(Item):
+class Weapon:
     def __init__(self, name, damage, proj_speed, attack_speed, mag_size, mag_count, reload_speed, owner,image_path = None):
-        super().__init__(name, owner)
+
+        self.owner = owner
+        self.name = name
+
         self.damage = damage
         self.attack_speed = attack_speed
         self.proj_speed = proj_speed

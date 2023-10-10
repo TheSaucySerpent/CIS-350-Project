@@ -44,17 +44,9 @@ class Enemy(Character):
 
         # Check if the new position is within the screen bounds
         if 0 <= new_x <= screen_width - self.width and 0 <= new_y <= screen_height - self.height:
-            # Check for collisions with objects
-            for obj in gf.current_room.objects:
-                if entity_rect.colliderect(obj.obj_rect):
-                    # Handle collision with the object
-                    # You can add collision handling logic here as needed.
-                    # For now, we'll just skip the movement.
-                    return
 
-            # Update the position if there are no collisions
-            self.x = new_x
-            self.y = new_y
+                self.x = new_x
+                self.y = new_y
 
     def draw(self, screen):
         if self.image:

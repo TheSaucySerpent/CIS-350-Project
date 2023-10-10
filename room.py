@@ -1,4 +1,9 @@
 import pygame
+from object import Object
+from enemy import Enemy
+from character import Character
+from item import Item
+from weapons import Weapon
 
 class Room:
     def __init__(self, background_path, screen_width, screen_height):
@@ -9,39 +14,57 @@ class Room:
         self.enemies = []  # List to hold Enemy objects
         self.objects = []  # List to hold Object objects
         self.weapons = []
+        self.items = []
+
+    def add_item(self, item):
+        if isinstance(item, Item):
+            item.room = self
+            self.items.append(item)
+        else:
+            print("Error: Attempted to add an invalid item to the room.")
 
     def add_character(self, character):
-        character.room = self
-        self.characters.append(character)
+        if isinstance(character, Character):
+            character.room = self
+            self.characters.append(character)
+        else:
+            print("Error: Attempted to add an invalid character to the room.")
 
     def add_enemy(self, enemy):
-        enemy.room = self
-        self.enemies.append(enemy)
+        if isinstance(enemy, Enemy):
+            enemy.room = self
+            self.enemies.append(enemy)
+        else:
+            print("Error: Attempted to add an invalid enemy to the room.")
 
     def add_object(self, obj):
-        obj.room = self
-        self.objects.append(obj)
+        if isinstance(obj, Object):
+            obj.room = self
+            self.objects.append(obj)
+        else:
+            print("Error: Attempted to add an invalid object to the room.")
 
     def add_weapon(self, weapon):
-        weapon.room = self
-        self.weapons.append(weapon)
+        if isinstance(weapon, Weapon):
+            weapon.room = self
+            self.weapons.append(weapon)
+        else:
+            print("Error: Attempted to add an invalid weapon to the room.")
 
     def draw(self, screen):
-        # Draw the background
         screen.blit(self.background, (0, 0))
 
-        # Draw characters
+        for item in self.items:
+            item.draw(screen)
+
         for character in self.characters:
             character.draw(screen)
 
-        # Draw enemies
         for enemy in self.enemies:
             enemy.draw(screen)
 
-        # Draw objects
         for obj in self.objects:
             obj.draw(screen)
 
-        # Draw weapons
         for weapon in self.weapons:
-            weapon.draw(screen)  # Assuming weapons have a draw method
+            weapon.draw(screen)

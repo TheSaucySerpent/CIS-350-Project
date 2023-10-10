@@ -4,6 +4,7 @@ from weapons import Shotgun
 from enemy import Enemy
 from object import Object
 from room import Room
+from item import Item
 
 #If there's a better way to do this please share this file looks goofy
 #If you want to add weapons, enemies and objects, add them to the corresponding list
@@ -60,7 +61,9 @@ for i in objs:
     r1.add_object(i)
 
 
-
+door = Item(100,100,100,150,5000,"images/door.png")
+r1.add_item(door)
+door.bounce()
 
 
 

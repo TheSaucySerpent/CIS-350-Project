@@ -17,6 +17,27 @@ class Object:
             self.image_path = image_path
             self.load_image()
 
+    def collision(self, character):
+        # Create a smaller bounding box for the character to decrease the impact area
+        character_rect = pygame.Rect(
+            character.x + character.width * 0.25,
+            character.y + character.height * 0.25,
+            character.width * 0.5,
+            character.height * 0.5
+        )
+
+        # Check if there is a collision between the character and the object
+        if self.obj_rect.colliderect(character_rect):
+            # If there is a collision, adjust the character's position to prevent passing through
+            if character.x < self.x:
+                character.x = self.x - character.width * 0.75
+            elif character.x + character.width > self.x + self.width:
+                character.x = self.x + self.width + character.width * 0.25
+            if character.y < self.y:
+                character.y = self.y - character.height * 0.75
+            elif character.y + character.height > self.y + self.height:
+                character.y = self.y + self.height + character.height * 0.25
+
     def load_image(self):
         if self.image_path:
             self.image = pygame.image.load(self.image_path)
