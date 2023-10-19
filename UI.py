@@ -3,14 +3,19 @@ import pygame
 import colors
 import colors as c
 
+# chooses random menu background
+menu_background_options = ['images/menu_background' + str(i) + '.png' for i in range(1, 6)]
+menu_background_selection = random.choice(menu_background_options)
+
 
 def display_menu(screen, screen_width, screen_height, font):
-    # loads menu background
-    menu_background_options = ['images/menu_background' + str(i) + '.png' for i in range(1, 6)]
-    menu_background_selection = random.choice(menu_background_options)
 
+    # loads menu background
     menu_background = pygame.image.load(menu_background_selection)
     menu_background.convert()
+
+    # scales menu to screen size
+    menu_background = pygame.transform.scale(menu_background, (screen_width, screen_height))
 
     # relevant text for the menu
     game_title = font.render('CIS 350 Demo', True, c.WHITE)
