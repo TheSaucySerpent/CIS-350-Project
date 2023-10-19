@@ -37,7 +37,7 @@ def main():
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     program_running = False
-                elif event.key == pygame.K_n:
+                elif event.key == pygame.K_SPACE:
                     # starts the game
                     game_in_progress = True
 

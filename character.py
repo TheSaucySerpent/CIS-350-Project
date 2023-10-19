@@ -71,6 +71,7 @@ class Character:
             if self.name == 'Player':
                 #To change invulnerability time, change value of 300
                 if current_time - self.last_hurt > 300:
+                    print(current_time - self.last_hurt > 300)
                     extra_damage = 0
                     if self.armor > 0:
                         self.armor -= damage
@@ -118,7 +119,7 @@ class Character:
             if (self.x < item.x + item.width and
                 self.x + self.width > item.x and
                 self.y < item.y + item.height and
-                self.y + self.height > item.y) and keys[pygame.K_p]:
+                self.y + self.height > item.y) and keys[pygame.K_e]:
                 # Add the object to the character's inventory
                 self.inventory.append(item)
                 # Remove the object from the list of objects in the room
