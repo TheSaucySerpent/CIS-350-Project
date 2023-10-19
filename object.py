@@ -1,5 +1,5 @@
 import pygame
-
+import glob_var
 
 class Object:
     def __init__(self, x, y, width, height, health, image_path=None):
@@ -18,25 +18,23 @@ class Object:
             self.load_image()
 
     def collision(self, character):
-        # Create a smaller bounding box for the character to decrease the impact area
-        character_rect = pygame.Rect(
-            character.x + character.width * 0.25,
-            character.y + character.height * 0.25,
-            character.width * 0.5,
-            character.height * 0.5
-        )
-
-        # Check if there is a collision between the character and the object
-        if self.obj_rect.colliderect(character_rect):
-            # If there is a collision, adjust the character's position to prevent passing through
-            if character.x < self.x:
-                character.x = self.x - character.width * 0.75
-            elif character.x + character.width > self.x + self.width:
-                character.x = self.x + self.width + character.width * 0.25
-            if character.y < self.y:
-                character.y = self.y - character.height * 0.75
-            elif character.y + character.height > self.y + self.height:
-                character.y = self.y + self.height + character.height * 0.25
+        # Draw objects & handle object collision
+        for obj in glob_var.objs:
+            for entity in glob_var.entities:
+                entity_rect = pygame.Rect(entity.x, entity.y, entity.width, entity.height)
+                if entity_rect.colliderect(obj.obj_rect):
+                    # Left Border
+                    if entity.x + entity.width < obj.x + 2:
+                        entity.x -= 1
+                    # Right Border
+                    elif entity.x > obj.x + obj.width - 2:
+                        entity.x += 1
+                    # Upper Border
+                    elif entity.y < obj.y:
+                        entity.y -= 1
+                    # Lower Board
+                    elif entity.y > obj.y:
+                        entity.y += 1
 
     def load_image(self):
         if self.image_path:

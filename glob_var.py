@@ -16,7 +16,7 @@ image_paths = {
 }
 
 #guns need an owner so this needs to be above it, but characters need a gun so it needs to be added after
-player = Character(name="mc",x=1100, y=100, width=100, height=100, speed=1, health=100, armor=50, gun=0,image_path="images/door.png")
+player = Character(name="mc",x=1100, y=100, width=50, height=50, speed=1, health=100, armor=50, gun=0,image_path="images/white_square.png")
 
 #(self, name, damage, proj_speed, attack_speed, mag_size, mag_count, reload_speed, owner)
 pistol = Weapon(name="Pistol", damage=10, proj_speed=.5, attack_speed=2, mag_size=9, mag_count=3, reload_speed=10, owner=player)
@@ -41,7 +41,9 @@ enemy4 = Enemy(name='enemy',x=600, y=500, width=70, height=70, speed=.1, health=
 enemy5 = Enemy(name='enemy',x=300, y=300, width=50, height=50, speed=.4, health=40, armor=0, gun=0, character=player, damage=70, image_path="images/green monster.png")
 enemies = [enemy1, enemy2, enemy3, enemy4, enemy5]
 #Separate list including all enemies and main character, used for object collision
-
+entities = [player]
+for i in enemies:
+    entities.append(i)
 
 
 
@@ -51,6 +53,7 @@ obj3 = Object(x=850, y=150, width=50, height=200, health=1000)
 obj4 = Object(x=200, y=150, width=300, height=200, health=1000)
 objs = [obj, obj2, obj3]
 player2 = Character(name="mc",x=1100, y=100, width=10, height=100, speed=1, health=100, armor=50, gun=0,image_path="images/door.png")
+
 
 r1 = Room(background_path="images/sandpixel.jpg",screen_width=1200,screen_height=700)
 
