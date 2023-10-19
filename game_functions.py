@@ -2,7 +2,6 @@ import pygame
 import glob_var
 import colors
 import UI
-import object
 
 # This is just to make it easier to read in the running loop.
 player = glob_var.player
@@ -15,6 +14,7 @@ screen_width = 1200
 screen_height = 700
 
 screen = pygame.display.set_mode((screen_width, screen_height))
+
 
 class Game:
     def __init__(self, screen, screen_width, screen_height, font):
@@ -58,14 +58,9 @@ class Game:
         for i in glob_var.objs:
             i.collision(player)
 
-
-
         for i in current_room.items:
             i.bounce()
         player.pick_up(current_room)
-
-
-
 
         # Draw projectiles
         for g in glob_var.guns:
@@ -85,7 +80,6 @@ class Game:
                 current_room.enemies.remove(enemy)
 
             # I made a collison function in character class
-
 
             # Death Message/Game Over
             if player.health == 0:
