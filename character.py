@@ -118,7 +118,7 @@ class Character:
             if (self.x < item.x + item.width and
                 self.x + self.width > item.x and
                 self.y < item.y + item.height and
-                self.y + self.height > item.y) and keys[pygame.K_p]:
+                self.y + self.height > item.y) and keys[pygame.K_e]:
                 # Add the object to the character's inventory
                 self.inventory.append(item)
                 # Remove the object from the list of objects in the room

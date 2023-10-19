@@ -16,7 +16,7 @@ image_paths = {
 }
 
 #guns need an owner so this needs to be above it, but characters need a gun so it needs to be added after
-player = Character(name="mc",x=1100, y=100, width=50, height=50, speed=1, health=100, armor=50, gun=0,image_path="images/white_square.png")
+player = Character(name="Player",x=1100, y=100, width=50, height=50, speed=1, health=100, armor=50, gun=0,image_path="images/white_square.png")
 
 #(self, name, damage, proj_speed, attack_speed, mag_size, mag_count, reload_speed, owner)
 pistol = Weapon(name="Pistol", damage=10, proj_speed=.5, attack_speed=2, mag_size=9, mag_count=3, reload_speed=10, owner=player)
