@@ -70,7 +70,8 @@ class Weapon:
             else:
                 print("Out of Mags")
                 self.last_reload = current_time
-
+    def addAmmo(self):
+        self.mag_count += 1
 
 
 class Projectile:
