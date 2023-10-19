@@ -71,7 +71,6 @@ class Character:
             if self.name == 'Player':
                 #To change invulnerability time, change value of 300
                 if current_time - self.last_hurt > 300:
-                    print(current_time - self.last_hurt > 300)
                     extra_damage = 0
                     if self.armor > 0:
                         self.armor -= damage
