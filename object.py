@@ -45,4 +45,4 @@ class Object:
         if self.image:
             screen.blit(self.image, (self.x, self.y))
         else:
-            pygame.draw.rect(screen, (0, 0, 255), (self.x, self.y, self.width, self.height))
+            pygame.draw.rect(screen, (192, 192, 192), (self.x, self.y, self.width, self.height))
