@@ -28,10 +28,21 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 program_running = False
-            # elif event.type == pygame.FULLSCREEN:
-            #     size = pygame.display.Info()
-            #     w,h = size.current_w,size.current_h
-            #     UI.display_menu(screen, w, h, font)
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    program_running = False
+                elif event.key == pygame.K_n:
+                    # starts the game
+                    game_in_progress = True
+            elif event.type == pygame.VIDEORESIZE:
+                screen_width, screen_height = event.size
+                if not game_in_progress:
+                    screen = pygame.display.set_mode((screen_width, screen_height), pygame.RESIZABLE)
+                    # font = pygame.font.Font(None, 36)  # may want to adjust the font size
+                    UI.display_menu(screen, screen_width, screen_height, font)
+                else:
+                    print('need to fix this')
+                    # game.resize(screen, screen_width, screen_height)  # Add this method to your Game class
 
             # to register key presses
             elif event.type == pygame.KEYDOWN:
