@@ -1,19 +1,22 @@
+import random
 import pygame
-
 import colors
 import colors as c
 
 
 def display_menu(screen, screen_width, screen_height, font):
     # loads menu background
-    menu_img = pygame.image.load('images/menu_background2.jpg')
-    menu_img.convert()
+    menu_background_options = ['images/menu_background' + str(i) + '.png' for i in range(1, 6)]
+    menu_background_selection = random.choice(menu_background_options)
+
+    menu_background = pygame.image.load(menu_background_selection)
+    menu_background.convert()
 
     # relevant text for the menu
-    game_title = font.render('Example Game Title', True, c.WHITE)
+    game_title = font.render('CIS 350 Demo', True, c.WHITE)
 
     # creates bounding box for the image
-    img_rect = menu_img.get_rect()
+    img_rect = menu_background.get_rect()
     img_rect.center = screen_width // 2, screen_height // 2
 
     # calculate the position to center the text on the image
@@ -21,7 +24,7 @@ def display_menu(screen, screen_width, screen_height, font):
     text_rect.center = img_rect.center
 
     # displays the menu image with the text
-    screen.blit(menu_img, img_rect)
+    screen.blit(menu_background, img_rect)
     screen.blit(game_title, text_rect)
 
     pygame.display.update()
@@ -57,7 +60,7 @@ def display_player_stats(screen, player, font):
     yellow_rect = pygame.Rect(10, 35, yellow_width, 20)
 
     # draw the ammo bar
-    pygame.draw.rect(screen, colors.BLACK, black_rect)
+    # pygame.draw.rect(screen, colors.BLACK, black_rect)
     pygame.draw.rect(screen, colors.YELLOW, yellow_rect)
 
     # display the character's ammo text over the ammo bar
