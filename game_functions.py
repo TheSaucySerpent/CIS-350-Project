@@ -2,6 +2,7 @@ import pygame
 import glob_var
 import colors
 import UI
+import object
 
 # This is just to make it easier to read in the running loop.
 player = glob_var.player
@@ -15,25 +16,40 @@ screen_height = 700
 
 screen = pygame.display.set_mode((screen_width, screen_height))
 
-
 class Game:
+    """
+    Class used for all game functions. run_game function called in main.
+    """
     def __init__(self, screen, screen_width, screen_height, font):
+        """
+        Initialize the game.
+
+        Args:
+            screen: The game screen.
+            screen_width (int): The width of the screen.
+            screen_height (int): The height of the screen.
+            font: The font used for text.
+        """
         self.screen = screen
         self.screen_width = screen_width
         self.screen_height = screen_height
-
         self.font = font
 
     def run_game(self):
-
+        """
+        Runs the game loop.
+        """
         game_over = False
         screen.blit(current_room.background, (0, 0))  # to draw background
         current_room.draw(screen)
 
         keys = pygame.key.get_pressed()
         if not game_over:
+            #If 'r' is pressed, calls the reload function of the player's currently equipped gun.
             if keys[pygame.K_r]:
                 player.gun.reload()
+            #If the spacebar is pressed, makes sure enough time has passed since last dodge, then dodges if allowed.
+            #Otherwise, calls the player's move function.
             if keys[pygame.K_SPACE]:
                 current_time = pygame.time.get_ticks()
                 if current_time - player.last_dodge > 1000:
@@ -44,33 +60,34 @@ class Game:
             else:
                 player.move(keys, 0)
 
-            if pygame.mouse.get_pressed()[0]:  # Left mouse button
+            # If the left mouse button is clicked, calls the player's weapon's attack function.
+            if pygame.mouse.get_pressed()[0]:
                 if player.gun != 0:
                     player.gun.attack()
                 else:
                     print("You don't got a gun!")
 
+        # Draws the player and stats
         glob_var.player.draw(screen)
         UI.display_player_stats(self.screen, player, self.font)
-        for i in glob_var.objs:
-            for j in glob_var.enemies:
-                i.collision(j)
-        for i in glob_var.objs:
-            i.collision(player)
 
+        # Calls the collision function of every object
+        for i in glob_var.objs:
+            i.collision()
+
+        # Calls the function that makes items bounce
         for i in current_room.items:
             i.bounce()
         player.pick_up(current_room)
 
-        # Draw projectiles
+        # Draws projectiles
         for g in glob_var.guns:
             for p in g.projectiles:
                 p.move()
                 pygame.draw.rect(self.screen, colors.YELLOW, (p.x, p.y, p.width, p.height))
             g.update_projectiles()
 
-        # Draw and update enemy: makes enemies move towards player, checks for enemy-player collision and
-        # kills them
+        # Calls enemy move_toward_character function, draws enemies, and removes them if they die
         for enemy in current_room.enemies:
             enemy.move_towards_character()
 
@@ -78,8 +95,6 @@ class Game:
                 screen.blit(enemy.image, (enemy.x, enemy.y))
             else:
                 current_room.enemies.remove(enemy)
-
-            # I made a collison function in character class
 
             # Death Message/Game Over
             if player.health == 0:
