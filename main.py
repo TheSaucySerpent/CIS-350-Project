@@ -43,8 +43,8 @@ def main():
                     game_in_progress = True
             elif event.type == pygame.VIDEORESIZE:
                 screen_width, screen_height = event.size
+                screen = pygame.display.set_mode((screen_width, screen_height), pygame.RESIZABLE)
                 if not game_in_progress:
-                    screen = pygame.display.set_mode((screen_width, screen_height), pygame.RESIZABLE)
                     # font = pygame.font.Font(None, 36)  # may want to adjust the font size
                     UI.display_menu(screen, screen_width, screen_height, font)
                 else:

@@ -1,4 +1,6 @@
 import pygame
+
+
 class Item:
     def __init__(self, x, y, width, height, health, image_path=None):
         self.x = x

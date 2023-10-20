@@ -9,6 +9,8 @@ screen_height = 700
 screen = pygame.display.set_mode((screen_width, screen_height))
 root = tk.Tk()
 root.withdraw()
+
+
 class Character:
     def __init__(self, name, x, y, width, height, speed, health, armor, gun, image_path=None):
         self.name = name
@@ -18,25 +20,49 @@ class Character:
         self.height = height
         self.speed = speed
         self.health = health
-        self.max_health = 100  # VALUE WE WANT FOR MAX HEALTH
+        self.max_health = 100
         self.armor = armor
         self.gun = gun
         self.last_hurt = 0
         self.last_dodge = 0
         self.invulnerable = False
-        self.image_path = image_path
+        self.image_index = 0
+        self.image = None
         self.picked_up = False
         self.inventory = []
 
+        self.image_path = {
+            'up': ['images/Up standing.png', 'images/Up running.png'],
+            'down': ['images/Down standing.png', 'images/Down running.png'],
+            'left': ['images/Left standing.png', 'images/Left running .png'],
+            'right': ['images/1.png', 'images/BackgroundEraser_image.png']
+            }
+
+        self.direction = 'down'
+        self.image_change_delay = 100  # Delay between frame changes
+        self.frame_count = 0
+
         if self.image_path:
-            self.image = pygame.image.load(self.image_path)
+            self.load_images()
+            # Load the initial image
+            self.image = self.images[self.direction][0]
             self.image = pygame.transform.scale(self.image, (self.width, self.height))
 
-    def get_x(self):
-        return self.x
+    def load_images(self):
+        self.images = {}
+        for direction, paths in self.image_path.items():
+            self.images[direction] = [pygame.image.load(path) for path in paths]
 
-    def get_y(self):
-        return self.y
+    def set_image(self, direction):
+        if direction in self.images:
+            # Check the timer
+            if self.frame_count >= self.image_change_delay:
+                self.image_index = (self.image_index + 1) % len(self.images[direction])
+                self.frame_count = 0  # Reset frame_count
+                self.image = self.images[direction][self.image_index]
+                self.image = pygame.transform.scale(self.image, (self.width, self.height))
+            else:
+                self.frame_count += 1
 
     def move(self, keys, extra_speed, is_invulnerable=False):
         new_x = self.x
@@ -45,25 +71,38 @@ class Character:
         if is_invulnerable:
             self.invulnerable = True
 
+        direction = None  # Store the current movement direction
+
         if keys[pygame.K_w]:
             new_y -= self.speed + extra_speed
+            direction = 'up'
         if keys[pygame.K_a]:
             new_x -= self.speed + extra_speed
+            direction = 'left'
         if keys[pygame.K_s]:
             new_y += self.speed + extra_speed
+            direction = 'down'
         if keys[pygame.K_d]:
             new_x += self.speed + extra_speed
+            direction = 'right'
 
-        # Check if the new position is wit
-            # Update the position if there are no collisions
+        if direction:
+            self.set_image(direction)  # Set the character's image based on the current direction
+
         if 0 <= new_x <= screen_width - self.width and 0 <= new_y <= screen_height - self.height:
-            # Check for collisions with objects
-
-            # Update the position if there are no collisions
             self.x = new_x
             self.y = new_y
 
         self.invulnerable = False
+
+
+    def get_x(self):
+        return self.x
+
+    def get_y(self):
+        return self.y
+
+
 
     def take_damage(self, damage):
         if not self.invulnerable:
@@ -129,4 +168,3 @@ class Character:
         for item in self.inventory:
             item.x = self.x
             item.y = self.y + self.height
-

@@ -5,6 +5,7 @@ from character import Character
 from item import Item
 from weapons import Weapon
 
+
 class Room:
     def __init__(self, background_path, screen_width, screen_height):
         self.background_path = background_path
