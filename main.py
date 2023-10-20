@@ -17,7 +17,7 @@ def main():
     # Create the screen
     screen_width = 1200
     screen_height = 700
-    screen = pygame.display.set_mode((screen_width, screen_height))
+    screen = pygame.display.set_mode((screen_width, screen_height), pygame.RESIZABLE)
 
     # Set the font for text
     font = pygame.font.Font(None, 36)
