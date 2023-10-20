@@ -9,6 +9,8 @@ screen_height = 700
 screen = pygame.display.set_mode((screen_width, screen_height))
 root = tk.Tk()
 root.withdraw()
+
+
 class Character:
     def __init__(self, name, x, y, width, height, speed, health, armor, gun, image_path=None):
         self.name = name
