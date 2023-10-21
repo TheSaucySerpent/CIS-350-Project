@@ -80,7 +80,7 @@ def display_player_stats(screen, player, font):
     # also need a different picture, was thinking a cartoon looking magazine of an ak-47
     
     # load the magazine image
-    # mag_image = pygame.image.load('ammo_storage.png')  # Replace 'magazine.png' with the actual image file path
+    # mag_image = pygame.image.load('images/ammo_storage.png')  # Replace 'magazine.png' with the actual image file path
     # mag_image = pygame.transform.scale(mag_image, (50, 50))  # Adjust the size as needed
     #
     # # Display the remaining mags in the gun using the magazine image

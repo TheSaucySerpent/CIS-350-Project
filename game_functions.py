@@ -2,7 +2,6 @@ import pygame
 import glob_var
 import colors
 import UI
-import object
 
 # This is just to make it easier to read in the running loop.
 player = glob_var.player
@@ -11,10 +10,7 @@ enemies = glob_var.enemies
 room = glob_var.Room
 
 current_room = glob_var.r1
-screen_width = 1200
-screen_height = 700
 
-screen = pygame.display.set_mode((screen_width, screen_height))
 
 class Game:
     """
@@ -40,8 +36,8 @@ class Game:
         Runs the game loop.
         """
         game_over = False
-        screen.blit(current_room.background, (0, 0))  # to draw background
-        current_room.draw(screen)
+        self.screen.blit(current_room.background, (0, 0))  # to draw background
+        current_room.draw(self.screen)
 
         keys = pygame.key.get_pressed()
         if not game_over:
@@ -68,7 +64,7 @@ class Game:
                     print("You don't got a gun!")
 
         # Draws the player and stats
-        glob_var.player.draw(screen)
+        glob_var.player.draw(self.screen)
         UI.display_player_stats(self.screen, player, self.font)
 
         # Calls the collision function of every object
@@ -92,7 +88,7 @@ class Game:
             enemy.move_towards_character()
 
             if enemy.health > 0:
-                screen.blit(enemy.image, (enemy.x, enemy.y))
+                self.screen.blit(enemy.image, (enemy.x, enemy.y))
             else:
                 current_room.enemies.remove(enemy)
 
