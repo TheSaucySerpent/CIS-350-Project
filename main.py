@@ -19,6 +19,9 @@ def main():
     screen_height = 700
     screen = pygame.display.set_mode((screen_width, screen_height), pygame.RESIZABLE)
 
+    # Set game window title
+    pygame.display.set_caption('CIS 350 DEMO')
+
     # Set the font for text
     font = pygame.font.Font(None, 36)
 
@@ -42,14 +45,15 @@ def main():
                     # starts the game
                     game_in_progress = True
             elif event.type == pygame.VIDEORESIZE:
-                screen_width, screen_height = event.size
-                screen = pygame.display.set_mode((screen_width, screen_height), pygame.RESIZABLE)
+                new_width, new_height = event.size
+                print(new_width, new_height)
+                # screen = pygame.display.set_mode((screen_width, screen_height), pygame.RESIZABLE)
                 if not game_in_progress:
                     # font = pygame.font.Font(None, 36)  # may want to adjust the font size
-                    UI.display_menu(screen, screen_width, screen_height, font)
+                    UI.display_startup_menu(screen, new_width, new_height, font)
                 else:
                     print('need to fix this')
-                    # game.resize_assets(screen_width, screen_height)
+                    game.resize_assets(new_width, new_height)
             # Register key presses
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
