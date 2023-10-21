@@ -42,10 +42,19 @@ def display_startup_menu(screen, screen_width, screen_height, font):
 
 
 def display_death_menu(screen, screen_width, screen_height, font):
-    ded_text = font.render(f"You Died.", True, (255, 0, 0))
-    screen.blit(ded_text,
-                     ((screen_width - ded_text.get_width()) // 2,
-                      (screen_height - ded_text.get_height()) // 2))
+    # death_background = pygame.image.load("images/death_background.jpg")
+    # death_background.convert()
+    #
+    # # scales background image to screen size
+    # death_background = pygame.transform.scale(death_background, (screen_width, screen_height))
+    #
+    # # creates bounding box for the image
+    # img_rect = death_background.get_rect()
+    # img_rect.center = screen_width // 2, screen_height // 2
+    #
+    # # displays the death menu
+    # screen.blit(death_background, img_rect)
+    print('You Died!')
 
 
 def display_player_stats(screen, player, font):

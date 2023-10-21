@@ -30,17 +30,15 @@ class Game:
         self.enemies = glob_var.enemies
         self.room = glob_var.Room
         self.current_room = glob_var.r1
+        self.game_over = False
 
     def run_game(self):
         """
         Runs the game loop.
         """
-        game_over = False
-
-        self.render_assets()
 
         keys = pygame.key.get_pressed()
-        if not game_over:
+        if not self.game_over:
             # If 'r' is pressed, calls the reload function of the player's currently equipped gun.
             if keys[pygame.K_r]:
                 self.player.gun.reload()
@@ -63,26 +61,28 @@ class Game:
                 else:
                     print("You don't got a gun!")
 
-        # Calls the collision function of every object
-        for i in glob_var.objs:
-            i.collision()
+            # Calls the collision function of every object
+            for i in glob_var.objs:
+                i.collision()
 
-        # Calls the function that makes items bounce
-        for i in self.current_room.items:
-            i.bounce()
-        self.player.pick_up(self.current_room)
+            # Calls the function that makes items bounce
+            for i in self.current_room.items:
+                i.bounce()
+            self.player.pick_up(self.current_room)
 
-        # Calls enemy move_toward_character function
-        for enemy in self.current_room.enemies:
-            enemy.move_towards_character()
+            # Calls enemy move_toward_character function
+            for enemy in self.current_room.enemies:
+                enemy.move_towards_character()
 
-            # Death Message/Game Over
-            if self.player.health == 0:
-                UI.display_death_menu(self.screen, self.screen_width, self.screen_height, self.font)
-                game_over = True
+                # Death Message/Game Over
+                if self.player.health == 0:
+                    UI.display_death_menu(self.screen, self.screen_width, self.screen_height, self.font)
+                    self.game_over = True
 
-        # update the display
-        pygame.display.update()
+            self.render_assets()
+
+            # update the display
+            pygame.display.update()
 
     def render_assets(self):
         # draw background
