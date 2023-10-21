@@ -36,8 +36,8 @@ class Game:
         Runs the game loop.
         """
         game_over = False
-        self.screen.blit(self.current_room.background, (0, 0))  # to draw background
-        self.current_room.draw(self.screen)
+
+        self.render_assets()
 
         keys = pygame.key.get_pressed()
         if not game_over:
@@ -63,10 +63,6 @@ class Game:
                 else:
                     print("You don't got a gun!")
 
-        # Draws the player and stats
-        glob_var.player.draw(self.screen)
-        UI.display_player_stats(self.screen, self.player, self.font)
-
         # Calls the collision function of every object
         for i in glob_var.objs:
             i.collision()
@@ -75,13 +71,6 @@ class Game:
         for i in self.current_room.items:
             i.bounce()
         self.player.pick_up(self.current_room)
-
-        # Draws projectiles
-        for g in glob_var.guns:
-            for p in g.projectiles:
-                p.move()
-                pygame.draw.rect(self.screen, colors.YELLOW, (p.x, p.y, p.width, p.height))
-            g.update_projectiles()
 
         # Calls enemy move_toward_character function, draws enemies, and removes them if they die
         for enemy in self.current_room.enemies:
@@ -103,8 +92,21 @@ class Game:
         # update the display
         pygame.display.update()
 
-    # def render_assets(self):
-        
+    def render_assets(self):
+        # draw background
+        self.screen.blit(self.current_room.background, (0, 0))
+        self.current_room.draw(self.screen)
+
+        # Draws the player and stats
+        glob_var.player.draw(self.screen)
+        UI.display_player_stats(self.screen, self.player, self.font)
+
+        # Draws projectiles
+        for g in glob_var.guns:
+            for p in g.projectiles:
+                p.move()
+                pygame.draw.rect(self.screen, colors.YELLOW, (p.x, p.y, p.width, p.height))
+            g.update_projectiles()
 
     # def resize_assets(self, new_width, new_height):
     #     self.screen_height = new_height
