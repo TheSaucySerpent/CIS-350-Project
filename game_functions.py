@@ -8,6 +8,7 @@ class Game:
     """
     Class used for all game functions. run_game function called in main.
     """
+
     def __init__(self, screen, screen_width, screen_height, font):
         """
         Initialize the game.
@@ -40,11 +41,11 @@ class Game:
 
         keys = pygame.key.get_pressed()
         if not game_over:
-            #If 'r' is pressed, calls the reload function of the player's currently equipped gun.
+            # If 'r' is pressed, calls the reload function of the player's currently equipped gun.
             if keys[pygame.K_r]:
                 self.player.gun.reload()
-            #If the spacebar is pressed, makes sure enough time has passed since last dodge, then dodges if allowed.
-            #Otherwise, calls the player's move function.
+            # If the spacebar is pressed, makes sure enough time has passed since last dodge, then dodges if allowed.
+            # Otherwise, calls the player's move function.
             if keys[pygame.K_SPACE]:
                 current_time = pygame.time.get_ticks()
                 if current_time - self.player.last_dodge > 1000:
@@ -101,3 +102,10 @@ class Game:
 
         # update the display
         pygame.display.update()
+
+    # def render_assets(self):
+        
+
+    # def resize_assets(self, new_width, new_height):
+    #     self.screen_height = new_height
+    #     self.screen_width = new_width

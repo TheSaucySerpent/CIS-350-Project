@@ -49,7 +49,7 @@ def main():
                     UI.display_menu(screen, screen_width, screen_height, font)
                 else:
                     print('need to fix this')
-                    # game.resize(screen, screen_width, screen_height)  # Add this method to your Game class
+                    game.resize_assets(screen_width, screen_height)
 
             # Register key presses
             elif event.type == pygame.KEYDOWN:
