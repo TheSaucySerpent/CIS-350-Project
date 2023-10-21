@@ -83,10 +83,7 @@ class Game:
 
             # Death Message/Game Over
             if self.player.health == 0:
-                ded_text = self.font.render(f"You Died.", True, (255, 0, 0))
-                self.screen.blit(ded_text,
-                                 ((self.screen_width - ded_text.get_width()) // 2,
-                                  (self.screen_height - ded_text.get_height()) // 2))
+                UI.display_death_menu(self.screen, self.screen_width, self.screen_height, self.font)
                 game_over = True
 
         # update the display

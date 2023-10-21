@@ -29,7 +29,7 @@ def main():
     game = game_functions.Game(screen, screen_width, screen_height, font)
 
     # Display the title menu
-    UI.display_menu(screen, screen_width, screen_height, font)
+    UI.display_startup_menu(screen, screen_width, screen_height, font)
 
     while program_running:
         for event in pygame.event.get():
@@ -49,8 +49,7 @@ def main():
                     UI.display_menu(screen, screen_width, screen_height, font)
                 else:
                     print('need to fix this')
-                    game.resize_assets(screen_width, screen_height)
-
+                    # game.resize_assets(screen_width, screen_height)
             # Register key presses
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:

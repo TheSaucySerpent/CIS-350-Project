@@ -8,7 +8,7 @@ menu_background_options = ['images/menu_background' + str(i) + '.png' for i in r
 menu_background_selection = random.choice(menu_background_options)
 
 
-def display_menu(screen, screen_width, screen_height, font):
+def display_startup_menu(screen, screen_width, screen_height, font):
 
     # loads menu background
     menu_background = pygame.image.load(menu_background_selection)
@@ -33,6 +33,13 @@ def display_menu(screen, screen_width, screen_height, font):
     screen.blit(game_title, text_rect)
 
     pygame.display.update()
+
+
+def display_death_menu(screen, screen_width, screen_height, font):
+    ded_text = font.render(f"You Died.", True, (255, 0, 0))
+    screen.blit(ded_text,
+                     ((screen_width - ded_text.get_width()) // 2,
+                      (screen_height - ded_text.get_height()) // 2))
 
 
 def display_player_stats(screen, player, font):
