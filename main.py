@@ -38,32 +38,26 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 program_running = False
-            elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    program_running = False
-                elif event.key == pygame.K_n:
-                    # starts the game
-                    game_in_progress = True
             elif event.type == pygame.VIDEORESIZE:
-                new_width, new_height = event.size
-                print(new_width, new_height)
-                # screen = pygame.display.set_mode((screen_width, screen_height), pygame.RESIZABLE)
-                if not game_in_progress:
-                    # font = pygame.font.Font(None, 36)  # may want to adjust the font size
-                    UI.display_startup_menu(screen, new_width, new_height, font)
-                else:
-                    print('need to fix this')
-                    game.resize_assets(new_width, new_height)
-            # Register key presses
+                screen_width, screen_height = event.size
+                screen = pygame.display.set_mode((screen_width, screen_height), pygame.RESIZABLE)
+                if game is not None:
+                    game.resize_assets(screen_width, screen_height)
             elif event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     program_running = False
                 elif event.key == pygame.K_n:
-                    # Start the game
+                    # Create the game instance only once
+                    if game is None:
+                        game = game_functions.Game(screen, screen_width, screen_height, font)
                     game_in_progress = True
 
         if game_in_progress:
+            # Run the game
             game.run_game()
+        else:
+            # Display the title menu
+            UI.display_startup_menu(screen, screen_width, screen_height, font)
 
 
 if __name__ == '__main__':

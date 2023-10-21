@@ -108,11 +108,28 @@ class Game:
                 self.current_room.enemies.remove(enemy)
 
     def resize_assets(self, new_width, new_height):
+        # Update the screen dimensions
         self.screen_width = new_width
         self.screen_height = new_height
 
         # Update the game screen with the new size
         self.screen = pygame.display.set_mode((new_width, new_height), pygame.RESIZABLE)
 
-        # You might want to call a function to adjust the game assets, fonts, and other elements as well.
-        # UI.display_startup_menu(screen, new_width, new_height, font) # Depending on your requirements.
+        # Calculate scaling factors based on the new and original dimensions
+        width_scale = new_width / self.screen_width
+        height_scale = new_height / self.screen_height
+
+        # Update positions, sizes, and scales of game elements
+        # For example, update player position and size
+        self.player.x *= width_scale
+        self.player.y *= height_scale
+        self.player.width *= width_scale
+        self.player.height *= height_scale
+
+        # Update enemy positions, sizes, and scales (if you have enemies)
+
+        # Update UI elements like text and font size
+        self.font = pygame.font.Font(None, int(36 * width_scale))
+
+        # You may need to call other functions to adjust assets in your game.
+
