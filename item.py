@@ -24,7 +24,6 @@ class Item:
             self.image = pygame.image.load(self.image_path)
             self.image = pygame.transform.scale(self.image, (self.width, self.height))
 
-
     def bounce(self):
         # Update the y position for bouncing
         self.y += self.bounce_speed * self.bounce_direction

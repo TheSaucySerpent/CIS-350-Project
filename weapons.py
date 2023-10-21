@@ -3,6 +3,7 @@ import math
 import random
 import glob_var
 from item import Item
+
 screen_width = 1200
 screen_height = 700
 

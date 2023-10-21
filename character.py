@@ -95,14 +95,11 @@ class Character:
 
         self.invulnerable = False
 
-
     def get_x(self):
         return self.x
 
     def get_y(self):
         return self.y
-
-
 
     def take_damage(self, damage):
         if not self.invulnerable:

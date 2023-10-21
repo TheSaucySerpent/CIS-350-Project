@@ -6,6 +6,7 @@ import game_functions as gf
 screen_width = 1200
 screen_height = 700
 
+
 class Enemy(Character):
     def __init__(self, name, x, y, width, height, speed, health, armor, gun, character, damage, image_path=None):
         super().__init__(name, x, y, width, height, speed, health, armor, gun)
