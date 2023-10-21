@@ -72,14 +72,9 @@ class Game:
             i.bounce()
         self.player.pick_up(self.current_room)
 
-        # Calls enemy move_toward_character function, draws enemies, and removes them if they die
+        # Calls enemy move_toward_character function
         for enemy in self.current_room.enemies:
             enemy.move_towards_character()
-
-            if enemy.health > 0:
-                self.screen.blit(enemy.image, (enemy.x, enemy.y))
-            else:
-                self.current_room.enemies.remove(enemy)
 
             # Death Message/Game Over
             if self.player.health == 0:
@@ -104,6 +99,14 @@ class Game:
                 p.move()
                 pygame.draw.rect(self.screen, colors.YELLOW, (p.x, p.y, p.width, p.height))
             g.update_projectiles()
+
+        # draws enemies and removes them from the room if they die
+        for enemy in self.current_room.enemies:
+            if enemy.health > 0:
+                self.screen.blit(enemy.image, (enemy.x, enemy.y))
+            else:
+                self.current_room.enemies.remove(enemy)
+
 
     # def resize_assets(self, new_width, new_height):
     #     self.screen_height = new_height
