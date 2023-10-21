@@ -9,30 +9,36 @@ menu_background_selection = random.choice(menu_background_options)
 
 
 def display_startup_menu(screen, screen_width, screen_height, font):
-
     # loads menu background
     menu_background = pygame.image.load(menu_background_selection)
     menu_background.convert()
 
-    # scales menu to screen size
+    # scales background image to screen size
     menu_background = pygame.transform.scale(menu_background, (screen_width, screen_height))
-
-    # relevant text for the menu
-    game_title = font.render('CIS 350 Demo', True, c.WHITE)
 
     # creates bounding box for the image
     img_rect = menu_background.get_rect()
     img_rect.center = screen_width // 2, screen_height // 2
 
-    # calculate the position to center the text on the image
-    text_rect = game_title.get_rect()
-    text_rect.center = img_rect.center
+    # relevant text for the menu
+    game_title = font.render('CIS 350 Project', True, c.WHITE)
+    new_game_text = font.render('Press N for New Game', True, c.WHITE)
 
-    # displays the menu image with the text
+    # centers game title on menu
+    title_rect = game_title.get_rect()
+    title_rect.center = img_rect.center
+
+    # places new game text under game title
+    new_game_rect = new_game_text.get_rect()
+    new_game_rect.center = (screen_width // 2, title_rect.bottom + 20)
+
+    # displays the menu
     screen.blit(menu_background, img_rect)
-    screen.blit(game_title, text_rect)
+    screen.blit(game_title, title_rect)
+    screen.blit(new_game_text, new_game_rect)
 
-    pygame.display.update()
+    # updates the display
+    pygame.display.flip()
 
 
 def display_death_menu(screen, screen_width, screen_height, font):
