@@ -54,6 +54,16 @@ def display_death_menu(screen, screen_width, screen_height, font):
     #
     # # displays the death menu
     # screen.blit(death_background, img_rect)
+    #
+    # # display new game text on death menu
+    # new_game_text = font.render("Press N to Start New Game", True, (255, 255, 255))
+    # screen.blit(new_game_text,
+    #             ((screen_width - new_game_text.get_width()) // 2,
+    #              (screen_height - new_game_text.get_height()) // 2 + 150))
+    #
+    # # updates the display
+    # pygame.display.flip()
+
     print('You Died!')
 
 

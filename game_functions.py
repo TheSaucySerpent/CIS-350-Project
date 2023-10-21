@@ -74,12 +74,12 @@ class Game:
             for enemy in self.current_room.enemies:
                 enemy.move_towards_character()
 
-                # Death Message/Game Over
-                if self.player.health == 0:
-                    UI.display_death_menu(self.screen, self.screen_width, self.screen_height, self.font)
-                    self.game_over = True
-
             self.render_assets()
+
+            # Death Message/Game Over
+            if self.player.health == 0:
+                UI.display_death_menu(self.screen, self.screen_width, self.screen_height, self.font)
+                self.game_over = True
 
             # update the display
             pygame.display.update()
