@@ -29,25 +29,27 @@ def main():
     program_running = True
     game_in_progress = False
 
-    game = game_functions.Game(screen, screen_width, screen_height, font)
+    # Initialize game
+    game = None
 
-    # Display the title menu
-    UI.display_startup_menu(screen, screen_width, screen_height, font)
-
+    # Core program loop
     while program_running:
+        # Handles events within the game
         for event in pygame.event.get():
+            # Terminates program if corner X is clicked
             if event.type == pygame.QUIT:
                 program_running = False
+            # Resizes screen to fill resized window
             elif event.type == pygame.VIDEORESIZE:
                 screen_width, screen_height = event.size
-                screen = pygame.display.set_mode((screen_width, screen_height), pygame.RESIZABLE)
-                if game is not None:
-                    game.resize_assets(screen_width, screen_height)
+            # Handles keyboard input
             elif event.type == pygame.KEYDOWN:
+                # Terminates program if esc is pressed
                 if event.key == pygame.K_ESCAPE:
                     program_running = False
+                # Starts new game if N is pressed
                 elif event.key == pygame.K_n:
-                    # Create the game instance only once
+                    # Ensures a new game can be created only when game is None
                     if game is None:
                         game = game_functions.Game(screen, screen_width, screen_height, font)
                     game_in_progress = True
