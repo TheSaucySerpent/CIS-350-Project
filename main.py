@@ -2,7 +2,6 @@ import pygame
 import UI
 import game_functions
 
-
 def main():
     """
     The main function that initializes the game, opens the intro screen, and runs the game loop.

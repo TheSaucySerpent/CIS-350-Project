@@ -53,6 +53,8 @@ class Object:
     def load_image(self):
         """
         Load and scale the image for the object.
+
+        This method loads an image specified by the image_path and scales it to the object's width and height.
         """
         if self.image_path:
             self.image = pygame.image.load(self.image_path)
@@ -68,4 +70,4 @@ class Object:
         if self.image:
             screen.blit(self.image, (self.x, self.y))
         else:
-            pygame.draw.rect(screen, (0, 0, 255), (self.x, self.y, self.width, self.height))
+            pygame.draw.rect(screen, (50, 50, 50), (self.x, self.y, self.width, self.height))
