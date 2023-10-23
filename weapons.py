@@ -103,6 +103,7 @@ class Weapon:
 
     def addAmmo(self):
         """ Debug for adding ammo, will be an item drop later"""
+
         self.mag_count += 1
 
 

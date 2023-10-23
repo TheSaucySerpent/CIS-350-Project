@@ -3,31 +3,68 @@ import pygame
 import colors
 import colors as c
 
+# chooses random menu background
+menu_background_options = ['images/menu_background' + str(i) + '.png' for i in range(1, 6)]
+menu_background_selection = random.choice(menu_background_options)
 
-def display_menu(screen, screen_width, screen_height, font):
+
+def display_startup_menu(screen, screen_width, screen_height, font):
     # loads menu background
-    menu_background_options = ['images/menu_background' + str(i) + '.png' for i in range(1, 6)]
-    menu_background_selection = random.choice(menu_background_options)
-
     menu_background = pygame.image.load(menu_background_selection)
     menu_background.convert()
 
-    # relevant text for the menu
-    game_title = font.render('CIS 350 Demo', True, c.WHITE)
+    # scales background image to screen size
+    menu_background = pygame.transform.scale(menu_background, (screen_width, screen_height))
 
     # creates bounding box for the image
     img_rect = menu_background.get_rect()
     img_rect.center = screen_width // 2, screen_height // 2
 
-    # calculate the position to center the text on the image
-    text_rect = game_title.get_rect()
-    text_rect.center = img_rect.center
+    # relevant text for the menu
+    game_title = font.render('CIS 350 Project', True, c.WHITE)
+    new_game_text = font.render('Press N for New Game', True, c.WHITE)
 
-    # displays the menu image with the text
+    # centers game title on menu
+    title_rect = game_title.get_rect()
+    title_rect.center = img_rect.center
+
+    # places new game text under game title
+    new_game_rect = new_game_text.get_rect()
+    new_game_rect.center = (screen_width // 2, title_rect.bottom + 20)
+
+    # displays the menu
     screen.blit(menu_background, img_rect)
-    screen.blit(game_title, text_rect)
+    screen.blit(game_title, title_rect)
+    screen.blit(new_game_text, new_game_rect)
 
-    pygame.display.update()
+    # updates the display
+    pygame.display.flip()
+
+
+def display_death_menu(screen, screen_width, screen_height, font):
+    # death_background = pygame.image.load("images/death_background.jpg")
+    # death_background.convert()
+    #
+    # # scales background image to screen size
+    # death_background = pygame.transform.scale(death_background, (screen_width, screen_height))
+    #
+    # # creates bounding box for the image
+    # img_rect = death_background.get_rect()
+    # img_rect.center = screen_width // 2, screen_height // 2
+    #
+    # # displays the death menu
+    # screen.blit(death_background, img_rect)
+    #
+    # # display new game text on death menu
+    # new_game_text = font.render("Press N to Start New Game", True, (255, 255, 255))
+    # screen.blit(new_game_text,
+    #             ((screen_width - new_game_text.get_width()) // 2,
+    #              (screen_height - new_game_text.get_height()) // 2 + 150))
+    #
+    # # updates the display
+    # pygame.display.flip()
+
+    print('You Died!')
 
 
 def display_player_stats(screen, player, font):
@@ -68,14 +105,14 @@ def display_player_stats(screen, player, font):
     screen.blit(ammo_text, (11, 34))
 
     # display the remaining mags in the gun
-    mag_text = font.render(f"Mags: {player.gun.mag_count}", True, (255, 255, 255))
+    mag_text = font.render(f"Mags: {player.gun.mag_count}", True, colors.BLACK)
     screen.blit(mag_text, (10, 58))  # Adjust the vertical position as needed
 
     # this is causing the game to run extremely slow, need to explore different options
     # also need a different picture, was thinking a cartoon looking magazine of an ak-47
     
     # load the magazine image
-    # mag_image = pygame.image.load('ammo_storage.png')  # Replace 'magazine.png' with the actual image file path
+    # mag_image = pygame.image.load('images/ammo_storage.png')  # Replace 'magazine.png' with the actual image file path
     # mag_image = pygame.transform.scale(mag_image, (50, 50))  # Adjust the size as needed
     #
     # # Display the remaining mags in the gun using the magazine image

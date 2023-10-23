@@ -44,6 +44,7 @@ class Game:
     def run_game(self):
         ''' Runs the game loop. '''
 
+
         keys = pygame.key.get_pressed()
         if not self.game_over:
             # If 'r' is pressed, calls the reload function of the player's currently equipped gun.
@@ -72,6 +73,7 @@ class Game:
             for i in glob_var.objs:
                 i.collision()
 
+
             # Calls the function that makes items bounce
             for i in self.current_room.items:
                 i.bounce()
@@ -80,6 +82,7 @@ class Game:
             # Calls enemy move_toward_character function
             for enemy in self.current_room.enemies:
                 enemy.move_towards_character()
+
 
             self.render_assets()
 

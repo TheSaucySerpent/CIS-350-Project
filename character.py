@@ -11,6 +11,7 @@ root = tk.Tk()
 root.withdraw()'''
 
 
+
 class Character:
     """ Class used for all moving entities, including the player and enemies. """
     def __init__(self, name, x, y, width, height, speed, health, armor, gun, image_path=None):
@@ -75,12 +76,14 @@ class Character:
             self.images[direction] = [pygame.image.load(path) for path in paths]
 
     def set_image(self, direction):
+
         """
         Set the character's image based on the current direction and animation frame.
 
         Args:
             direction (str): The direction in which the character is facing.
         """
+
         if direction in self.images:
             # Check the timer
             if self.frame_count >= self.image_change_delay:
@@ -123,6 +126,7 @@ class Character:
 
         if direction:
             self.set_image(direction)  # Set the character's image based on the current direction
+
 
         # Keeps character within bounds
         if 0 <= new_x <= screen_width - self.width and 0 <= new_y <= screen_height - self.height:
