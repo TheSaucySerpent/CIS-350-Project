@@ -105,7 +105,7 @@ def display_player_stats(screen, player, font):
     screen.blit(ammo_text, (11, 34))
 
     # display the remaining mags in the gun
-    mag_text = font.render(f"Mags: {player.gun.mag_count}", True, (255, 255, 255))
+    mag_text = font.render(f"Mags: {player.gun.mag_count}", True, colors.BLACK)
     screen.blit(mag_text, (10, 58))  # Adjust the vertical position as needed
 
     # this is causing the game to run extremely slow, need to explore different options
