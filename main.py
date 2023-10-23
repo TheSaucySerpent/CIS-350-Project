@@ -2,7 +2,6 @@ import pygame
 import UI
 import game_functions
 
-
 def main():
     """
     The main function that initializes the game, opens the intro screen, and runs the game loop.
@@ -17,7 +16,10 @@ def main():
     # Create the screen
     screen_width = 1200
     screen_height = 700
-    screen = pygame.display.set_mode((screen_width, screen_height))
+    screen = pygame.display.set_mode((screen_width, screen_height), pygame.RESIZABLE)
+
+    # Set game window title
+    pygame.display.set_caption('CIS 350 DEMO')
 
     # Set the font for text
     font = pygame.font.Font(None, 36)
@@ -26,30 +28,37 @@ def main():
     program_running = True
     game_in_progress = False
 
-    game = game_functions.Game(screen, screen_width, screen_height, font)
+    # Initialize game
+    game = None
 
-    # Display the title menu
-    UI.display_menu(screen, screen_width, screen_height, font)
-
+    # Core program loop
     while program_running:
+        # Handles events within the game
         for event in pygame.event.get():
+            # Terminates program if corner X is clicked
             if event.type == pygame.QUIT:
                 program_running = False
-            # elif event.type == pygame.FULLSCREEN:
-            #     size = pygame.display.Info()
-            #     w,h = size.current_w,size.current_h
-            #     UI.display_menu(screen, w, h, font)
-
-            # Register key presses
+            # Resizes screen to fill resized window
+            elif event.type == pygame.VIDEORESIZE:
+                screen_width, screen_height = event.size
+            # Handles keyboard input
             elif event.type == pygame.KEYDOWN:
+                # Terminates program if esc is pressed
                 if event.key == pygame.K_ESCAPE:
                     program_running = False
+                # Starts new game if N is pressed
                 elif event.key == pygame.K_n:
-                    # Start the game
+                    # Ensures a new game can be created only when game is None
+                    if game is None:
+                        game = game_functions.Game(screen, screen_width, screen_height, font)
                     game_in_progress = True
 
         if game_in_progress:
+            # Run the game
             game.run_game()
+        else:
+            # Display the title menu
+            UI.display_startup_menu(screen, screen_width, screen_height, font)
 
 
 if __name__ == '__main__':

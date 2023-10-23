@@ -5,8 +5,18 @@ from character import Character
 from item import Item
 from weapons import Weapon
 
+
 class Room:
+    ''' Class for all Rooms, used to create, draw, and add to rooms. '''
     def __init__(self, background_path, screen_width, screen_height):
+        """
+        Initialize a Room object.
+
+        Args:
+            background_path (str): Path to the background image for the room.
+            screen_width (int): Width of the screen.
+            screen_height (int): Height of the screen.
+        """
         self.background_path = background_path
         self.background = pygame.image.load(background_path)
         self.background = pygame.transform.scale(self.background, (screen_width, screen_height))
@@ -17,6 +27,12 @@ class Room:
         self.items = []
 
     def add_item(self, item):
+        """
+        Add an Item to the room.
+
+        Args:
+            item (Item): Item object to add to the room.
+        """
         if isinstance(item, Item):
             item.room = self
             self.items.append(item)
@@ -24,6 +40,12 @@ class Room:
             print("Error: Attempted to add an invalid item to the room.")
 
     def add_character(self, character):
+        """
+        Add a Character to the room.
+
+        Args:
+            character (Character): Character object to add to the room.
+        """
         if isinstance(character, Character):
             character.room = self
             self.characters.append(character)
@@ -31,6 +53,12 @@ class Room:
             print("Error: Attempted to add an invalid character to the room.")
 
     def add_enemy(self, enemy):
+        """
+        Add an Enemy to the room.
+
+        Args:
+            enemy (Enemy): Enemy object to add to the room.
+        """
         if isinstance(enemy, Enemy):
             enemy.room = self
             self.enemies.append(enemy)
@@ -38,6 +66,12 @@ class Room:
             print("Error: Attempted to add an invalid enemy to the room.")
 
     def add_object(self, obj):
+        """
+        Add an Object to the room.
+
+        Args:
+            obj (Object): Object to add to the room.
+        """
         if isinstance(obj, Object):
             obj.room = self
             self.objects.append(obj)
@@ -45,6 +79,12 @@ class Room:
             print("Error: Attempted to add an invalid object to the room.")
 
     def add_weapon(self, weapon):
+        """
+        Add a Weapon to the room.
+
+        Args:
+            weapon (Weapon): Weapon object to add to the room.
+        """
         if isinstance(weapon, Weapon):
             weapon.room = self
             self.weapons.append(weapon)
@@ -52,6 +92,12 @@ class Room:
             print("Error: Attempted to add an invalid weapon to the room.")
 
     def draw(self, screen):
+        """
+        Draw the room, along with its items, characters, enemies, objects, and weapons.
+
+        Args:
+            screen (pygame.Surface): The pygame screen surface on which to draw the room and objects.
+        """
         screen.blit(self.background, (0, 0))
 
         for item in self.items:
