@@ -52,7 +52,7 @@ def display_startup_menu(screen, screen_width, screen_height, font):
 
 def display_death_menu(screen, screen_width, screen_height, font):
     """
-        Display the death menu with a specific background image.
+        Display the death menu with the death screen background image.
 
         Args:
             screen (pygame.Surface): The game screen.
