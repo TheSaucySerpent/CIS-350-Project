@@ -52,7 +52,7 @@ def display_startup_menu(screen, screen_width, screen_height, font):
 
 def display_death_menu(screen, screen_width, screen_height, font):
     """
-        Display the death menu with a specific background image.
+        Display the death menu with the death screen background image.
 
         Args:
             screen (pygame.Surface): The game screen.
@@ -136,7 +136,6 @@ def display_player_stats(screen, player, font):
 
     # this is causing the game to run extremely slow, need to explore different options
     # also need a different picture, was thinking a cartoon looking magazine of an ak-47
-    
     # load the magazine image
     # mag_image = pygame.image.load('images/ammo_storage.png')  # Replace 'magazine.png' with the actual image file path
     # mag_image = pygame.transform.scale(mag_image, (50, 50))  # Adjust the size as needed

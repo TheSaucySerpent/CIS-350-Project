@@ -10,7 +10,7 @@ screen_height = 700
 
 class Weapon:
     """ Class for all weapons, Parent of Shotgun """
-    def __init__(self, name, damage, proj_speed, attack_speed, mag_size, mag_count, reload_speed, owner,image_path = None):
+    def __init__(self, name, damage, proj_speed, attack_speed, mag_size, mag_count, reload_speed, owner, image_path=None):
         """
         Init for Weapon
 
@@ -62,7 +62,6 @@ class Weapon:
                 projectile = Projectile(self.owner.get_x(), self.owner.get_y(), 10, 10, self.proj_speed, direction, self.damage)
                 self.projectiles.append(projectile)
                 self.last_attack = current_time'''
-
 
     def update_projectiles(self):
         """
@@ -209,9 +208,9 @@ class Shotgun(Weapon):
                         # Randomly decide if it's going to the upper or lower bound
                         x = random.randint(0, 2)
                         if x == 0:
-                            p = Projectile(self.owner.get_x(), self.owner.get_y(), 10, 10, self.proj_speed, round((random.uniform(direction, dir_lower)),3), self.damage)
+                            p = Projectile(self.owner.get_x(), self.owner.get_y(), 10, 10, self.proj_speed, round((random.uniform(direction, dir_lower)), 3), self.damage)
                         else:
-                            p = Projectile(self.owner.get_x(), self.owner.get_y(), 10, 10, self.proj_speed, round((random.uniform(direction, dir_upper)),3), self.damage)
+                            p = Projectile(self.owner.get_x(), self.owner.get_y(), 10, 10, self.proj_speed, round((random.uniform(direction, dir_upper)), 3), self.damage)
 
                         self.projectiles.append(p)
                     self.mag_ammo -= 1

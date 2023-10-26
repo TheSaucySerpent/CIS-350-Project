@@ -1,7 +1,7 @@
 import pygame
 import game_functions as gf
 import tkinter as tk
-from tkinter import Label, Frame, Toplevel, font , Button
+from tkinter import Label, Frame, Toplevel, font, Button
 
 screen_width = 1200
 screen_height = 700
@@ -12,7 +12,8 @@ root.withdraw()'''
 
 
 class Character:
-    """ Class used for all moving entities, including the player and enemies. """
+    """ Class used for all moving entities,
+      including the player and enemies. """
     def __init__(self, name, x, y, width, height, speed, health, armor, gun, image_path=None):
         """
         Initializes the character
@@ -27,8 +28,7 @@ class Character:
         health (int): The current health of the character.
         armor (int): The armor rating of the character.
         gun (Weapon): The type of gun the character wields.
-        image_path (str, optional): Path to the image for the character (If none is given, uses a color instead.
-        """
+        image_path (str, optional): Path to the image for the character (If none is given, uses a color instead."""
         self.name = name
         self.x = x
         self.y = y
@@ -126,7 +126,6 @@ class Character:
         if direction:
             self.set_image(direction)  # Set the character's image based on the current direction
 
-
         # Keeps character within bounds
         if 0 <= new_x <= screen_width - self.width and 0 <= new_y <= screen_height - self.height:
             self.x = new_x
@@ -151,9 +150,9 @@ class Character:
         """
         if not self.invulnerable:
             current_time = pygame.time.get_ticks()
-            # Needed to be done differently for player and enemies, so players can't be instantly killed and enemies can be destroyed by things like shotguns
+            # Needed to be done differently for player and enemies, so players can't be instantly
+            # killed and enemies can be destroyed by things like shotguns
             if self.name == 'Player':
-                #To change invulnerability time, change value of 300
                 if current_time - self.last_hurt > 300:
                     extra_damage = 0
                     if self.armor > 0:
@@ -222,10 +221,10 @@ class Character:
                 self.x + self.width > item.x and
                 self.y < item.y + item.height and
                 self.y + self.height > item.y) and keys[pygame.K_e]:
-                # Add the object to the character's inventory
-                self.inventory.append(item)
-                # Remove the object from the list of objects in the room
-                current_room.items.remove(item)
+                    # Add the object to the character's inventory
+                    self.inventory.append(item)
+                    # Remove the object from the list of objects in the room
+                    current_room.items.remove(item)
 
     def update_position(self):
         """ Update the object's position to the character inventory if it's picked up """
