@@ -11,7 +11,6 @@ root = tk.Tk()
 root.withdraw()'''
 
 
-
 class Character:
     """ Class used for all moving entities, including the player and enemies. """
     def __init__(self, name, x, y, width, height, speed, health, armor, gun, image_path=None):

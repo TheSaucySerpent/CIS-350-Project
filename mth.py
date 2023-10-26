@@ -33,72 +33,9 @@ print("Smallest value in 'd':", min_d)
 print("Smallest value in 'e':", min_e)
 
 
-
-
-
-
-
 # Draw the tree
 pos = nx.spring_layout(G, seed=42)  # positions for all nodes
 nx.draw(G, pos, with_labels=True, node_color='lightblue', font_weight='bold', node_size=700, font_size=18)
 
 # Show the plot
-#plt.show()
-
-
-        """if keys[pygame.K_r]:
-            mc.gun.reload()
-        if keys[pygame.K_SPACE]:
-            current_time = pygame.time.get_ticks()
-            if current_time - mc.last_dodge > 1000:
-                mc.move(keys, 150, True)
-                mc.last_dodge = current_time + 100
-            else:
-                mc.move(keys, 0)
-        else:
-            mc.move(keys, 0)
-
-        if pygame.mouse.get_pressed()[0]:  # Left mouse button
-            if mc.gun != 0:
-                mc.gun.attack()
-            else:
-                print("You don't got a gun!")
-
-        # Check for collisions between character and enemies
-        for enemy in enemies:
-            enemy.move_towards_character()
-            if mc.x < enemy.x + enemy.width - 10 and mc.x + mc.width > enemy.x \
-                    and mc.y < enemy.y + enemy.height - 10 and mc.y + mc.height > enemy.y:
-                # Characters are colliding, character takes damage
-                mc.take_damage(10)
-
-
-
-    # Draw projectiles
-    for g in glob_var.guns:
-        for p in g.projectiles:
-            p.move()
-            pygame.draw.rect(screen, (255, 255, 0), (p.x, p.y, p.width, p.height))
-        g.update_projectiles()
-
-    # Draw/kill the enemy
-    for enemy in enemies:
-        if enemy.health > 0:
-            pygame.draw.rect(screen, (255, 0, 0), (enemy.x, enemy.y, enemy.width, enemy.height))
-        else:
-            enemies.remove(enemy)
-
-    # Draw objects
-    for ob in glob_var.objs:
-        pygame.draw.rect(screen, (0, 255, 0), (ob.x, ob.y, ob.width, ob.height))
-
-    pygame.draw.rect(screen, (0, 0, 255), (mc.x, mc.y, mc.width, mc.height))
-
-    # Display the character's stats
-    health_text = font.render(f"Health: {mc.health}", True, (255, 255, 255))
-    screen.blit(health_text, (10, 10))
-    ammo_text = font.render(f"Ammo: {mc.gun.mag_ammo}", True, (255, 255, 255))
-    screen.blit(ammo_text, (10, 30))
-    mag_text = font.render(f"Mags: {mc.gun.mag_count}", True, (255, 255, 255))
-    screen.blit(mag_text, (10, 50))
-"""
+# plt.show()

@@ -9,6 +9,15 @@ menu_background_selection = random.choice(menu_background_options)
 
 
 def display_startup_menu(screen, screen_width, screen_height, font):
+    """
+    Display the startup menu with a random background.
+
+    Args:
+        screen (pygame.Surface): The game screen.
+        screen_width (int): The width of the screen.
+        screen_height (int): The height of the screen.
+        font (pygame.font.Font): The font used for text rendering.
+    """
     # loads menu background
     menu_background = pygame.image.load(menu_background_selection)
     menu_background.convert()
@@ -42,6 +51,15 @@ def display_startup_menu(screen, screen_width, screen_height, font):
 
 
 def display_death_menu(screen, screen_width, screen_height, font):
+    """
+        Display the death menu with a specific background image.
+
+        Args:
+            screen (pygame.Surface): The game screen.
+            screen_width (int): The width of the screen.
+            screen_height (int): The height of the screen.
+            font (pygame.font.Font): The font used for text rendering.
+    """
     death_background = pygame.image.load("images/death_background.jpg")
     death_background.convert()
 
@@ -68,6 +86,14 @@ def display_death_menu(screen, screen_width, screen_height, font):
 
 
 def display_player_stats(screen, player, font):
+    """
+        Display the player's health and ammo stats on the screen.
+
+        Args:
+            screen (pygame.Surface): The game screen.
+            player (Player): The player character with health and ammo information.
+            font (pygame.font.Font): The font used for text rendering.
+    """
     # create the red background rectangle for the health bar
     red_rect = pygame.Rect(10, 10, 200, 20)
 
