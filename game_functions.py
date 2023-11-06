@@ -9,7 +9,7 @@ class Game:
     Class used for all game functions. run_game function called in main.
     """
 
-    def __init__(self, screen, screen_width, screen_height, font):
+    def __init__(self, screen, screen_width, screen_height, user_interface, font):
         """
         Initialize the game.
 
@@ -17,11 +17,13 @@ class Game:
             screen: The game screen.
             screen_width (int): The width of the screen.
             screen_height (int): The height of the screen.
+            user_interface (UI): The user interface of the game.
             font: The font used for text.
         """
         self.screen = screen
         self.screen_width = screen_width
         self.screen_height = screen_height
+        self.user_interface = user_interface
         self.font = font
 
         self.player = None
@@ -88,7 +90,7 @@ class Game:
 
             # Death Message/Game Over
             if self.player.health == 0:
-                UI.display_death_menu(self.screen, self.screen_width, self.screen_height, self.font)
+                self.user_interface.display_death_menu()
                 self.game_over = True
 
             # update the display
@@ -101,7 +103,7 @@ class Game:
 
         # Draws the player and stats
         glob_var.player.draw(self.screen)
-        UI.display_player_stats(self.screen, self.player, self.font)
+        self.user_interface.display_player_stats(self.player)
 
         # Draws projectiles
         for g in glob_var.guns:

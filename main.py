@@ -31,6 +31,9 @@ def main():
 
     # Initialize game
     game = None
+    
+    # Initialize user interface
+    user_interface = UI.UI(screen, screen_width, screen_height, font)
 
     # Core program loop
     while program_running:
@@ -51,7 +54,7 @@ def main():
                 elif event.key == pygame.K_n:
                     # Ensures a new game can be created only when game is None
                     if game is None:
-                        game = game_functions.Game(screen, screen_width, screen_height, font)
+                        game = game_functions.Game(screen, screen_width, screen_height, user_interface, font)
                     game_in_progress = True
 
         if game_in_progress:
@@ -59,7 +62,7 @@ def main():
             game.run_game()
         else:
             # Display the title menu
-            UI.display_startup_menu(screen, screen_width, screen_height, font)
+            user_interface.display_startup_menu()
 
 
 if __name__ == '__main__':

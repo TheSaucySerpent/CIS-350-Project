@@ -8,139 +8,138 @@ menu_background_options = ['images/menu_background' + str(i) + '.png' for i in r
 menu_background_selection = random.choice(menu_background_options)
 
 
-def display_startup_menu(screen, screen_width, screen_height, font):
-    """
-    Display the startup menu with a random background.
+class UI:
+    """Class for the game's user interface and relevant menus that are displayed throughout the game."""
 
-    Args:
-        screen (pygame.Surface): The game screen.
-        screen_width (int): The width of the screen.
-        screen_height (int): The height of the screen.
-        font (pygame.font.Font): The font used for text rendering.
-    """
-    # loads menu background
-    menu_background = pygame.image.load(menu_background_selection)
-    menu_background.convert()
-
-    # scales background image to screen size
-    menu_background = pygame.transform.scale(menu_background, (screen_width, screen_height))
-
-    # creates bounding box for the image
-    img_rect = menu_background.get_rect()
-    img_rect.center = screen_width // 2, screen_height // 2
-
-    # relevant text for the menu
-    game_title = font.render('CIS 350 Project', True, c.WHITE)
-    new_game_text = font.render('Press N for New Game', True, c.WHITE)
-
-    # centers game title on menu
-    title_rect = game_title.get_rect()
-    title_rect.center = img_rect.center
-
-    # places new game text under game title
-    new_game_rect = new_game_text.get_rect()
-    new_game_rect.center = (screen_width // 2, title_rect.bottom + 20)
-
-    # displays the menu
-    screen.blit(menu_background, img_rect)
-    screen.blit(game_title, title_rect)
-    screen.blit(new_game_text, new_game_rect)
-
-    # updates the display
-    pygame.display.flip()
-
-
-def display_death_menu(screen, screen_width, screen_height, font):
-    """
-        Display the death menu with the death screen background image.
+    def __init__(self, screen, screen_width, screen_height, font):
+        """
+        constructor for the user interface.
 
         Args:
-            screen (pygame.Surface): The game screen.
-            screen_width (int): The width of the screen.
-            screen_height (int): The height of the screen.
-            font (pygame.font.Font): The font used for text rendering.
-    """
-    death_background = pygame.image.load("images/death_background.jpg")
-    death_background.convert()
+            screen (pygame.display): The game screen itself.
+            screen_width (int): The width of the game screen
+            screen_height (int): The height of the game screen
+            font (pygame.font.Font): The font we wish to use for relevant text.
+        """
+        self.screen = screen
+        self.screen_width = screen_width
+        self.screen_height = screen_height
+        self.font = font
 
-    # scales background image to screen size
-    death_background = pygame.transform.scale(death_background, (screen_width, screen_height))
+    def display_startup_menu(self):
+        """
+        Display the startup menu with a random background.
+        """
+        # loads menu background
+        menu_background = pygame.image.load(menu_background_selection)
+        menu_background.convert()
 
-    # creates bounding box for the image
-    img_rect = death_background.get_rect()
-    img_rect.center = screen_width // 2, screen_height // 2
+        # scales background image to screen size
+        menu_background = pygame.transform.scale(menu_background, (self.screen_width, self.screen_height))
 
-    # displays the death menu
-    screen.blit(death_background, img_rect)
+        # creates bounding box for the image
+        img_rect = menu_background.get_rect()
+        img_rect.center = self.screen_width // 2, self.screen_height // 2
 
-    # display new game text on death menu
-    new_game_text = font.render("Press N to Start New Game", True, (255, 255, 255))
-    screen.blit(new_game_text,
-                ((screen_width - new_game_text.get_width()) // 2,
-                 (screen_height - new_game_text.get_height()) // 2 + 150))
+        # relevant text for the menu
+        game_title = self.font.render('CIS 350 Project', True, c.WHITE)
+        new_game_text = self.font.render('Press N for New Game', True, c.WHITE)
 
-    # updates the display
-    pygame.display.flip()
+        # centers game title on menu
+        title_rect = game_title.get_rect()
+        title_rect.center = img_rect.center
 
-    print('You Died!')
+        # places new game text under game title
+        new_game_rect = new_game_text.get_rect()
+        new_game_rect.center = (self.screen_width // 2, title_rect.bottom + 20)
 
+        # displays the menu
+        self.screen.blit(menu_background, img_rect)
+        self.screen.blit(game_title, title_rect)
+        self.screen.blit(new_game_text, new_game_rect)
 
-def display_player_stats(screen, player, font):
-    """
-        Display the player's health and ammo stats on the screen.
+        # updates the display
+        pygame.display.flip()
 
-        Args:
-            screen (pygame.Surface): The game screen.
-            player (Player): The player character with health and ammo information.
-            font (pygame.font.Font): The font used for text rendering.
-    """
-    # create the red background rectangle for the health bar
-    red_rect = pygame.Rect(10, 10, 200, 20)
+    def display_death_menu(self):
+        """
+            Display the death menu with the death screen background image.
+        """
+        death_background = pygame.image.load("images/death_background.jpg")
+        death_background.convert()
 
-    # calculate the width of the green bar over the red based on player health percentage
-    health_percentage = (player.health / player.max_health)
-    green_width = int(health_percentage * 200)  # 200 is the width of the red bar
+        # scales background image to screen size
+        death_background = pygame.transform.scale(death_background, (self.screen_width, self.screen_height))
 
-    # create the green rectangle to go over the red rectangle based on amount of health remaining
-    green_rect = pygame.Rect(10, 10, green_width, 20)
+        # creates bounding box for the image
+        img_rect = death_background.get_rect()
+        img_rect.center = self.screen_width // 2, self.screen_height // 2
 
-    # draw the health bar
-    pygame.draw.rect(screen, colors.RED, red_rect)
-    pygame.draw.rect(screen, colors.GREEN, green_rect)
+        # displays the death menu
+        self.screen.blit(death_background, img_rect)
 
-    # Display the character's health text over the health bar
-    health_text = font.render(f"Health: {player.health}", True, colors.BLACK)
-    screen.blit(health_text, (11, 9))  # Adjust the vertical position as needed
+        # display new game text on death menu
+        new_game_text = self.font.render("Press N to Start New Game", True, (255, 255, 255))
+        self.screen.blit(new_game_text,
+                         ((self.screen_width - new_game_text.get_width()) // 2,
+                          (self.screen_height - new_game_text.get_height()) // 2 + 150))
 
-    # create black background bar for bullet amount
-    black_rect = pygame.Rect(10, 35, 200, 20)
+        # updates the display
+        pygame.display.flip()
 
-    # calculate the width of the yellow bullet bar over the black based on bullet percentage
-    ammo_percentage = (player.gun.mag_ammo / player.gun.mag_size)
-    yellow_width = int(ammo_percentage * 200)  # 200 is the width of the black bar
+        print('You Died!')
 
-    # create the yellow rectangle to go over the black rectangle based on amount of ammo remaining
-    yellow_rect = pygame.Rect(10, 35, yellow_width, 20)
+    def display_player_stats(self, player):
+        """
+            Display the player's health and ammo stats on the screen.
+        """
+        # create the red background rectangle for the health bar
+        red_rect = pygame.Rect(10, 10, 200, 20)
 
-    # draw the ammo bar
-    # pygame.draw.rect(screen, colors.BLACK, black_rect)
-    pygame.draw.rect(screen, colors.YELLOW, yellow_rect)
+        # calculate the width of the green bar over the red based on player health percentage
+        health_percentage = (player.health / player.max_health)
+        green_width = int(health_percentage * 200)  # 200 is the width of the red bar
 
-    # display the character's ammo text over the ammo bar
-    ammo_text = font.render(f"Ammo: {player.gun.mag_ammo}", True, colors.BLACK)
-    screen.blit(ammo_text, (11, 34))
+        # create the green rectangle to go over the red rectangle based on amount of health remaining
+        green_rect = pygame.Rect(10, 10, green_width, 20)
 
-    # display the remaining mags in the gun
-    mag_text = font.render(f"Mags: {player.gun.mag_count}", True, colors.BLACK)
-    screen.blit(mag_text, (10, 58))  # Adjust the vertical position as needed
+        # draw the health bar
+        pygame.draw.rect(self.screen, colors.RED, red_rect)
+        pygame.draw.rect(self.screen, colors.GREEN, green_rect)
 
-    # this is causing the game to run extremely slow, need to explore different options
-    # also need a different picture, was thinking a cartoon looking magazine of an ak-47
-    
-    # load the magazine image
-    # mag_image = pygame.image.load('images/ammo_storage.png')  # Replace 'magazine.png' with the actual image file path
-    # mag_image = pygame.transform.scale(mag_image, (50, 50))  # Adjust the size as needed
-    #
-    # # Display the remaining mags in the gun using the magazine image
-    # mag_count = player.gun.mag_count
-    # screen.blit(mag_image, (50, 58))  # Adjust the horizontal position and spacing as needed
+        # Display the character's health text over the health bar
+        health_text = self.font.render(f"Health: {player.health}", True, colors.BLACK)
+        self.screen.blit(health_text, (11, 9))  # Adjust the vertical position as needed
+
+        # create black background bar for bullet amount
+        black_rect = pygame.Rect(10, 35, 200, 20)
+
+        # calculate the width of the yellow bullet bar over the black based on bullet percentage
+        ammo_percentage = (player.gun.mag_ammo / player.gun.mag_size)
+        yellow_width = int(ammo_percentage * 200)  # 200 is the width of the black bar
+
+        # create the yellow rectangle to go over the black rectangle based on amount of ammo remaining
+        yellow_rect = pygame.Rect(10, 35, yellow_width, 20)
+
+        # draw the ammo bar
+        # pygame.draw.rect(screen, colors.BLACK, black_rect)
+        pygame.draw.rect(self.screen, colors.YELLOW, yellow_rect)
+
+        # display the character's ammo text over the ammo bar
+        ammo_text = self.font.render(f"Ammo: {player.gun.mag_ammo}", True, colors.BLACK)
+        self.screen.blit(ammo_text, (11, 34))
+
+        # display the remaining mags in the gun
+        mag_text = self.font.render(f"Mags: {player.gun.mag_count}", True, colors.BLACK)
+        self.screen.blit(mag_text, (10, 58))  # Adjust the vertical position as needed
+
+        # this is causing the game to run extremely slow, need to explore different options
+        # also need a different picture, was thinking a cartoon looking magazine of an ak-47
+
+        # load the magazine image
+        # mag_image = pygame.image.load('images/ammo_storage.png')  # Replace 'magazine.png' with the actual image file path
+        # mag_image = pygame.transform.scale(mag_image, (50, 50))  # Adjust the size as needed
+        #
+        # # Display the remaining mags in the gun using the magazine image
+        # mag_count = player.gun.mag_count
+        # screen.blit(mag_image, (50, 58))  # Adjust the horizontal position and spacing as needed

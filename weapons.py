@@ -63,7 +63,6 @@ class Weapon:
                 self.projectiles.append(projectile)
                 self.last_attack = current_time'''
 
-
     def update_projectiles(self):
         """
         Move and update all active projectiles.
