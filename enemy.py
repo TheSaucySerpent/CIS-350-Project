@@ -1,10 +1,6 @@
 import pygame
 from character import Character
 import glob_var
-import game_functions as gf
-
-screen_width = 1200
-screen_height = 700
 
 
 class Enemy(Character):
@@ -34,7 +30,7 @@ class Enemy(Character):
             self.image = pygame.image.load(self.image_path)
             self.image = pygame.transform.scale(self.image, (self.width, self.height))
 
-    def move_towards_character(self):
+    def move_towards_character(self, screen_width, screen_height):
         """
         Moves the enemy towards the player. Will be edited when enemy weapons are added.
         Calculates the direction vector toward the target character, normalizes it, and updates the enemy's

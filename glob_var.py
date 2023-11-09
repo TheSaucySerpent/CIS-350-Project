@@ -6,6 +6,9 @@ from object import Object
 from room import Room
 from item import Item
 
+screen_width = 1200
+screen_height = 700
+
 '''
 This messy file is for all instances of all classes, located in one place for easy access universally. Although it streamlined the development process up to this point,
 we plan on removing/heavily altering this file in the future.
@@ -66,7 +69,7 @@ objs = [obj, obj2, obj3, obj4, obj5, obj6]
 # player2 = Character(name="mc",x=1100, y=100, width=10, height=100, speed=1, health=100, armor=50, gun=0,image_path="images/door.png")
 
 # Room Instances
-r1 = Room(background_path="images/Tile Resized.jpg",screen_width=1200,screen_height=700)
+r1 = Room(background_path="images/Tile Resized.jpg", screen_width=screen_width, screen_height=screen_height)
 
 # Adds all enemies to the room
 for i in enemies:

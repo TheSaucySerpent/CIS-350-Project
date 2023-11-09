@@ -1,6 +1,7 @@
 import pygame
 import glob_var
 
+
 class Object:
     """
     The class used for all objects in the game. Specifically, any static with collision is classified as an object.
