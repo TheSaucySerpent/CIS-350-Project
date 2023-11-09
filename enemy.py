@@ -1,5 +1,4 @@
-from random import random
-
+import random
 import pygame
 import random
 from character import Character

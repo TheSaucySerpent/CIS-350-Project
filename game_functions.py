@@ -85,7 +85,6 @@ class Game:
             for enemy in self.current_room.enemies:
                 enemy.move_towards_character()
 
-
             self.render_assets()
 
             # Death Message/Game Over
@@ -110,7 +109,7 @@ class Game:
             for p in g.projectiles:
                 p.move()
                 pygame.draw.rect(self.screen, colors.YELLOW, (p.x, p.y, p.width, p.height))
-            g.update_projectiles()
+            g.update_projectiles(self.screen_width, self.screen_height)
 
         # draws enemies and removes them from the room if they die
         for enemy in self.current_room.enemies:

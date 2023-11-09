@@ -63,7 +63,7 @@ class Weapon:
                 self.projectiles.append(projectile)
                 self.last_attack = current_time'''
 
-    def update_projectiles(self):
+    def update_projectiles(self, screen_width, screen_height):
         """
         Move and update all active projectiles.
 
@@ -73,10 +73,10 @@ class Weapon:
         for projectile in self.projectiles:
             projectile.move()
             if self.owner == glob_var.player:
-                if Projectile.projectile_out_of_bounds(projectile) or Projectile.projectile_hits_enemy(projectile) or Projectile.projectile_hits_object(projectile):
+                if Projectile.projectile_out_of_bounds(projectile, screen_width, screen_height) or Projectile.projectile_hits_enemy(projectile) or Projectile.projectile_hits_object(projectile):
                     projectiles_to_remove.append(projectile)
             else:
-                if Projectile.projectile_out_of_bounds(projectile) or Projectile.projectile_hits_player(projectile) or Projectile.projectile_hits_object(projectile):
+                if Projectile.projectile_out_of_bounds(projectile, screen_width, screen_height) or Projectile.projectile_hits_player(projectile) or Projectile.projectile_hits_object(projectile):
                     projectiles_to_remove.append(projectile)
         # Remove projectiles that are out of bounds or hit something
         for projectile in projectiles_to_remove:
@@ -168,7 +168,7 @@ class Projectile:
             glob_var.player.take_damage(10)
             return True
 
-    def projectile_out_of_bounds(self):
+    def projectile_out_of_bounds(self, screen_width, screen_height):
         """
         Removes any projectiles That go off-screen.
         :return: Bool

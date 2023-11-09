@@ -1,7 +1,7 @@
 from character import Character
 from weapons import Weapon
 from weapons import Shotgun
-from enemy import Default, Tank, Runner
+from enemy import Enemy, Default, Tank, Runner
 from object import Object
 from room import Room
 from item import Item
