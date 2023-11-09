@@ -2,6 +2,10 @@ import pygame
 import math
 import random
 import glob_var
+from item import Item
+
+screen_width = 1200
+screen_height = 700
 
 
 class Weapon:
@@ -59,7 +63,7 @@ class Weapon:
                 self.projectiles.append(projectile)
                 self.last_attack = current_time'''
 
-    def update_projectiles(self, screen_width, screen_height):
+    def update_projectiles(self):
         """
         Move and update all active projectiles.
 
@@ -69,10 +73,10 @@ class Weapon:
         for projectile in self.projectiles:
             projectile.move()
             if self.owner == glob_var.player:
-                if Projectile.projectile_out_of_bounds(projectile, screen_width, screen_height) or Projectile.projectile_hits_enemy(projectile) or Projectile.projectile_hits_object(projectile):
+                if Projectile.projectile_out_of_bounds(projectile) or Projectile.projectile_hits_enemy(projectile) or Projectile.projectile_hits_object(projectile):
                     projectiles_to_remove.append(projectile)
             else:
-                if Projectile.projectile_out_of_bounds(projectile, screen_width, screen_height) or Projectile.projectile_hits_player(projectile) or Projectile.projectile_hits_object(projectile):
+                if Projectile.projectile_out_of_bounds(projectile) or Projectile.projectile_hits_player(projectile) or Projectile.projectile_hits_object(projectile):
                     projectiles_to_remove.append(projectile)
         # Remove projectiles that are out of bounds or hit something
         for projectile in projectiles_to_remove:
@@ -88,10 +92,11 @@ class Weapon:
         current_time = pygame.time.get_ticks()
         if current_time - self.last_reload > 10000 / self.reload_speed:
             if self.mag_count > 0:
-                print("Reloading!")
-                self.mag_ammo = self.mag_size
-                self.mag_count -= 1
-                self.last_reload = current_time
+                if self.mag_ammo != self.mag_size:
+                    print("Reloading!")
+                    self.mag_ammo = self.mag_size
+                    self.mag_count -= 1
+                    self.last_reload = current_time
             else:
                 print("Out of Mags")
                 self.last_reload = current_time
@@ -163,7 +168,7 @@ class Projectile:
             glob_var.player.take_damage(10)
             return True
 
-    def projectile_out_of_bounds(self, screen_width, screen_height):
+    def projectile_out_of_bounds(self):
         """
         Removes any projectiles That go off-screen.
         :return: Bool
