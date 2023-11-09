@@ -1,8 +1,5 @@
 import pygame
 
-import game_functions
-import main
-
 
 class Character:
     """ Class used for all moving entities, including the player and enemies. """
