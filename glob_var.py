@@ -1,7 +1,7 @@
 from character import Character
 from weapons import Weapon
 from weapons import Shotgun
-from enemy import Enemy
+from enemy import Enemy, Default, Tank, Runner
 from object import Object
 from room import Room
 from item import Item
@@ -42,13 +42,14 @@ guns = [pistol, ar, dev_gun, shotgun, dev_shotgun]
 player.gun = shotgun
 
 # All Enemy List
-enemy1 = Enemy(name='enemy', x=700, y=200, width=50, height=50, speed=.2, health=50, armor=10, gun=0, character=player, damage=10,image_path="images/green monster.png")
-enemy2 = Enemy(name='enemy',x=500, y=500, width=50, height=50, speed=.25, health=50, armor=10, gun=0, character=player, damage=10, image_path="images/green monster.png")
-enemy3 = Enemy(name='enemy',x=700, y=500, width=50, height=50, speed=.3, health=50, armor=10, gun=0, character=player, damage=10, image_path="images/green monster.png")
-enemy4 = Enemy(name='enemy',x=600, y=500, width=70, height=70, speed=.1, health=80, armor=10, gun=0, character=player, damage=40, image_path="images/green monster.png")
-enemy5 = Enemy(name='enemy',x=300, y=300, width=50, height=50, speed=.4, health=40, armor=0, gun=0, character=player, damage=70, image_path="images/green monster.png")
+enemy1 = Default()
+enemy2 = Default()
+enemy3 = Default()
+enemy4 = Tank()
+enemy5 = Runner()
+enemy6 = Runner()
 # List of all enemies for drawing and player tracking
-enemies = [enemy1, enemy2, enemy3, enemy4, enemy5]
+enemies = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6]
 # Separate list including all enemies and main character, used for object collision
 entities = [player]
 for i in enemies:

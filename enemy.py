@@ -1,3 +1,4 @@
+import random
 import pygame
 from character import Character
 import glob_var
@@ -79,3 +80,18 @@ class Enemy(Character):
             screen.blit(self.image, (self.x, self.y))
         else:
             pygame.draw.rect(screen, (0, 0, 255), (self.x, self.y, self.width, self.height))
+
+
+class Default(Enemy):
+    def __init__(self):
+        super().__init__(name='enemy',x=random.randint(400, 800), y=random.randint(200, 600), width=50, height=50, speed=.25, health=50, armor=10, gun=0, character=glob_var.player, damage=10, image_path="images/green monster.png")
+
+
+class Tank(Enemy):
+    def __init__(self):
+        super().__init__(name='enemy',x=random.randint(400, 800), y=random.randint(200, 600), width=70, height=70, speed=.1, health=80, armor=10, gun=0, character=glob_var.player, damage=40, image_path="images/green monster.png")
+
+
+class Runner(Enemy):
+    def __init__(self):
+        super().__init__(name='enemy',x=random.randint(400, 800), y=random.randint(200, 600), width=30, height=30, speed=.4, health=40, armor=0, gun=0, character=glob_var.player, damage=70, image_path="images/green monster.png")
