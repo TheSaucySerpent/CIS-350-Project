@@ -1,7 +1,7 @@
 from character import Character
 from weapons import Weapon
 from weapons import Shotgun
-from enemy import Enemy, Default, Tank, Runner
+from enemy import Default, Tank, Runner
 from object import Object
 from room import Room
 from item import Item
@@ -45,6 +45,7 @@ enemy3 = Default()
 enemy4 = Tank()
 enemy5 = Runner()
 enemy6 = Runner()
+
 # List of all enemies for drawing and player tracking
 enemies = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6]
 # Separate list including all enemies and main character, used for object collision
@@ -81,6 +82,3 @@ for i in objs:
 key = Item(50, 100, 75, 75, "images/golden key.png")
 r1.add_item(key)
 key.bounce()
-
-
-
