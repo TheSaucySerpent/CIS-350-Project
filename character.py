@@ -1,15 +1,4 @@
 import pygame
-import game_functions as gf
-import tkinter as tk
-from tkinter import Label, Frame, Toplevel, font , Button
-
-
-screen_width = 1200
-screen_height = 700
-
-'''screen = pygame.display.set_mode((screen_width, screen_height))
-root = tk.Tk()
-root.withdraw()'''
 
 
 class Character:
@@ -94,7 +83,7 @@ class Character:
             else:
                 self.frame_count += 1
 
-    def move(self, keys, extra_speed, is_invulnerable=False):
+    def move(self, screen_width, screen_height, keys, extra_speed, is_invulnerable=False):
         """
         Method used for normal movement as well as dodge. Moves the given Character by their speed
 
@@ -126,7 +115,6 @@ class Character:
 
         if direction:
             self.set_image(direction)  # Set the character's image based on the current direction
-
 
         # Keeps character within bounds
         if 0 <= new_x <= screen_width - self.width and 0 <= new_y <= screen_height - self.height:

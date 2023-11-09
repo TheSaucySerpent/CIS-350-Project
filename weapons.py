@@ -2,10 +2,6 @@ import pygame
 import math
 import random
 import glob_var
-from item import Item
-
-screen_width = 1200
-screen_height = 700
 
 
 class Weapon:
@@ -92,11 +88,10 @@ class Weapon:
         current_time = pygame.time.get_ticks()
         if current_time - self.last_reload > 10000 / self.reload_speed:
             if self.mag_count > 0:
-                if self.mag_ammo != self.mag_size:
-                    print("Reloading!")
-                    self.mag_ammo = self.mag_size
-                    self.mag_count -= 1
-                    self.last_reload = current_time
+                print("Reloading!")
+                self.mag_ammo = self.mag_size
+                self.mag_count -= 1
+                self.last_reload = current_time
             else:
                 print("Out of Mags")
                 self.last_reload = current_time

@@ -1,6 +1,7 @@
 import pygame
 import glob_var
 
+
 class Object:
     """
     The class used for all objects in the game. Specifically, any static with collision is classified as an object.
@@ -34,8 +35,7 @@ class Object:
         Handle collision between objects and entities using pygame's built-in rectangle collision functions.
         Adds or subtracts from the entity's x and y values corresponding to the direction in which they collide.
         """
-
-        for entity in glob_var.enemies:
+        for entity in glob_var.entities:
             entity_rect = pygame.Rect(entity.x, entity.y, entity.width, entity.height)
             if entity_rect.colliderect(self.obj_rect):
                 # Left Border

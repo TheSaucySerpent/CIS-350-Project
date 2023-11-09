@@ -46,7 +46,6 @@ class Game:
     def run_game(self):
         ''' Runs the game loop. '''
 
-
         keys = pygame.key.get_pressed()
         if not self.game_over:
             # If 'r' is pressed, calls the reload function of the player's currently equipped gun.
@@ -57,12 +56,12 @@ class Game:
             if keys[pygame.K_SPACE]:
                 current_time = pygame.time.get_ticks()
                 if current_time - self.player.last_dodge > 1000:
-                    self.player.move(keys, 200, True)
+                    self.player.move(self.screen_width, self.screen_height, keys, 200, True)
                     self.player.last_dodge = current_time
                 else:
-                    self.player.move(keys, 0)
+                    self.player.move(self.screen_width, self.screen_height, keys, 0)
             else:
-                self.player.move(keys, 0)
+                self.player.move(self.screen_width, self.screen_height, keys, 0)
 
             # If the left mouse button is clicked, calls the player's weapon's attack function.
             if pygame.mouse.get_pressed()[0]:
@@ -75,7 +74,6 @@ class Game:
             for i in glob_var.objs:
                 i.collision()
 
-
             # Calls the function that makes items bounce
             for i in self.current_room.items:
                 i.bounce()
@@ -83,7 +81,7 @@ class Game:
 
             # Calls enemy move_toward_character function
             for enemy in self.current_room.enemies:
-                enemy.move_towards_character()
+                enemy.move_towards_character(self.screen_width, self.screen_height)
 
             self.render_assets()
 

@@ -6,6 +6,9 @@ from object import Object
 from room import Room
 from item import Item
 
+screen_width = 1200
+screen_height = 700
+
 '''
 This messy file is for all instances of all classes, located in one place for easy access universally. Although it streamlined the development process up to this point,
 we plan on removing/heavily altering this file in the future.
@@ -21,7 +24,7 @@ image_paths = {
 
 
 # Player Character
-player = Character(name="Player", x=1100, y=100, width=50, height=50, speed=1, health=100, armor=50, gun=0, image_path="images/white_square.png")
+player = Character(name="Player",x=1100, y=100, width=50, height=50, speed=1, health=100, armor=50, gun=0,image_path="images/white_square.png")
 
 # Weapon Instances
 pistol = Weapon(name="Pistol", damage=10, proj_speed=.5, attack_speed=2, mag_size=9, mag_count=3, reload_speed=10, owner=player)
@@ -45,7 +48,6 @@ enemy3 = Default()
 enemy4 = Tank()
 enemy5 = Runner()
 enemy6 = Runner()
-
 # List of all enemies for drawing and player tracking
 enemies = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6]
 # Separate list including all enemies and main character, used for object collision
@@ -68,7 +70,7 @@ objs = [obj, obj2, obj3, obj4, obj5, obj6]
 # player2 = Character(name="mc",x=1100, y=100, width=10, height=100, speed=1, health=100, armor=50, gun=0,image_path="images/door.png")
 
 # Room Instances
-r1 = Room(background_path="images/Tile Resized.jpg",screen_width=1200,screen_height=700)
+r1 = Room(background_path="images/Tile Resized.jpg", screen_width=screen_width, screen_height=screen_height)
 
 # Adds all enemies to the room
 for i in enemies:
@@ -82,3 +84,5 @@ for i in objs:
 key = Item(50, 100, 75, 75, "images/golden key.png")
 r1.add_item(key)
 key.bounce()
+
+

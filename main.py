@@ -1,10 +1,9 @@
 import pygame
 import UI
 import game_functions
-screen_width = 1200
-screen_height = 700
 
-def main(screen_width, screen_height):
+
+def main():
     """
     The main function that initializes the game, opens the intro screen, and runs the game loop.
 
@@ -16,6 +15,8 @@ def main(screen_width, screen_height):
     pygame.init()
 
     # Create the screen
+    screen_width = 1200
+    screen_height = 700
     screen = pygame.display.set_mode((screen_width, screen_height), pygame.RESIZABLE)
 
     # Set game window title
@@ -30,7 +31,7 @@ def main(screen_width, screen_height):
 
     # Initialize game
     game = None
-    
+
     # Initialize user interface
     user_interface = UI.UI(screen, screen_width, screen_height, font)
 
@@ -65,4 +66,4 @@ def main(screen_width, screen_height):
 
 
 if __name__ == '__main__':
-    main(screen_width, screen_height)
+    main()
