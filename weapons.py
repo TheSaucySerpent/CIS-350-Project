@@ -88,10 +88,11 @@ class Weapon:
         current_time = pygame.time.get_ticks()
         if current_time - self.last_reload > 10000 / self.reload_speed:
             if self.mag_count > 0:
-                print("Reloading!")
-                self.mag_ammo = self.mag_size
-                self.mag_count -= 1
-                self.last_reload = current_time
+                if self.mag_ammo != self.mag_size:
+                    print("Reloading!")
+                    self.mag_ammo = self.mag_size
+                    self.mag_count -= 1
+                    self.last_reload = current_time
             else:
                 print("Out of Mags")
                 self.last_reload = current_time
