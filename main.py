@@ -1,6 +1,9 @@
+import os
+
 import pygame
 import UI
 import game_functions
+import pickle
 
 
 def main():
@@ -35,6 +38,9 @@ def main():
     # Initialize user interface
     user_interface = UI.UI(screen, screen_width, screen_height, font)
 
+    # File to store saved game
+    save_file = 'game_save.pkl'
+
     # Core program loop
     while program_running:
         # Handles events within the game
@@ -59,13 +65,28 @@ def main():
                 # Terminates program if esc is pressed
                 if event.key == pygame.K_ESCAPE:
                     program_running = False
+                    if game is not None:
+                        game.save_game_state()
                 # Starts new game if N is pressed
                 elif event.key == pygame.K_n:
                     # Ensures a new game can be created only when game is None
                     if game is None:
                         game = game_functions.Game(screen, screen_width, screen_height, user_interface, font)
                     game_in_progress = True
+                elif event.key == pygame.K_c and game is None:
+                    if os.path.isfile(save_file):
+                        with open('game_save.pkl', 'rb') as file:
+                            game_state = pickle.load(file)
 
+                        # Create a new Game object
+                        game = game_functions.Game(screen, screen_width, screen_height, user_interface, font)
+
+                        # Restore player state
+                        game.player.x = game_state['player_x']
+                        game.player.y = game_state['player_y']
+                        game.player.health = game_state['player_health']
+                        game_in_progress = True
+                        
         if game_in_progress:
             # Run the game
             game.run_game()

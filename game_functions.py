@@ -1,3 +1,6 @@
+import os
+import pickle
+
 import pygame
 import glob_var
 import colors
@@ -118,3 +121,15 @@ class Game:
                 self.screen.blit(enemy.image, (enemy.x, enemy.y))
             else:
                 self.current_room.enemies.remove(enemy)
+
+    def save_game_state(self):
+        game_state = {
+            'player_x': self.player.x,
+            'player_y': self.player.y,
+            'player_health': self.player.health,
+            # Add other relevant information
+        }
+        with open('game_save.pkl', 'wb') as file:
+            pickle.dump(game_state, file)
+
+        print('Game Saved')
