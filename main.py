@@ -44,7 +44,16 @@ def main():
                 program_running = False
             # Resizes screen to fill resized window
             elif event.type == pygame.VIDEORESIZE:
-                screen_width, screen_height = event.size
+                user_interface.screen_width = event.w
+                user_interface.screen_height = event.h
+                if game is not None:
+                    game.prev_screen_width = screen_width
+                    game.prev_screen_height = screen_height
+                    game.screen_width = event.w
+                    game.screen_height = event.h
+                    game.current_room.scale(game.prev_screen_width, game.prev_screen_height, game.screen_width, game.screen_height)
+                else:
+                    screen_width, screen_height = event.w, event.h
             # Handles keyboard input
             elif event.type == pygame.KEYDOWN:
                 # Terminates program if esc is pressed

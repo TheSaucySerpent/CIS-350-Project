@@ -33,6 +33,9 @@ class Game:
         self.current_room = None
         self.game_over = True
 
+        self.prev_screen_width = screen_width
+        self.prev_screen_height = screen_height
+
         self.setup_game()
 
     def setup_game(self):
@@ -94,8 +97,8 @@ class Game:
             pygame.display.update()
 
     def render_assets(self):
-        # draw background
         self.screen.blit(self.current_room.background, (0, 0))
+        # draw background
         self.current_room.draw(self.screen)
 
         # Draws the player and stats
