@@ -7,7 +7,7 @@ from weapons import Weapon
 
 
 class Room:
-    ''' Class for all Rooms, used to create, draw, and add to rooms. '''
+    """ Class for all Rooms, used to create, draw, and add to rooms. """
     def __init__(self, background_path, screen_width, screen_height):
         """
         Initialize a Room object.
@@ -18,6 +18,8 @@ class Room:
             screen_height (int): Height of the screen.
         """
         self.background_path = background_path
+        self.screen_width = screen_width
+        self.screen_height = screen_height
         self.background = pygame.image.load(background_path)
         self.background = pygame.transform.scale(self.background, (screen_width, screen_height))
         self.characters = []  # List to hold Character objects
@@ -114,3 +116,11 @@ class Room:
 
         for weapon in self.weapons:
             weapon.draw(screen)
+
+    def scale(self, prev_screen_width, prev_screen_height, new_screen_width, new_screen_height):
+        self.background = pygame.transform.scale(self.background, (new_screen_width, new_screen_height))
+        game_objects = self.items + self.characters + self.enemies + self.objects + self.weapons
+
+        for element in game_objects:
+            element.x = int(element.x * (new_screen_width / prev_screen_width))
+            element.y = int(element.y * (new_screen_height / prev_screen_height))

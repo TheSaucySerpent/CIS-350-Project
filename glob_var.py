@@ -1,10 +1,13 @@
 from character import Character
 from weapons import Weapon
 from weapons import Shotgun
-from enemy import Enemy
+from enemy import Enemy, Default, Tank, Runner
 from object import Object
 from room import Room
 from item import Item
+
+screen_width = 1200
+screen_height = 700
 
 '''
 This messy file is for all instances of all classes, located in one place for easy access universally. Although it streamlined the development process up to this point,
@@ -21,7 +24,7 @@ image_paths = {
 
 
 # Player Character
-player = Character(name="Player", x=1100, y=100, width=50, height=50, speed=1, health=100, armor=50, gun=0, image_path="images/white_square.png")
+player = Character(name="Player",x=1100, y=100, width=50, height=50, speed=1, health=100, armor=50, gun=0,image_path="images/white_square.png")
 
 # Weapon Instances
 pistol = Weapon(name="Pistol", damage=10, proj_speed=.5, attack_speed=2, mag_size=9, mag_count=3, reload_speed=10, owner=player)
@@ -39,13 +42,14 @@ guns = [pistol, ar, dev_gun, shotgun, dev_shotgun]
 player.gun = shotgun
 
 # All Enemy List
-enemy1 = Enemy(name='enemy', x=700, y=200, width=50, height=50, speed=.2, health=50, armor=10, gun=0, character=player, damage=10, image_path="images/green monster.png")
-enemy2 = Enemy(name='enemy', x=500, y=500, width=50, height=50, speed=.25, health=50, armor=10, gun=0, character=player, damage=10, image_path="images/green monster.png")
-enemy3 = Enemy(name='enemy', x=700, y=500, width=50, height=50, speed=.3, health=50, armor=10, gun=0, character=player, damage=10, image_path="images/green monster.png")
-enemy4 = Enemy(name='enemy', x=600, y=500, width=70, height=70, speed=.1, health=80, armor=10, gun=0, character=player, damage=40, image_path="images/green monster.png")
-enemy5 = Enemy(name='enemy', x=300, y=300, width=50, height=50, speed=.4, health=40, armor=0, gun=0, character=player, damage=70, image_path="images/green monster.png")
+enemy1 = Default()
+enemy2 = Default()
+enemy3 = Default()
+enemy4 = Tank()
+enemy5 = Runner()
+enemy6 = Runner()
 # List of all enemies for drawing and player tracking
-enemies = [enemy1, enemy2, enemy3, enemy4, enemy5]
+enemies = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6]
 # Separate list including all enemies and main character, used for object collision
 entities = [player]
 for i in enemies:
@@ -66,7 +70,7 @@ objs = [obj, obj2, obj3, obj4, obj5, obj6]
 # player2 = Character(name="mc",x=1100, y=100, width=10, height=100, speed=1, health=100, armor=50, gun=0,image_path="images/door.png")
 
 # Room Instances
-r1 = Room(background_path="images/Tile Resized.jpg", screen_width=1200, screen_height=700)
+r1 = Room(background_path="images/Tile Resized.jpg", screen_width=screen_width, screen_height=screen_height)
 
 # Adds all enemies to the room
 for i in enemies:
@@ -80,3 +84,5 @@ for i in objs:
 key = Item(50, 100, 75, 75, "images/golden key.png")
 r1.add_item(key)
 key.bounce()
+
+

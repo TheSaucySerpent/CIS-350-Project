@@ -9,7 +9,7 @@ class Game:
     Class used for all game functions. run_game function called in main.
     """
 
-    def __init__(self, screen, screen_width, screen_height, font):
+    def __init__(self, screen, screen_width, screen_height, user_interface, font):
         """
         Initialize the game.
 
@@ -17,11 +17,13 @@ class Game:
             screen: The game screen.
             screen_width (int): The width of the screen.
             screen_height (int): The height of the screen.
+            user_interface (UI): The user interface of the game.
             font: The font used for text.
         """
         self.screen = screen
         self.screen_width = screen_width
         self.screen_height = screen_height
+        self.user_interface = user_interface
         self.font = font
 
         self.player = None
@@ -30,6 +32,9 @@ class Game:
         self.room = None
         self.current_room = None
         self.game_over = True
+
+        self.prev_screen_width = screen_width
+        self.prev_screen_height = screen_height
 
         self.setup_game()
 
@@ -54,12 +59,12 @@ class Game:
             if keys[pygame.K_SPACE]:
                 current_time = pygame.time.get_ticks()
                 if current_time - self.player.last_dodge > 1000:
-                    self.player.move(keys, 200, True)
+                    self.player.move(self.screen_width, self.screen_height, keys, 200, True)
                     self.player.last_dodge = current_time
                 else:
-                    self.player.move(keys, 0)
+                    self.player.move(self.screen_width, self.screen_height, keys, 0)
             else:
-                self.player.move(keys, 0)
+                self.player.move(self.screen_width, self.screen_height, keys, 0)
 
             # If the left mouse button is clicked, calls the player's weapon's attack function.
             if pygame.mouse.get_pressed()[0]:
@@ -79,33 +84,33 @@ class Game:
 
             # Calls enemy move_toward_character function
             for enemy in self.current_room.enemies:
-                enemy.move_towards_character()
+                enemy.move_towards_character(self.screen_width, self.screen_height)
 
             self.render_assets()
 
             # Death Message/Game Over
             if self.player.health == 0:
-                UI.display_death_menu(self.screen, self.screen_width, self.screen_height, self.font)
+                self.user_interface.display_death_menu()
                 self.game_over = True
 
             # update the display
             pygame.display.update()
 
     def render_assets(self):
-        # draw background
         self.screen.blit(self.current_room.background, (0, 0))
+        # draw background
         self.current_room.draw(self.screen)
 
         # Draws the player and stats
         glob_var.player.draw(self.screen)
-        UI.display_player_stats(self.screen, self.player, self.font)
+        self.user_interface.display_player_stats(self.player)
 
         # Draws projectiles
         for g in glob_var.guns:
             for p in g.projectiles:
                 p.move()
                 pygame.draw.rect(self.screen, colors.YELLOW, (p.x, p.y, p.width, p.height))
-            g.update_projectiles()
+            g.update_projectiles(self.screen_width, self.screen_height)
 
         # draws enemies and removes them from the room if they die
         for enemy in self.current_room.enemies:

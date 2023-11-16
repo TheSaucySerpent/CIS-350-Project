@@ -2,15 +2,11 @@ import pygame
 import math
 import random
 import glob_var
-from item import Item
-
-screen_width = 1200
-screen_height = 700
 
 
 class Weapon:
     """ Class for all weapons, Parent of Shotgun """
-    def __init__(self, name, damage, proj_speed, attack_speed, mag_size, mag_count, reload_speed, owner, image_path=None):
+    def __init__(self, name, damage, proj_speed, attack_speed, mag_size, mag_count, reload_speed, owner,image_path = None):
         """
         Init for Weapon
 
@@ -63,7 +59,7 @@ class Weapon:
                 self.projectiles.append(projectile)
                 self.last_attack = current_time'''
 
-    def update_projectiles(self):
+    def update_projectiles(self, screen_width, screen_height):
         """
         Move and update all active projectiles.
 
@@ -73,10 +69,10 @@ class Weapon:
         for projectile in self.projectiles:
             projectile.move()
             if self.owner == glob_var.player:
-                if Projectile.projectile_out_of_bounds(projectile) or Projectile.projectile_hits_enemy(projectile) or Projectile.projectile_hits_object(projectile):
+                if Projectile.projectile_out_of_bounds(projectile, screen_width, screen_height) or Projectile.projectile_hits_enemy(projectile) or Projectile.projectile_hits_object(projectile):
                     projectiles_to_remove.append(projectile)
             else:
-                if Projectile.projectile_out_of_bounds(projectile) or Projectile.projectile_hits_player(projectile) or Projectile.projectile_hits_object(projectile):
+                if Projectile.projectile_out_of_bounds(projectile, screen_width, screen_height) or Projectile.projectile_hits_player(projectile) or Projectile.projectile_hits_object(projectile):
                     projectiles_to_remove.append(projectile)
         # Remove projectiles that are out of bounds or hit something
         for projectile in projectiles_to_remove:
@@ -92,10 +88,11 @@ class Weapon:
         current_time = pygame.time.get_ticks()
         if current_time - self.last_reload > 10000 / self.reload_speed:
             if self.mag_count > 0:
-                print("Reloading!")
-                self.mag_ammo = self.mag_size
-                self.mag_count -= 1
-                self.last_reload = current_time
+                if self.mag_ammo != self.mag_size:
+                    print("Reloading!")
+                    self.mag_ammo = self.mag_size
+                    self.mag_count -= 1
+                    self.last_reload = current_time
             else:
                 print("Out of Mags")
                 self.last_reload = current_time
@@ -167,7 +164,7 @@ class Projectile:
             glob_var.player.take_damage(10)
             return True
 
-    def projectile_out_of_bounds(self):
+    def projectile_out_of_bounds(self, screen_width, screen_height):
         """
         Removes any projectiles That go off-screen.
         :return: Bool
@@ -208,9 +205,9 @@ class Shotgun(Weapon):
                         # Randomly decide if it's going to the upper or lower bound
                         x = random.randint(0, 2)
                         if x == 0:
-                            p = Projectile(self.owner.get_x(), self.owner.get_y(), 10, 10, self.proj_speed, round((random.uniform(direction, dir_lower)), 3), self.damage)
+                            p = Projectile(self.owner.get_x(), self.owner.get_y(), 10, 10, self.proj_speed, round((random.uniform(direction, dir_lower)),3), self.damage)
                         else:
-                            p = Projectile(self.owner.get_x(), self.owner.get_y(), 10, 10, self.proj_speed, round((random.uniform(direction, dir_upper)), 3), self.damage)
+                            p = Projectile(self.owner.get_x(), self.owner.get_y(), 10, 10, self.proj_speed, round((random.uniform(direction, dir_upper)),3), self.damage)
 
                         self.projectiles.append(p)
                     self.mag_ammo -= 1
