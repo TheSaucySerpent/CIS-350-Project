@@ -24,6 +24,7 @@ image_paths = {
 }
 
 # Player Character
+
 player = Character(name="Player", x=100, y=100, width=50, height=50, speed=1, health=100, armor=50, gun=0,
                    image_path="images/white_square.png")
 
@@ -86,8 +87,10 @@ for i in r1objs:
 r1.door = r1door1
 
 # Items were a last minute addition, so it's not perfectly implemented currently. This is something we will clean up in the future version.
+
 key = Item("Key", 950, 100, 75, 75, "images/golden key.png")
 #r1.add_item(key)
+
 
 r1.entities = entities
 

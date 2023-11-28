@@ -1,10 +1,11 @@
 import os
-import glob_var
+
 import pygame
 import UI
 import game_functions
 import pickle
 
+import glob_var
 from enemy import Default, Tank, Runner
 from item import Item
 
@@ -92,23 +93,26 @@ def main():
                         game.player.gun.mag_count = game_state['mag_count']
                         room_items = []
 
+                        for item_info in game_state['player_inventory']:
+                            item = Item(item_info['name'], item_info['position'][0], item_info['position'][1], item_info['width'], item_info['height'], item_info['image_path'])
+                            game.player.inventory.append(item)
+
                         for item_info in game_state['room_items']:
-                            item = Item(item_info['position'][0], item_info['position'][1], item_info['width'], item_info['height'], item_info['image_path'])
-                            # Add other necessary assignments based on your Item class
+                            item = Item(item_info['name'], item_info['position'][0], item_info['position'][1], item_info['width'], item_info['height'], item_info['image_path'])
                             room_items.append(item)
 
                         room_enemies = []
                         for enemy_info in game_state['room_enemies']:
                             enemy = enemy_info['type'](enemy_info['name'], enemy_info['position'][0], enemy_info['position'][1])
                             enemy.health = enemy_info['health']
-                            # Add other necessary assignments based on your Enemy class
-                            room_enemies.append(enemy)
-                            glob_var.cur_room.enemies.append(enemy)
-                            glob_var.cur_room.entities.append(enemy)
 
-                        # Assign the recreated items and enemies to the current room
+                            room_enemies.append(enemy)
+                            glob_var.enemies.append(enemy)
+                            glob_var.entities.append(enemy)
+
                         game.current_room.items = room_items
                         game.current_room.enemies = room_enemies
+
                         game_in_progress = True
 
         if game_in_progress:
