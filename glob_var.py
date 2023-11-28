@@ -89,7 +89,7 @@ r1.door = r1door1
 key = Item("Key", 50, 100, 75, 75, "images/golden key.png")
 r1.add_item(key)
 
-r1.entities = []
+r1.entities = entities
 
 r2enemy1 = Default(name='enemy', x=random.randint(400, 800), y=random.randint(200, 600))
 r2enemy2 = Default(name='enemy', x=random.randint(400, 800), y=random.randint(200, 600))
