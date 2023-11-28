@@ -135,12 +135,24 @@ class Game:
             'player_health': self.player.health,
             'ammo_count': self.player.gun.mag_ammo,
             'mag_count': self.player.gun.mag_count,
+            'player_inventory': [],
             'room_items': [],
             'room_enemies': [],
         }
 
+        for item in self.player.inventory:
+            item_info = {
+                'name': item.name,
+                'position': (item.x, item.y),
+                'width': item.width,
+                'height': item.height,
+                'image_path': item.image_path,
+            }
+            game_state['player_inventory'].append(item_info)
+
         for item in self.current_room.items:
             item_info = {
+                'name': item.name,
                 'position': (item.x, item.y),
                 'width': item.width,
                 'height': item.height,
@@ -148,14 +160,12 @@ class Game:
             }
             game_state['room_items'].append(item_info)
 
-            # Extract necessary information about enemies in the room
         for enemy in self.current_room.enemies:
             enemy_info = {
                 'name': enemy.name,
                 'type': type(enemy),
                 'position': (enemy.x, enemy.y),
                 'health': enemy.health,
-                # Add other essential information...
             }
             game_state['room_enemies'].append(enemy_info)
 

@@ -3,17 +3,19 @@ import pygame
 
 class Item:
     """ Class for items, anything that can be picked up is qualified as an item. """
-    def __init__(self, x, y, width, height, image_path=None):
+    def __init__(self, name, x, y, width, height, image_path=None):
         """
         Initialize an Item
 
         Args:
+        name (str): The name of the given Item.
         x (int): The x-coordinate of the object.
         y (int): The y-coordinate of the object.
         width (int): The width of the object.
         height (int): The height of the object.
         image_path (str, optional): Path to the image for the object (default is None).
         """
+        self.name = name
         self.x = x
         self.y = y
         self.original_y = y  # Store the original y position
