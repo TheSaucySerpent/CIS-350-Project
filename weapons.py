@@ -4,6 +4,7 @@ import random
 import glob_var
 
 
+
 class Weapon:
     """ Class for all weapons, Parent of Shotgun """
     def __init__(self, name, damage, proj_speed, attack_speed, mag_size, mag_count, reload_speed, owner,image_path = None):
@@ -134,7 +135,7 @@ class Projectile:
         Checks for any collision with enemies. If collision, does projectile damage to the enemy and returns True
         :return: Bool
         """
-        for enemy in glob_var.enemies:
+        for enemy in glob_var.cur_room.enemies:
             if enemy.health > 0:
                 if self.x < enemy.x + enemy.width and self.x + self.width > enemy.x \
                    and self.y < enemy.y + enemy.height and self.y + self.height > enemy.y:
@@ -146,7 +147,7 @@ class Projectile:
         Checks for collision with objects. If collision, returns True.
         :return: Bool
         """
-        for ob in glob_var.objs:
+        for ob in glob_var.cur_room.objects:
             if self.x < ob.x + ob.width and self.x + self.width > ob.x \
                     and self.y < ob.y + ob.height and self.y + self.height > ob.y:
                 return True

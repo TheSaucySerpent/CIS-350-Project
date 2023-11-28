@@ -33,6 +33,7 @@ class Game:
         self.room = None
         self.current_room = None
         self.game_over = True
+        self.doors = None
 
         self.prev_screen_width = screen_width
         self.prev_screen_height = screen_height
@@ -75,7 +76,7 @@ class Game:
                     print("You don't got a gun!")
 
             # Calls the collision function of every object
-            for i in glob_var.objs:
+            for i in self.current_room.objects:
                 i.collision()
 
             # Calls the function that makes items bounce
@@ -88,6 +89,11 @@ class Game:
                 enemy.move_towards_character(self.screen_width, self.screen_height)
 
             self.render_assets()
+
+            if self.current_room.door:
+                if self.current_room.door.collision() and keys[pygame.K_f]:
+                    self.current_room = self.current_room.next_room
+                    glob_var.cur_room = self.current_room
 
             # Death Message/Game Over
             if self.player.health == 0:
@@ -105,6 +111,8 @@ class Game:
         # Draws the player and stats
         glob_var.player.draw(self.screen)
         self.user_interface.display_player_stats(self.player)
+        if self.current_room.door:
+            self.screen.blit(self.current_room.door.image, (self.current_room.door.x, self.current_room.door.y))
 
         # Draws projectiles
         for g in glob_var.guns:
@@ -140,12 +148,14 @@ class Game:
             }
             game_state['room_items'].append(item_info)
 
+            # Extract necessary information about enemies in the room
         for enemy in self.current_room.enemies:
             enemy_info = {
                 'name': enemy.name,
                 'type': type(enemy),
                 'position': (enemy.x, enemy.y),
                 'health': enemy.health,
+                # Add other essential information...
             }
             game_state['room_enemies'].append(enemy_info)
 

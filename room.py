@@ -27,6 +27,9 @@ class Room:
         self.objects = []  # List to hold Object objects
         self.weapons = []
         self.items = []
+        self.entities = []
+        self.door = None
+        self.next_room = None
 
     def add_item(self, item):
         """
