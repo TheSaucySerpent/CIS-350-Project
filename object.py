@@ -35,7 +35,7 @@ class Object:
         Handle collision between objects and entities using pygame's built-in rectangle collision functions.
         Adds or subtracts from the entity's x and y values corresponding to the direction in which they collide.
         """
-        for entity in glob_var.entities:
+        for entity in glob_var.cur_room.entities:
             entity_rect = pygame.Rect(entity.x, entity.y, entity.width, entity.height)
             if entity_rect.colliderect(self.obj_rect):
                 # Left Border
@@ -72,3 +72,15 @@ class Object:
             screen.blit(self.image, (self.x, self.y))
         else:
             pygame.draw.rect(screen, (50, 50, 50), (self.x, self.y, self.width, self.height))
+
+class Door(Object):
+    def __init__(self, x, y, width, height, health, image_path):
+        super().__init__(x, y, width, height, health, image_path)
+        self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
+
+    def collision(self):
+        player_rect = pygame.Rect(glob_var.player.x, glob_var.player.y, glob_var.player.width, glob_var.player.height)
+        if self.rect.colliderect(player_rect) and glob_var.key in glob_var.player.inventory:
+            return True
+        else:
+            return False
