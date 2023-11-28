@@ -5,6 +5,7 @@ import UI
 import game_functions
 import pickle
 
+import glob_var
 from enemy import Default, Tank, Runner
 from item import Item
 
@@ -101,12 +102,14 @@ def main():
                         for enemy_info in game_state['room_enemies']:
                             enemy = enemy_info['type'](enemy_info['name'], enemy_info['position'][0], enemy_info['position'][1])
                             enemy.health = enemy_info['health']
-                            # Add other necessary assignments based on your Enemy class
-                            room_enemies.append(enemy)
 
-                        # Assign the recreated items and enemies to the current room
+                            room_enemies.append(enemy)
+                            glob_var.enemies.append(enemy)
+                            glob_var.entities.append(enemy)
+
                         game.current_room.items = room_items
                         game.current_room.enemies = room_enemies
+
                         game_in_progress = True
 
         if game_in_progress:

@@ -140,14 +140,12 @@ class Game:
             }
             game_state['room_items'].append(item_info)
 
-            # Extract necessary information about enemies in the room
         for enemy in self.current_room.enemies:
             enemy_info = {
                 'name': enemy.name,
                 'type': type(enemy),
                 'position': (enemy.x, enemy.y),
                 'health': enemy.health,
-                # Add other essential information...
             }
             game_state['room_enemies'].append(enemy_info)
 
