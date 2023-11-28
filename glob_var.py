@@ -24,7 +24,8 @@ image_paths = {
 }
 
 # Player Character
-player = Character(name="Player", x=1100, y=100, width=50, height=50, speed=1, health=100, armor=50, gun=0,
+
+player = Character(name="Player", x=100, y=100, width=50, height=50, speed=1, health=100, armor=50, gun=0,
                    image_path="images/white_square.png")
 
 # Weapon Instances
@@ -67,7 +68,7 @@ obj5 = Object(x=200, y=500, width=50, height=100, health=1000)
 obj6 = Object(x=850, y=500, width=50, height=100, health=1000)
 # Object list, used for drawing and collision
 r1objs = [obj, obj2, obj3, obj4, obj5, obj6]
-r1door1 = Door(x=800, y=300, width=50, height=50, health=1000, image_path='images/door.png')
+r1door1 = Door(x=1100, y=300, width=100, height=100, health=1000, image_path='images/door.png')
 
 # Ignore
 # player2 = Character(name="mc",x=1100, y=100, width=10, height=100, speed=1, health=100, armor=50, gun=0,image_path="images/door.png")
@@ -86,8 +87,10 @@ for i in r1objs:
 r1.door = r1door1
 
 # Items were a last minute addition, so it's not perfectly implemented currently. This is something we will clean up in the future version.
-key = Item("Key", 50, 100, 75, 75, "images/golden key.png")
-r1.add_item(key)
+
+key = Item("Key", 950, 100, 75, 75, "images/golden key.png")
+#r1.add_item(key)
+
 
 r1.entities = entities
 
@@ -104,16 +107,18 @@ r2entities = [player]
 for i in r2enemies:
     r2entities.append(i)
 
-r2obj = Object(x=200, y=100, width=50, height=150, health=1000)
-r2obj2 = Object(x=200, y=100, width=700, height=50, health=1000)
-r2obj3 = Object(x=850, y=100, width=50, height=150, health=1000)
-r2obj4 = Object(x=200, y=550, width=700, height=50, health=1000)
-r2obj5 = Object(x=200, y=500, width=50, height=100, health=1000)
-r2obj6 = Object(x=850, y=500, width=50, height=100, health=1000)
+r2obj = Object(x=200, y=100, width=50, height=500, health=1000)
+r2obj2 = Object(x=200, y=600, width=700, height=50, health=1000)
+r2obj3 = Object(x=400, y=50, width=600, height=50, health=1000)
+r2obj4 = Object(x=1000, y=50, width=50, height=500, health=1000)
+r2obj5 = Object(x=550, y=300, width=100, height=100, health=1000)
 # Object list, used for drawing and collision
-r2objs = [r2obj, r2obj2, r2obj3, r2obj4, r2obj5, r2obj6]
+r2objs = [r2obj, r2obj2, r2obj3, r2obj4, r2obj5]
+
 
 r2 = Room(background_path="images/Tile Resized.jpg", screen_width=screen_width, screen_height=screen_height)
+r2.starting_x = 100
+r2.starting_y = 100
 r2.enemies = r2enemies
 r2.entities = r2entities
 r2.objects = r2objs

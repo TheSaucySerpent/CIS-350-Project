@@ -94,6 +94,9 @@ class Game:
                 if self.current_room.door.collision() and keys[pygame.K_f]:
                     self.current_room = self.current_room.next_room
                     glob_var.cur_room = self.current_room
+                    glob_var.player.x = self.current_room.starting_x
+                    glob_var.player.y = self.current_room.starting_y
+                    glob_var.player.inventory.remove(glob_var.key)
 
             # Death Message/Game Over
             if self.player.health == 0:
@@ -122,11 +125,18 @@ class Game:
             g.update_projectiles(self.screen_width, self.screen_height)
 
         # draws enemies and removes them from the room if they die
-        for enemy in self.current_room.enemies:
-            if enemy.health > 0:
-                self.screen.blit(enemy.image, (enemy.x, enemy.y))
-            else:
-                self.current_room.enemies.remove(enemy)
+        if len(self.current_room.enemies) > 0:
+            for enemy in self.current_room.enemies:
+                if enemy.health > 0:
+                    self.screen.blit(enemy.image, (enemy.x, enemy.y))
+                else:
+                    if len(self.current_room.enemies) == 1:
+                        glob_var.key.x = self.current_room.enemies[0].x
+                        glob_var.key.original_y = self.current_room.enemies[0].y
+                        glob_var.key.y = self.current_room.enemies[0].y
+                        self.current_room.add_item(glob_var.key)
+                        print("Key dropped!")
+                    self.current_room.enemies.remove(enemy)
 
     def save_game_state(self):
         game_state = {

@@ -30,6 +30,8 @@ class Room:
         self.entities = []
         self.door = None
         self.next_room = None
+        self.starting_x = 0
+        self.starting_y = 0
 
     def add_item(self, item):
         """
