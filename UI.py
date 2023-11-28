@@ -44,6 +44,7 @@ class UI:
         # relevant text for the menu
         game_title = self.font.render('CIS 350 Project', True, c.WHITE)
         new_game_text = self.font.render('Press N for New Game', True, c.WHITE)
+        continue_game_text = self.font.render('Press C to Load Saved Game', True, c.WHITE)
 
         # centers game title on menu
         title_rect = game_title.get_rect()
@@ -53,10 +54,15 @@ class UI:
         new_game_rect = new_game_text.get_rect()
         new_game_rect.center = (self.screen_width // 2, title_rect.bottom + 20)
 
+        # places continue game text under new game text
+        continue_game_rect = continue_game_text.get_rect()
+        continue_game_rect.center = (self.screen_width // 2, new_game_rect.bottom + 20)
+
         # displays the menu
         self.screen.blit(menu_background, img_rect)
         self.screen.blit(game_title, title_rect)
         self.screen.blit(new_game_text, new_game_rect)
+        self.screen.blit(continue_game_text, continue_game_rect)
 
         # updates the display
         pygame.display.flip()

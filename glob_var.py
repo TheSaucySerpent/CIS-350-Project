@@ -1,3 +1,4 @@
+import random
 from character import Character
 from weapons import Weapon
 from weapons import Shotgun
@@ -42,12 +43,12 @@ guns = [pistol, ar, dev_gun, shotgun, dev_shotgun]
 player.gun = shotgun
 
 # All Enemy List
-enemy1 = Default()
-enemy2 = Default()
-enemy3 = Default()
-enemy4 = Tank()
-enemy5 = Runner()
-enemy6 = Runner()
+enemy1 = Default(name='enemy',x=random.randint(400, 800), y=random.randint(200, 600))
+enemy2 = Default(name='enemy',x=random.randint(400, 800), y=random.randint(200, 600))
+enemy3 = Default(name='enemy',x=random.randint(400, 800), y=random.randint(200, 600))
+enemy4 = Tank(name='enemy',x=random.randint(400, 800), y=random.randint(200, 600))
+enemy5 = Runner(name='enemy',x=random.randint(400, 800), y=random.randint(200, 600))
+enemy6 = Runner(name='enemy',x=random.randint(400, 800), y=random.randint(200, 600))
 # List of all enemies for drawing and player tracking
 enemies = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6]
 # Separate list including all enemies and main character, used for object collision

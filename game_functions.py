@@ -1,6 +1,4 @@
-import os
 import pickle
-
 import pygame
 import glob_var
 import colors
@@ -127,8 +125,32 @@ class Game:
             'player_x': self.player.x,
             'player_y': self.player.y,
             'player_health': self.player.health,
-            # Add other relevant information
+            'ammo_count': self.player.gun.mag_ammo,
+            'mag_count': self.player.gun.mag_count,
+            'room_items': [],
+            'room_enemies': [],
         }
+
+        for item in self.current_room.items:
+            item_info = {
+                'position': (item.x, item.y),
+                'width': item.width,
+                'height': item.height,
+                'image_path': item.image_path,
+            }
+            game_state['room_items'].append(item_info)
+
+            # Extract necessary information about enemies in the room
+        for enemy in self.current_room.enemies:
+            enemy_info = {
+                'name': enemy.name,
+                'type': type(enemy),
+                'position': (enemy.x, enemy.y),
+                'health': enemy.health,
+                # Add other essential information...
+            }
+            game_state['room_enemies'].append(enemy_info)
+
         with open('game_save.pkl', 'wb') as file:
             pickle.dump(game_state, file)
 
