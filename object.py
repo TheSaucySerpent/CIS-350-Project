@@ -6,6 +6,7 @@ class Object:
     """
     The class used for all objects in the game. Specifically, any static with collision is classified as an object.
     """
+
     def __init__(self, x, y, width, height, health, image_path=None):
         """
         Initialize an Object.
@@ -73,6 +74,7 @@ class Object:
         else:
             pygame.draw.rect(screen, (50, 50, 50), (self.x, self.y, self.width, self.height))
 
+
 class Door(Object):
     def __init__(self, x, y, width, height, health, image_path):
         super().__init__(x, y, width, height, health, image_path)
@@ -80,7 +82,7 @@ class Door(Object):
 
     def collision(self):
         player_rect = pygame.Rect(glob_var.player.x, glob_var.player.y, glob_var.player.width, glob_var.player.height)
-        if self.rect.colliderect(player_rect) and glob_var.key in glob_var.player.inventory:
-            return True
-        else:
-            return False
+        for item in glob_var.player.inventory:
+            if self.rect.colliderect(player_rect) and item.name == 'Key':
+                return True
+        return False
