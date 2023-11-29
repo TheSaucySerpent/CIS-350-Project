@@ -121,8 +121,15 @@ class UI:
         black_rect = pygame.Rect(10, 35, 200, 20)
 
         # calculate the width of the yellow bullet bar over the black based on bullet percentage
-        ammo_percentage = (player.gun.mag_ammo / player.gun.mag_size)
-        yellow_width = int(ammo_percentage * 200)  # 200 is the width of the black bar
+        if player.gun != 0:
+            ammo_percentage = (player.gun.mag_ammo / player.gun.mag_size)
+            yellow_width = int(ammo_percentage * 200)  # 200 is the width of the black bar
+            player_gun_mag_ammo = player.gun.mag_ammo
+            player_gun_mag_count = player.gun.mag_count
+        else:
+            yellow_width = 0
+            player_gun_mag_ammo = 0
+            player_gun_mag_count = 0
 
         # create the yellow rectangle to go over the black rectangle based on amount of ammo remaining
         yellow_rect = pygame.Rect(10, 35, yellow_width, 20)
@@ -132,11 +139,11 @@ class UI:
         pygame.draw.rect(self.screen, colors.YELLOW, yellow_rect)
 
         # display the character's ammo text over the ammo bar
-        ammo_text = self.font.render(f"Ammo: {player.gun.mag_ammo}", True, colors.BLACK)
+        ammo_text = self.font.render(f"Ammo: {player_gun_mag_ammo}", True, colors.BLACK)
         self.screen.blit(ammo_text, (11, 34))
 
         # display the remaining mags in the gun
-        mag_text = self.font.render(f"Mags: {player.gun.mag_count}", True, colors.BLACK)
+        mag_text = self.font.render(f"Mags: {player_gun_mag_count}", True, colors.BLACK)
         self.screen.blit(mag_text, (10, 58))  # Adjust the vertical position as needed
 
         # this is causing the game to run extremely slow, need to explore different options

@@ -2,12 +2,12 @@ import pygame
 import math
 import random
 import glob_var
+from item import Item
 
 
-
-class Weapon:
+class Weapon(Item):
     """ Class for all weapons, Parent of Shotgun """
-    def __init__(self, name, damage, proj_speed, attack_speed, mag_size, mag_count, reload_speed, owner,image_path = None):
+    def __init__(self, name, damage, proj_speed, attack_speed, mag_size, mag_count, reload_speed, owner, x, y, width, height, image_path):
         """
         Init for Weapon
 
@@ -22,8 +22,8 @@ class Weapon:
         owner: The entity (e.g., player or enemy) that owns the weapon.
         image_path (str, optional): Path to the image for the weapon (default is None). This will be used in the future to display a weapon design.
         """
+        super().__init__(name, x, y, width, height, image_path)
         self.owner = owner
-        self.name = name
         self.damage = damage
         self.attack_speed = attack_speed
         self.proj_speed = proj_speed
@@ -178,14 +178,14 @@ class Projectile:
 
 class Shotgun(Weapon):
     """ Child of Weapon with a different attack method """
-    def __init__(self, name, damage, proj_speed, attack_speed, mag_size, mag_count, reload_speed, owner, spread, proj_number):
+    def __init__(self, name, damage, proj_speed, attack_speed, mag_size, mag_count, reload_speed, owner, spread, proj_number, x, y, width, height, image_path):
         """
         Shotgun init function, essentially the same as it's Parent Weapon
 
         spread (int): Determines the degrees of spread in the shotgun.
         proj_number (int): Determines the number of pellets shot out of the shotgun.
         """
-        super().__init__(name, damage, proj_speed, attack_speed, mag_size, mag_count, reload_speed, owner)
+        super().__init__(name, damage, proj_speed, attack_speed, mag_size, mag_count, reload_speed, owner, x, y, width, height, image_path)
         self.spread = spread
         self.proj_number = proj_number
 
