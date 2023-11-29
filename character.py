@@ -1,5 +1,5 @@
 import pygame
-
+import weapons
 
 class Character:
     """ Class used for all moving entities, including the player and enemies. """
@@ -211,10 +211,14 @@ class Character:
                 self.x + self.width > item.x and
                 self.y < item.y + item.height and
                 self.y + self.height > item.y) and keys[pygame.K_e]:
-                # Add the object to the character's inventory
-                self.inventory.append(item)
-                # Remove the object from the list of objects in the room
-                current_room.items.remove(item)
+                if type(item) == weapons.Weapon or type(item) == weapons.Shotgun:
+                    self.gun = item
+                    current_room.items.remove(item)
+                else:
+                    # Add the object to the character's inventory
+                    self.inventory.append(item)
+                    # Remove the object from the list of objects in the room
+                    current_room.items.remove(item)
 
     def update_position(self):
         """ Update the object's position to the character inventory if it's picked up """

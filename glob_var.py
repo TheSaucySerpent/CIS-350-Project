@@ -24,26 +24,25 @@ image_paths = {
 }
 
 # Player Character
-
 player = Character(name="Player", x=100, y=100, width=50, height=50, speed=1, health=100, armor=50, gun=0,
                    image_path="images/white_square.png")
 
 # Weapon Instances
-pistol = Weapon(name="Pistol", damage=10, proj_speed=.5, attack_speed=2, mag_size=9, mag_count=3, reload_speed=10,
-                owner=player)
-ar = Weapon(name="Assault Rifle", damage=15, proj_speed=1, attack_speed=5, mag_size=30, mag_count=2, reload_speed=20,
-            owner=player)
-dev_gun = Weapon("God's Draco", 100, 2, 100, 10000, 1, 10, player)
+pistol = Weapon(name="Pistol", damage=10, proj_speed=1, attack_speed=3, mag_size=9, mag_count=5, reload_speed=10,
+                owner=player, x=50, y=50, width=50, height=50, image_path=None)
+ar = Weapon(name="Assault Rifle", damage=15, proj_speed=1.25, attack_speed=5, mag_size=30, mag_count=2, reload_speed=20,
+            owner=player, x=600, y=350, width=100, height=50, image_path='images/ar.png')
+dev_gun = Weapon("God's Draco", 100, 2, 100, 10000, 1, 10, player, x=50, y=50, width=50, height=50, image_path=None)
 # Shotgun Instances
 shotgun = Shotgun(name="Pump Shotgun", damage=10, proj_speed=1, attack_speed=2, mag_size=8, mag_count=2,
-                  reload_speed=15, owner=player, spread=25, proj_number=8)
-dev_shotgun = Shotgun("God's Sawed-Off", 50, 5, 10, 1000, 1, 10, player, 20, 30)
+                  reload_speed=15, owner=player, spread=25, proj_number=8,  x=1050, y=600, width=100, height=50, image_path='images/shotgun.png')
+dev_shotgun = Shotgun("God's Sawed-Off", 50, 5, 10, 1000, 1, 10, player, 20, 30,  x=50, y=50, width=50, height=50, image_path=None)
 
 # List of all guns, used to draw all projectiles that could exist. This will be changed to a more efficient list in the final version
 guns = [pistol, ar, dev_gun, shotgun, dev_shotgun]
 
 # Debug change gun
-player.gun = dev_shotgun
+player.gun = pistol
 
 # All Enemy List
 enemy1 = Default(name='enemy', x=random.randint(400, 800), y=random.randint(200, 600))
@@ -86,11 +85,10 @@ for i in r1objs:
 
 r1.door = r1door1
 
+r1.add_item(ar)
+
 # Items were a last minute addition, so it's not perfectly implemented currently. This is something we will clean up in the future version.
-
 key = Item("Key", 950, 100, 75, 75, "images/golden key.png")
-#r1.add_item(key)
-
 
 r1.entities = entities
 
@@ -107,18 +105,20 @@ r2entities = [player]
 for i in r2enemies:
     r2entities.append(i)
 
-r2obj = Object(x=200, y=100, width=50, height=500, health=1000)
-r2obj2 = Object(x=200, y=600, width=700, height=50, health=1000)
-r2obj3 = Object(x=400, y=50, width=600, height=50, health=1000)
-r2obj4 = Object(x=1000, y=50, width=50, height=500, health=1000)
-r2obj5 = Object(x=550, y=300, width=100, height=100, health=1000)
+r2obj = Object(x=150, y=100, width=50, height=500, health=1000)
+r2obj2 = Object(x=150, y=600, width=700, height=50, health=1000)
+r2obj3 = Object(x=350, y=50, width=600, height=50, health=1000)
+r2obj4 = Object(x=950, y=50, width=50, height=500, health=1000)
+r2obj5 = Object(x=500, y=300, width=100, height=100, health=1000)
 # Object list, used for drawing and collision
 r2objs = [r2obj, r2obj2, r2obj3, r2obj4, r2obj5]
+
 
 
 r2 = Room(background_path="images/Tile Resized.jpg", screen_width=screen_width, screen_height=screen_height)
 r2.starting_x = 100
 r2.starting_y = 100
+r2.add_item(shotgun)
 r2.enemies = r2enemies
 r2.entities = r2entities
 r2.objects = r2objs
