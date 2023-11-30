@@ -91,7 +91,7 @@ class Game:
             self.render_assets()
 
             if self.current_room.door:
-                if self.current_room.door.collision() and keys[pygame.K_f]:
+                if self.current_room.door.collision() and keys[pygame.K_f] and glob_var.key in glob_var.player.inventory:
                     self.current_room = self.current_room.next_room
                     glob_var.cur_room = self.current_room
                     glob_var.player.x = self.current_room.starting_x
@@ -148,6 +148,7 @@ class Game:
             'player_inventory': [],
             'room_items': [],
             'room_enemies': [],
+            'room_objects': [],
         }
 
         for item in self.player.inventory:
@@ -178,6 +179,20 @@ class Game:
                 'health': enemy.health,
             }
             game_state['room_enemies'].append(enemy_info)
+
+        for obj in self.current_room.objects:
+            obj_info = {
+                'position': (obj.x, obj.y),
+                'dimensions': (obj.width, obj.height),
+                'health': obj.health,
+                'image_path': [],
+                'type': type(obj)
+            }
+
+            if obj_info['type'] == glob_var.Door:
+                obj_info['image_path'] = obj.image_path
+
+            game_state['room_objects'].append(obj_info)
 
         with open('game_save.pkl', 'wb') as file:
             pickle.dump(game_state, file)

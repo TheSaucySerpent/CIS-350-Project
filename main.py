@@ -110,6 +110,13 @@ def main():
                             glob_var.enemies.append(enemy)
                             glob_var.entities.append(enemy)
 
+                        for obj_info in game_state['room_objects']:
+                            obj = obj_info['type'](obj_info['position'][0], obj_info['position'][1],
+                                                   obj_info['dimensions'][0],
+                                                   obj_info['dimensions'][1], obj_info['health'],
+                                                   obj_info['image_path'])
+                            game.current_room.objects.append(obj)
+
                         game.current_room.items = room_items
                         game.current_room.enemies = room_enemies
 

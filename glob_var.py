@@ -65,9 +65,9 @@ obj3 = Object(x=850, y=100, width=50, height=150, health=1000)
 obj4 = Object(x=200, y=550, width=700, height=50, health=1000)
 obj5 = Object(x=200, y=500, width=50, height=100, health=1000)
 obj6 = Object(x=850, y=500, width=50, height=100, health=1000)
-# Object list, used for drawing and collision
-r1objs = [obj, obj2, obj3, obj4, obj5, obj6]
 r1door1 = Door(x=1100, y=300, width=100, height=100, health=1000, image_path='images/door.png')
+# Object list, used for drawing and collision
+r1objs = [obj, obj2, obj3, obj4, obj5, obj6, r1door1]
 
 # Ignore
 # player2 = Character(name="mc",x=1100, y=100, width=10, height=100, speed=1, health=100, armor=50, gun=0,image_path="images/door.png")
