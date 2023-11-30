@@ -37,14 +37,19 @@ class Character:
         self.picked_up = False
         self.inventory = []
 
-        self.image_path = {
+        '''self.image_path = {
             'up': ['images/Up standing.png', 'images/Up running.png'],
             'down': ['images/Down standing.png', 'images/Down running.png'],
             'left': ['images/Left standing.png', 'images/Left running .png'],
             'right': ['images/1.png', 'images/BackgroundEraser_image.png']
-            }
+            }'''
+        self.image_path = {
+            'left' : ['images/player_assets/standing_left.png', 'images/player_assets/walking_left.png'],
+            'right' : ['images/player_assets/standing_right.png', 'images/player_assets/walking_right.png']
 
-        self.direction = 'down'
+        }
+
+        self.direction = 'right'
         self.image_change_delay = 100  # Delay between frame changes
         self.frame_count = 0
 
@@ -102,13 +107,13 @@ class Character:
 
         if keys[pygame.K_w]:
             new_y -= self.speed + extra_speed
-            direction = 'up'
+            #direction = 'up'
         if keys[pygame.K_a]:
             new_x -= self.speed + extra_speed
             direction = 'left'
         if keys[pygame.K_s]:
             new_y += self.speed + extra_speed
-            direction = 'down'
+            #direction = 'down'
         if keys[pygame.K_d]:
             new_x += self.speed + extra_speed
             direction = 'right'
