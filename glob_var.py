@@ -42,7 +42,7 @@ dev_shotgun = Shotgun("God's Sawed-Off", 50, 5, 10, 1000, 1, 10, player, 20, 30,
 guns = [pistol, ar, dev_gun, shotgun, dev_shotgun]
 
 # Debug change gun
-player.gun = pistol
+player.gun = dev_gun
 
 # All Enemy List
 enemy1 = Default(name='enemy', x=random.randint(400, 800), y=random.randint(200, 600))
@@ -110,6 +110,7 @@ r2obj2 = Object(x=150, y=600, width=700, height=50, health=1000)
 r2obj3 = Object(x=350, y=50, width=600, height=50, health=1000)
 r2obj4 = Object(x=950, y=50, width=50, height=500, health=1000)
 r2obj5 = Object(x=500, y=300, width=100, height=100, health=1000)
+r2door = Door(x=1100, y=300, width=100, height=100, health=1000, image_path='images/door.png')
 # Object list, used for drawing and collision
 r2objs = [r2obj, r2obj2, r2obj3, r2obj4, r2obj5]
 
@@ -122,6 +123,42 @@ r2.add_item(shotgun)
 r2.enemies = r2enemies
 r2.entities = r2entities
 r2.objects = r2objs
+r2.door = r2door
 r1.next_room = r2
 
+
+r3enemy1 = Default(name='enemy', x=random.randint(400, 800), y=random.randint(200, 600))
+r3enemy2 = Default(name='enemy', x=random.randint(400, 800), y=random.randint(200, 600))
+r3enemy3 = Default(name='enemy', x=random.randint(400, 800), y=random.randint(200, 600))
+r3enemy4 = Tank(name='enemy', x=random.randint(400, 800), y=random.randint(200, 600))
+r3enemy5 = Runner(name='enemy', x=random.randint(400, 800), y=random.randint(200, 600))
+r3enemy6 = Runner(name='enemy', x=random.randint(400, 800), y=random.randint(200, 600))
+# List of all enemies for drawing and player tracking
+r3enemies = [r3enemy1, r3enemy2, r3enemy3, r3enemy4, r3enemy5, r3enemy6]
+# Separate list including all enemies and main character, used for object collision
+r3entities = [player]
+for i in r3enemies:
+    r3entities.append(i)
+
+r3obj = Object(x=1000, y=150, width=50, height=400, health=1000)
+r3obj2 = Object(x=200, y=150, width=800, height=50, health=1000)
+r3obj3 = Object(x=250, y=300, width=75, height=75, health=1000)
+r3obj4 = Object(x=150, y=550, width=75, height=75, health=1000)
+r3obj5 = Object(x=500, y=450, width=75, height=75, health=1000)
+r3obj6 = Object(x=700, y=550, width=75, height=75, health=1000)
+
+r3objs = [r3obj, r3obj2, r3obj3, r3obj4, r3obj5, r3obj6]
+
+r3 = Room(background_path="images/Tile Resized.jpg", screen_width=screen_width, screen_height=screen_height)
+r3.starting_x = 100
+r3.starting_y = 100
+r3.enemies = r3enemies
+r3.entities = r3entities
+r3.objects = r3objs
+r2.next_room = r3
+
+
+
 cur_room = r1
+
+
