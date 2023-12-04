@@ -1,8 +1,10 @@
+import os
 import pickle
 import pygame
 import glob_var
 import colors
 import UI
+from item import Item
 
 
 class Game:
@@ -198,3 +200,51 @@ class Game:
             pickle.dump(game_state, file)
 
         print('Game Saved')
+
+    def load_game_state(self):
+        if os.path.isfile('game_save.pkl'):
+            with open('game_save.pkl', 'rb') as file:
+                game_state = pickle.load(file)
+
+        # Clear all preset objects of the game
+        self.current_room.objects.clear()
+        self.current_room.enemies.clear()
+        self.current_room.items.clear()
+
+        # Restore player state
+        self.player.x = game_state['player_x']
+        self.player.y = game_state['player_y']
+        self.player.health = game_state['player_health']
+        self.player.gun.mag_ammo = game_state['ammo_count']
+        self.player.gun.mag_count = game_state['mag_count']
+        room_items = []
+
+        for item_info in game_state['player_inventory']:
+            item = Item(item_info['name'], item_info['position'][0], item_info['position'][1],
+                        item_info['width'], item_info['height'], item_info['image_path'])
+            self.player.inventory.append(item)
+
+        for item_info in game_state['room_items']:
+            item = Item(item_info['name'], item_info['position'][0], item_info['position'][1],
+                        item_info['width'], item_info['height'], item_info['image_path'])
+            room_items.append(item)
+
+        room_enemies = []
+        for enemy_info in game_state['room_enemies']:
+            enemy = enemy_info['type'](enemy_info['name'], enemy_info['position'][0],
+                                       enemy_info['position'][1])
+            enemy.health = enemy_info['health']
+
+            room_enemies.append(enemy)
+            glob_var.enemies.append(enemy)
+            glob_var.entities.append(enemy)
+
+        for obj_info in game_state['room_objects']:
+            obj = obj_info['type'](obj_info['position'][0], obj_info['position'][1],
+                                   obj_info['dimensions'][0],
+                                   obj_info['dimensions'][1], obj_info['health'],
+                                   obj_info['image_path'])
+            self.current_room.objects.append(obj)
+
+        self.current_room.items = room_items
+        self.current_room.enemies = room_enemies

@@ -157,8 +157,4 @@ r3.entities = r3entities
 r3.objects = r3objs
 r2.next_room = r3
 
-
-
 cur_room = r1
-
-

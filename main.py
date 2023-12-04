@@ -1,13 +1,6 @@
-import os
-
 import pygame
 import UI
 import game_functions
-import pickle
-
-import glob_var
-from enemy import Default, Tank, Runner
-from item import Item
 
 
 def main():
@@ -42,9 +35,6 @@ def main():
     # Initialize user interface
     user_interface = UI.UI(screen, screen_width, screen_height, font)
 
-    # File to store saved game
-    save_file = 'game_save.pkl'
-
     # Core program loop
     while program_running:
         # Handles events within the game
@@ -61,7 +51,8 @@ def main():
                     game.prev_screen_height = screen_height
                     game.screen_width = event.w
                     game.screen_height = event.h
-                    game.current_room.scale(game.prev_screen_width, game.prev_screen_height, game.screen_width, game.screen_height)
+                    game.current_room.scale(game.prev_screen_width, game.prev_screen_height, game.screen_width,
+                                            game.screen_height)
                 else:
                     screen_width, screen_height = event.w, event.h
             # Handles keyboard input
@@ -78,49 +69,10 @@ def main():
                         game = game_functions.Game(screen, screen_width, screen_height, user_interface, font)
                     game_in_progress = True
                 elif event.key == pygame.K_c and game is None:
-                    if os.path.isfile(save_file):
-                        with open('game_save.pkl', 'rb') as file:
-                            game_state = pickle.load(file)
-
-                        # Create a new Game object
-                        game = game_functions.Game(screen, screen_width, screen_height, user_interface, font)
-
-                        # Restore player state
-                        game.player.x = game_state['player_x']
-                        game.player.y = game_state['player_y']
-                        game.player.health = game_state['player_health']
-                        game.player.gun.mag_ammo = game_state['ammo_count']
-                        game.player.gun.mag_count = game_state['mag_count']
-                        room_items = []
-
-                        for item_info in game_state['player_inventory']:
-                            item = Item(item_info['name'], item_info['position'][0], item_info['position'][1], item_info['width'], item_info['height'], item_info['image_path'])
-                            game.player.inventory.append(item)
-
-                        for item_info in game_state['room_items']:
-                            item = Item(item_info['name'], item_info['position'][0], item_info['position'][1], item_info['width'], item_info['height'], item_info['image_path'])
-                            room_items.append(item)
-
-                        room_enemies = []
-                        for enemy_info in game_state['room_enemies']:
-                            enemy = enemy_info['type'](enemy_info['name'], enemy_info['position'][0], enemy_info['position'][1])
-                            enemy.health = enemy_info['health']
-
-                            room_enemies.append(enemy)
-                            glob_var.enemies.append(enemy)
-                            glob_var.entities.append(enemy)
-
-                        for obj_info in game_state['room_objects']:
-                            obj = obj_info['type'](obj_info['position'][0], obj_info['position'][1],
-                                                   obj_info['dimensions'][0],
-                                                   obj_info['dimensions'][1], obj_info['health'],
-                                                   obj_info['image_path'])
-                            game.current_room.objects.append(obj)
-
-                        game.current_room.items = room_items
-                        game.current_room.enemies = room_enemies
-
-                        game_in_progress = True
+                    # Create a new Game object
+                    game = game_functions.Game(screen, screen_width, screen_height, user_interface, font)
+                    game.load_game_state()
+                    game_in_progress = True
 
         if game_in_progress:
             # Run the game
