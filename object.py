@@ -72,7 +72,7 @@ class Object:
         if self.image:
             screen.blit(self.image, (self.x, self.y))
         else:
-            pygame.draw.rect(screen, (50, 50, 50), (self.x, self.y, self.width, self.height))
+            pygame.draw.rect(screen, (30, 30, 30), (self.x, self.y, self.width, self.height))
 
 
 class Door(Object):

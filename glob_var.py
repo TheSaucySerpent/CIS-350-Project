@@ -32,7 +32,7 @@ pistol = Weapon(name="Pistol", damage=10, proj_speed=1, attack_speed=3, mag_size
                 owner=player, x=50, y=50, width=50, height=50, image_path=None)
 ar = Weapon(name="Assault Rifle", damage=15, proj_speed=1.25, attack_speed=5, mag_size=30, mag_count=2, reload_speed=20,
             owner=player, x=600, y=350, width=100, height=50, image_path='images/ar.png')
-dev_gun = Weapon("God's Draco", 100, 2, 100, 10000, 1, 10, player, x=50, y=50, width=50, height=50, image_path=None)
+dev_gun = Weapon("God's Draco", 20, 2, 100, 10000, 1, 10, player, x=200, y=300, width=100, height=50, image_path='images/minigun.png')
 # Shotgun Instances
 shotgun = Shotgun(name="Pump Shotgun", damage=10, proj_speed=1, attack_speed=2, mag_size=8, mag_count=2,
                   reload_speed=15, owner=player, spread=25, proj_number=8,  x=1050, y=600, width=100, height=50, image_path='images/shotgun.png')
@@ -42,7 +42,7 @@ dev_shotgun = Shotgun("God's Sawed-Off", 50, 5, 10, 1000, 1, 10, player, 20, 30,
 guns = [pistol, ar, dev_gun, shotgun, dev_shotgun]
 
 # Debug change gun
-player.gun = dev_gun
+player.gun = pistol
 
 # All Enemy List
 enemy1 = Default(name='enemy', x=random.randint(400, 800), y=random.randint(200, 600))
@@ -115,11 +115,9 @@ r2door = Door(x=1100, y=300, width=100, height=100, health=1000, image_path='ima
 r2objs = [r2obj, r2obj2, r2obj3, r2obj4, r2obj5]
 
 
-
 r2 = Room(background_path="images/Tile Resized.jpg", screen_width=screen_width, screen_height=screen_height)
 r2.starting_x = 100
 r2.starting_y = 100
-r2.add_item(shotgun)
 r2.enemies = r2enemies
 r2.entities = r2entities
 r2.objects = r2objs
@@ -155,6 +153,66 @@ r3.starting_y = 100
 r3.enemies = r3enemies
 r3.entities = r3entities
 r3.objects = r3objs
+r3door = Door(x=1100, y=300, width=100, height=100, health=1000, image_path='images/door.png')
+r3.add_item(shotgun)
+r3.door = r3door
 r2.next_room = r3
+
+
+#r4enemy1 = Enemy(name='enemy', x=450, y=700, width=50, height=75, speed=.5, health=50, armor=0, gun=0, character=player, damage=20, image_path='images/waterEnemy1.png')
+r4enemy2 = Enemy(name='enemy', x=450, y=400, width=50, height=75, speed=.5, health=50, armor=0, gun=0, character=player, damage=20, image_path='images/waterEnemy1.png')
+r4enemy3 = Enemy(name='enemy', x=450, y=500, width=50, height=75, speed=.5, health=50, armor=0, gun=0, character=player, damage=20, image_path='images/waterEnemy1.png')
+boss = Enemy(name='Boss', x=550, y=300, width=200, height=200, speed=.07, health=1000, armor=0, gun=0, character=player, damage=50, image_path='images/bossGolem.png')
+r4 = Room(background_path="images/ocean.png", screen_width=screen_width, screen_height=screen_height)
+r4.starting_x = 100
+r4.starting_y = 300
+r4enemies = [boss, r4enemy2, r4enemy3]
+r4entities = [player]
+for i in r4enemies:
+    r4entities.append(i)
+
+r4.entities = r4entities
+r4.enemies = r4enemies
+r4door = Door(x=1100, y=300, width=100, height=100, health=1000, image_path='images/door.png')
+r4.door = r4door
+r3.next_room = r4
+
+r5 = Room(background_path="images/darkness.png", screen_width=screen_width, screen_height=screen_height)
+little_guy = Enemy(name='enemy', x=800, y=500, width=50, height=50, speed=.001, health=10, armor=0, gun=0, character=player, damage=20, image_path='images/little_guy.png')
+r5.starting_y = 300
+r5.starting_x = 100
+r5enemies = [little_guy]
+r5entities = [player, little_guy]
+r5.enemies = r5enemies
+r5entities = r5entities
+r5.add_item(dev_gun)
+r5.door = Door(x=1100, y=300, width=100, height=100, health=1000, image_path='images/door.png')
+r4.next_room = r5
+
+r6 = Room(background_path="images/darkness.png", screen_width=screen_width, screen_height=screen_height)
+r6.starting_y = 50
+r6.starting_x = 600
+
+r6enemy1 = Default(name='enemy', x=random.randint(100, 1000), y=random.randint(200, 600))
+r6enemy2 = Default(name='enemy', x=random.randint(100, 1000), y=random.randint(200, 600))
+r6enemy3 = Default(name='enemy', x=random.randint(100, 1000), y=random.randint(200, 600))
+r6enemy4 = Tank(name='enemy', x=random.randint(100, 1000), y=random.randint(200, 600))
+r6enemy5 = Runner(name='enemy', x=random.randint(100, 1000), y=random.randint(200, 600))
+r6enemy6 = Runner(name='enemy', x=random.randint(100, 1000), y=random.randint(200, 600))
+r6enemy7 = Default(name='enemy', x=random.randint(100, 1000), y=random.randint(200, 600))
+r6enemy8 = Default(name='enemy', x=random.randint(100, 1000), y=random.randint(200, 600))
+r6enemy9 = Default(name='enemy', x=random.randint(100, 1000), y=random.randint(200, 600))
+r6enemy10 = Tank(name='enemy', x=random.randint(100, 1000), y=random.randint(200, 600))
+r6enemy11 = Runner(name='enemy', x=random.randint(100, 1000), y=random.randint(200, 600))
+r6enemy12 = Runner(name='enemy', x=random.randint(100, 1000), y=random.randint(200, 600))
+r6enemies = [r6enemy1, r6enemy2, r6enemy3, r6enemy4, r6enemy5, r6enemy6, r6enemy7, r6enemy8, r6enemy9, r6enemy10, r6enemy11, r6enemy12,
+             r6enemy1, r6enemy2, r6enemy3, r6enemy4, r6enemy5, r6enemy6, r6enemy7, r6enemy8, r6enemy9, r6enemy10, r6enemy11, r6enemy12]
+r6entities = [player]
+for i in r6enemies:
+    r6entities.append(i)
+r6.enemies = r6enemies
+r6.entities = r6entities
+r5.next_room = r6
+
 
 cur_room = r1

@@ -132,7 +132,7 @@ class Game:
                 if enemy.health > 0:
                     self.screen.blit(enemy.image, (enemy.x, enemy.y))
                 else:
-                    if len(self.current_room.enemies) == 1:
+                    if len(self.current_room.enemies) == 1 and self.current_room != glob_var.r6:
                         glob_var.key.x = self.current_room.enemies[0].x
                         glob_var.key.original_y = self.current_room.enemies[0].y
                         glob_var.key.y = self.current_room.enemies[0].y
