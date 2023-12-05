@@ -147,7 +147,7 @@ class Game:
                         print("Key dropped!")
                     else:
                         luck = random.randint(0, 5)
-                        if luck == 1:
+                        if luck == 1 and self.current_room != glob_var.r6:
                             glob_var.medkit.x = enemy.x
                             glob_var.medkit.original_y = enemy.y
                             glob_var.medkit.y = enemy.y

@@ -83,15 +83,24 @@ class Enemy(Character):
 
 
 class Default(Enemy):
+    '''
+    A prebuilt instance of enemy, used for efficiently adding enemies to the first 3 levels
+    '''
     def __init__(self, name, x, y):
         super().__init__(name=name, x=x, y=y, width=50, height=50, speed=.3, health=50, armor=10, gun=0, character=glob_var.player, damage=10, image_path="images/green monster.png")
 
 
 class Tank(Enemy):
+    '''
+    A prebuilt instance of enemy, used for efficiently adding enemies to the first 3 levels
+    '''
     def __init__(self, name, x, y):
         super().__init__(name=name, x=x, y=y, width=85, height=68, speed=.1, health=80, armor=10, gun=0, character=glob_var.player, damage=60, image_path="images/SentryCrab.png")
 
 
 class Runner(Enemy):
+    '''
+    A prebuilt instance of enemy, used for efficiently adding enemies to the first 3 levels
+    '''
     def __init__(self, name, x, y):
         super().__init__(name=name, x=x, y=y, width=30, height=30, speed=.45, health=40, armor=0, gun=0, character=glob_var.player, damage=40, image_path="images/slime.png")

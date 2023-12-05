@@ -178,7 +178,7 @@ class Character:
 
     def heal(self, amount):
         """
-        Increase the character's health by a specified amount, up to the maximum health.
+        Increase the character's health by a specified amount, up to the maximum health. Used exlusively for medkits.
 
         Args:
         amount (int): The amount of health to add to the character.

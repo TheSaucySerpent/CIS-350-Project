@@ -16,6 +16,16 @@ class Room:
             background_path (str): Path to the background image for the room.
             screen_width (int): Width of the screen.
             screen_height (int): Height of the screen.
+            characters (list): List to hold player character.
+            enemies (list): List to hold Enemies. Defaults to an empty list.
+            objects (list): List to hold Objects. Defaults to an empty list.
+            weapons (list): List to hold Weapons. Defaults to an empty list.
+            items (list): List to hold Items. Defaults to an empty list.
+            entities (list): List to hold general Entities. Defaults to an empty list.
+            door (Door): Door to next room. Defaults to None.
+            next_room (Any): Reference to the next room. Defaults to None. Needs to be added if there's a door.
+            starting_x (int): X-coordinate where the player starts in the room. Defaults to 100.
+            starting_y (int): Y-coordinate where the player starts in the room. Defaults to 100.
         """
         self.background_path = background_path
         self.screen_width = screen_width
@@ -30,8 +40,8 @@ class Room:
         self.entities = []
         self.door = None
         self.next_room = None
-        self.starting_x = 0
-        self.starting_y = 0
+        self.starting_x = 100
+        self.starting_y = 100
 
     def add_item(self, item):
         """
@@ -123,6 +133,14 @@ class Room:
             weapon.draw(screen)
 
     def scale(self, prev_screen_width, prev_screen_height, new_screen_width, new_screen_height):
+        '''
+        Used to scale the room to a specified width and height.
+        Args:
+            prev_screen_width = previous screen width
+            prev_screen_height = previous screen height
+            new_screen_width = new screen width
+            new_screen_height = new screen height
+        '''
         self.background = pygame.transform.scale(self.background, (new_screen_width, new_screen_height))
         game_objects = self.items + self.characters + self.enemies + self.objects + self.weapons
 

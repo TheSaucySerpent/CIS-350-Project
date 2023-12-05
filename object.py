@@ -16,7 +16,7 @@ class Object:
             y (int): The y-coordinate of the object.
             width (int): The width of the object.
             height (int): The height of the object.
-            health (int): The health of the object. This may be built upon to implement object destruction in a future update.
+            health (int): The health of the object, ended up unused
             image_path (str): The path to the image for the object.
         """
         self.x = x
@@ -76,11 +76,31 @@ class Object:
 
 
 class Door(Object):
+    '''
+    Door Class, used to have custom collision and image paths with an object
+    '''
     def __init__(self, x, y, width, height, health, image_path):
+        '''
+        Initialize a door
+
+        Args
+        x (int): The x coordinate of the door
+        y (int): The y coordinate of the door
+        width (int): The width of the door
+        height (int): The height of the door
+        health (int): The health of the door, ended up unused
+        image_path (str): The path to the image for the door.
+        '''
         super().__init__(x, y, width, height, health, image_path)
         self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
 
     def collision(self):
+        '''
+        Handles the collision and use of the door
+        Creates an instance of the player's hitbox, then checks if it collides with the door and if the player has a key in their inventory.
+
+        returns Boolean, updates room if True, ignores if False
+        '''
         player_rect = pygame.Rect(glob_var.player.x, glob_var.player.y, glob_var.player.width, glob_var.player.height)
         for item in glob_var.player.inventory:
             if self.rect.colliderect(player_rect) and item.name == 'Key':
