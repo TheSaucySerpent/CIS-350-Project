@@ -181,7 +181,7 @@ class Game:
                         # Roll a die and
                         luck = random.randint(0, 5)
                         # If you roll lucky and not on last room:
-                        if luck == 1 and self.current_room != glob_var.r6:
+                        if luck == 1 and self.current_room != glob_var.r6 and len(self.current_room.items) == 0:
                             # Drop a medkit at enemy death coords
                             glob_var.medkit.x = enemy.x
                             glob_var.medkit.original_y = enemy.y
