@@ -35,7 +35,7 @@ class Game:
         self.enemies = None
         self.room = None
         self.current_room = None
-        self.game_over = True
+        self.game_over = False
         self.doors = None
 
         self.prev_screen_width = screen_width
@@ -45,7 +45,7 @@ class Game:
         self.crosshair = pygame.image.load("images/crosshair.png")
 
     def setup_game(self):
-        '''
+        """
         Creates the starting variables of the game
         player = the main character used everywhere
         obj = the object class
@@ -54,7 +54,7 @@ class Game:
         current_room = Starting room
         game_over = Boolean to determine if the game is over
 
-        '''
+        """
         self.player = glob_var.player
         self.obj = glob_var.obj
         self.enemies = glob_var.enemies
@@ -63,7 +63,7 @@ class Game:
         self.game_over = False
 
     def run_game(self):
-        ''' Runs the game loop. '''
+        """ Runs the game loop. """
 
         # Make the cursor invisible so a custom cursor can be used
         pygame.mouse.set_visible(False)
@@ -118,7 +118,8 @@ class Game:
 
             # If there's a door the player is colliding with and the player has a key and presses 'f':
             if self.current_room.door:
-                if self.current_room.door.collision() and keys[pygame.K_f] and glob_var.key in glob_var.player.inventory:
+                if self.current_room.door.collision() and keys[
+                    pygame.K_f] and glob_var.key in glob_var.player.inventory:
                     # Go to the next room, teleport player to that room's starting location, and remove the key from player's inventory
                     self.current_room = self.current_room.next_room
                     glob_var.cur_room = self.current_room

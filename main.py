@@ -65,9 +65,9 @@ def main():
                 # Starts new game if N is pressed
                 elif event.key == pygame.K_n:
                     # Ensures a new game can be created only when game is None
-                    if game is None:
+                    if game is None or game.game_over:
                         game = game_functions.Game(screen, screen_width, screen_height, user_interface, font)
-                    game_in_progress = True
+                        game_in_progress = True
                 elif event.key == pygame.K_c and game is None:
                     # Create a new Game object
                     game = game_functions.Game(screen, screen_width, screen_height, user_interface, font)
