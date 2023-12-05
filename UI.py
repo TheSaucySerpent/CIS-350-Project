@@ -156,3 +156,40 @@ class UI:
         # # Display the remaining mags in the gun using the magazine image
         # mag_count = player.gun.mag_count
         # screen.blit(mag_image, (50, 58))  # Adjust the horizontal position and spacing as needed
+    def display_player_inventory(self, player):
+        # inventory_hotbar = pygame.image.load("images/inventory_hotbar.png")
+        # inventory_hotbar.convert()
+        #
+        # inventory_hotbar = pygame.transform.scale(inventory_hotbar, (
+        # inventory_hotbar.get_width() * .5, inventory_hotbar.get_height() * .5))
+        #
+        # img_rect = inventory_hotbar.get_rect()
+        # img_rect.center = self.screen_width // 2, self.screen_height - 25
+        #
+        # # displays the inventory_hotbar
+        # self.screen.blit(inventory_hotbar, img_rect)
+
+        # Display inventory title
+        # inventory_title = self.font.render("Player Inventory", True, colors.WHITE)
+        # self.screen.blit(inventory_title, (self.screen_width // 2, self.screen_height - 25))
+
+        # starting x-coordinate
+        x_coordinate = 10
+        y_coordinate = 85
+
+        gun_image = pygame.transform.scale(player.gun.image, (player.gun.image.get_width() / 2,
+                                                              player.gun.image.get_height() / 2))
+        self.screen.blit(gun_image, (x_coordinate, y_coordinate))
+        x_coordinate += 35
+
+        # Display each item in the inventory
+        for item in player.inventory:
+            item_image = pygame.transform.scale(item.image, (item.image.get_width(),
+                                                             item.image.get_height() * .7))
+
+            self.screen.blit(item_image, (x_coordinate, y_coordinate - 10))
+
+            x_coordinate += 40
+
+        # Update the display
+        pygame.display.flip()

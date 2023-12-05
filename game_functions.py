@@ -166,6 +166,9 @@ class Game:
                             print("Medkit Dropped!")
                     self.current_room.enemies.remove(enemy)
 
+        # draws player inventory
+        self.user_interface.display_player_inventory(self.player)
+
     def save_game_state(self):
         game_state = {
             'player_x': self.player.x,
