@@ -139,14 +139,6 @@ class Game:
         # draw background
         self.current_room.draw(self.screen)
 
-        # Get current mouse position
-        mouse_x, mouse_y = pygame.mouse.get_pos()
-        # Adjust the position to center the crosshair
-        crosshair_x = mouse_x - self.crosshair.get_width() // 2
-        crosshair_y = mouse_y - self.crosshair.get_height() // 2
-        # Draw crosshair on the screen
-        self.screen.blit(self.crosshair, (crosshair_x, crosshair_y))
-
         # Draws the player and stats
         glob_var.player.draw(self.screen)
         self.user_interface.display_player_stats(self.player)
@@ -193,6 +185,14 @@ class Game:
 
         # draws player inventory
         self.user_interface.display_player_inventory(self.player)
+
+        # Get current mouse position
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+        # Adjust the position to center the crosshair
+        crosshair_x = mouse_x - self.crosshair.get_width() // 2
+        crosshair_y = mouse_y - self.crosshair.get_height() // 2
+        # Draw crosshair on the screen
+        self.screen.blit(self.crosshair, (crosshair_x, crosshair_y))
 
     def save_game_state(self):
         game_state = {
