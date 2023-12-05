@@ -91,7 +91,7 @@ class Game:
             for i in self.player.inventory:
                 if i.name == 'Medkit':
                     self.player.inventory.remove(i)
-                    self.player.health += 25
+                    self.player.heal(25)
 
             # Calls enemy move_toward_character function
             for enemy in self.current_room.enemies:

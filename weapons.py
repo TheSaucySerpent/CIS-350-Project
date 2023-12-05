@@ -147,13 +147,16 @@ class Projectile:
         Checks for collision with objects. If collision, returns True.
         :return: Bool
         """
-        for ob in glob_var.cur_room.objects:
-            if self.x < ob.x + ob.width and self.x + self.width > ob.x \
-                    and self.y < ob.y + ob.height and self.y + self.height > ob.y:
-                return True
-            else:
-                x = False
-        return x
+        if len(glob_var.cur_room.objects) > 0:
+            for ob in glob_var.cur_room.objects:
+                if self.x < ob.x + ob.width and self.x + self.width > ob.x \
+                        and self.y < ob.y + ob.height and self.y + self.height > ob.y:
+                    return True
+                else:
+                    x = False
+            return x
+        else:
+            return False
 
     def projectile_hits_player(self):
         """
