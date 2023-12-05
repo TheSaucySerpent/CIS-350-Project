@@ -45,6 +45,16 @@ class Game:
         self.crosshair = pygame.image.load("images/crosshair.png")
 
     def setup_game(self):
+        '''
+        Creates the starting variables of the game
+        player = the main character used everywhere
+        obj = the object class
+        enemies = list of starting enemies
+        room = Room class
+        current_room = Starting room
+        game_over = Boolean to determine if the game is over
+
+        '''
         self.player = glob_var.player
         self.obj = glob_var.obj
         self.enemies = glob_var.enemies
@@ -54,8 +64,11 @@ class Game:
 
     def run_game(self):
         ''' Runs the game loop. '''
+
+        # Make the cursor invisible so a custom cursor can be used
         pygame.mouse.set_visible(False)
 
+        # Create a list of keys that are pressed
         keys = pygame.key.get_pressed()
         if not self.game_over:
             # If 'r' is pressed, calls the reload function of the player's currently equipped gun.
@@ -80,14 +93,14 @@ class Game:
                 else:
                     print("You don't got a gun!")
 
-
-            # Calls the collision function of every object
+            # Call the collision function of every object
             for i in self.current_room.objects:
                 i.collision()
 
-            # Calls the function that makes items bounce
+            # Call the function that makes items bounce
             for i in self.current_room.items:
                 i.bounce()
+            # Weird function that goes through every item in the current room to see if there's collision with player
             self.player.pick_up(self.current_room)
 
             # Looks for medkits and uses them if found
@@ -100,10 +113,13 @@ class Game:
             for enemy in self.current_room.enemies:
                 enemy.move_towards_character(self.screen_width, self.screen_height)
 
+            # Call the render assets function to render all assets in correct positions
             self.render_assets()
 
+            # If there's a door the player is colliding with and the player has a key and presses 'f':
             if self.current_room.door:
                 if self.current_room.door.collision() and keys[pygame.K_f] and glob_var.key in glob_var.player.inventory:
+                    # Go to the next room, teleport player to that room's starting location, and remove the key from player's inventory
                     self.current_room = self.current_room.next_room
                     glob_var.cur_room = self.current_room
                     glob_var.player.x = self.current_room.starting_x
@@ -134,6 +150,8 @@ class Game:
         # Draws the player and stats
         glob_var.player.draw(self.screen)
         self.user_interface.display_player_stats(self.player)
+
+        # Draws the current room's door
         if self.current_room.door:
             self.screen.blit(self.current_room.door.image, (self.current_room.door.x, self.current_room.door.y))
 
@@ -150,20 +168,27 @@ class Game:
                 if enemy.health > 0:
                     self.screen.blit(enemy.image, (enemy.x, enemy.y))
                 else:
+                    # When an enemy dies, if it's the last enemy and it's not on the final level:
                     if len(self.current_room.enemies) == 1 and self.current_room != glob_var.r6:
+                        # Drop a key at the last enemy's death coords
                         glob_var.key.x = self.current_room.enemies[0].x
                         glob_var.key.original_y = self.current_room.enemies[0].y
                         glob_var.key.y = self.current_room.enemies[0].y
                         self.current_room.add_item(glob_var.key)
                         print("Key dropped!")
+                    # Else, everytime any enemy besides the last enemy
                     else:
+                        # Roll a die and
                         luck = random.randint(0, 5)
-                        if luck == 1 and self.current_room != glob_var.r6:
+                        # If you roll lucky and not on last room:
+                        if luck == 1 and self.current_room != glob_var.r6 and len(self.current_room.items) == 0:
+                            # Drop a medkit at enemy death coords
                             glob_var.medkit.x = enemy.x
                             glob_var.medkit.original_y = enemy.y
                             glob_var.medkit.y = enemy.y
                             self.current_room.add_item(glob_var.medkit)
                             print("Medkit Dropped!")
+                    # 'Kill' enemy
                     self.current_room.enemies.remove(enemy)
 
         # draws player inventory

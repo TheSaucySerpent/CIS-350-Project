@@ -74,7 +74,7 @@ class Weapon(Item):
                     self.projectiles.append(projectile)
                     self.mag_ammo -= 1
                     self.last_attack = current_time
-            # This is work towards enemies that can shoot. It's not completed for the presentation.
+            # This is work towards enemies that can shoot. It's not completed because I was too busy doing everything else.
             '''else:
                 direction = math.degrees(math.atan2(self.owner.character.get_x() - self.owner.get_y(), self.owner.character.get_x() - self.owner.get_x()))
                 projectile = Projectile(self.owner.get_x(), self.owner.get_y(), 10, 10, self.proj_speed, direction, self.damage)
@@ -119,10 +119,6 @@ class Weapon(Item):
                 print("Out of Mags")
                 self.last_reload = current_time
 
-    def addAmmo(self):
-        """ Debug for adding ammo, will be an item drop later"""
-
-        self.mag_count += 1
 
 
 class Projectile:

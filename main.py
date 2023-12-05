@@ -25,8 +25,6 @@ def main():
     # Set the font for text
     font = pygame.font.Font(None, 36)
 
-
-
     # Flags for running the program and the game itself
     program_running = True
     game_in_progress = False
