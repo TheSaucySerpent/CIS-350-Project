@@ -89,6 +89,7 @@ r1.add_item(ar)
 
 # Items were a last minute addition, so it's not perfectly implemented currently. This is something we will clean up in the future version.
 key = Item("Key", 950, 100, 75, 75, "images/golden key.png")
+medkit = Item("Medkit", 950, 100, 50, 50, "images/medkit.png")
 
 r1.entities = entities
 

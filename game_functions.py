@@ -4,6 +4,7 @@ import pygame
 import glob_var
 import colors
 import UI
+import random
 from item import Item
 
 
@@ -86,6 +87,12 @@ class Game:
                 i.bounce()
             self.player.pick_up(self.current_room)
 
+            # Looks for medkits and uses them if found
+            for i in self.player.inventory:
+                if i.name == 'Medkit':
+                    self.player.inventory.remove(i)
+                    self.player.health += 25
+
             # Calls enemy move_toward_character function
             for enemy in self.current_room.enemies:
                 enemy.move_towards_character(self.screen_width, self.screen_height)
@@ -138,6 +145,14 @@ class Game:
                         glob_var.key.y = self.current_room.enemies[0].y
                         self.current_room.add_item(glob_var.key)
                         print("Key dropped!")
+                    else:
+                        luck = random.randint(0, 5)
+                        if luck == 1:
+                            glob_var.medkit.x = enemy.x
+                            glob_var.medkit.original_y = enemy.y
+                            glob_var.medkit.y = enemy.y
+                            self.current_room.add_item(glob_var.medkit)
+                            print("Medkit Dropped!")
                     self.current_room.enemies.remove(enemy)
 
     def save_game_state(self):
