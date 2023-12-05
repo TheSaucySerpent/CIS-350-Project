@@ -1,5 +1,4 @@
 import pygame
-import glob_var
 
 
 class Object:
@@ -51,12 +50,12 @@ class Object:
             self.image_path = image_path
             self.load_image()
 
-    def collision(self):
+    def collision(self, player, entities):
         """
         Handle collision between objects and entities using pygame's built-in rectangle collision functions.
         Adds or subtracts from the entity's x and y values corresponding to the direction in which they collide.
         """
-        for entity in glob_var.cur_room.entities:
+        for entity in entities:
             entity_rect = pygame.Rect(entity.x, entity.y, entity.width, entity.height)
             if entity_rect.colliderect(self.obj_rect):
                 # Left Border
@@ -99,6 +98,7 @@ class Door(Object):
     '''
     Door Class, used to have custom collision and image paths with an object
     '''
+
     def __init__(self, x, y, width, height, health, image_path):
         '''
         Initialize a door
@@ -114,15 +114,15 @@ class Door(Object):
         super().__init__(x, y, width, height, health, image_path)
         self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
 
-    def collision(self):
+    def collision(self, player, entities):
         '''
         Handles the collision and use of the door
         Creates an instance of the player's hitbox, then checks if it collides with the door and if the player has a key in their inventory.
 
         returns Boolean, updates room if True, ignores if False
         '''
-        player_rect = pygame.Rect(glob_var.player.x, glob_var.player.y, glob_var.player.width, glob_var.player.height)
-        for item in glob_var.player.inventory:
+        player_rect = pygame.Rect(player.x, player.y, player.width, player.height)
+        for item in player.inventory:
             if self.rect.colliderect(player_rect) and item.name == 'Key':
                 return True
         return False

@@ -1,13 +1,14 @@
 import pygame
 import math
 import random
-import glob_var
 from item import Item
 
 
 class Weapon(Item):
     """ Class for all weapons, Parent of Shotgun """
-    def __init__(self, name, damage, proj_speed, attack_speed, mag_size, mag_count, reload_speed, owner, x, y, width, height, image_path=None):
+
+    def __init__(self, name, damage, proj_speed, attack_speed, mag_size, mag_count, reload_speed, owner, x, y, width,
+                 height, screen_width, screen_height, image_path=None):
         """
         Init for Weapon
 
@@ -22,7 +23,7 @@ class Weapon(Item):
         owner: The entity (e.g., player or enemy) that owns the weapon.
         image_path (str, optional): Path to the image for the weapon (default is None). This will be used in the future to display a weapon design.
         """
-        super().__init__(name, x, y, width, height, image_path)
+        super().__init__(name, x, y, width, height, screen_width, screen_height, image_path)
 
         # Validate input values
         if not isinstance(damage, int) or damage < 0:
@@ -57,7 +58,7 @@ class Weapon(Item):
         self.projectiles = []
         self.image_path = image_path
 
-    def attack(self):
+    def attack(self, player):
         """
         Attack with the weapon.
 
@@ -67,21 +68,26 @@ class Weapon(Item):
         """
         current_time = pygame.time.get_ticks()
         if current_time - self.last_attack >= 1000 / self.attack_speed:
-            if self.owner == glob_var.player:
+            if self.owner == player:
                 if self.mag_ammo > 0:
-                    direction = math.degrees(math.atan2(pygame.mouse.get_pos()[1] - self.owner.get_y() - (.5 * self.owner.height), pygame.mouse.get_pos()[0] - self.owner.get_x()  - (.5 * self.owner.width)))
-                    projectile = Projectile(self.owner.get_x() + (.5 * self.owner.width), self.owner.get_y() + (.5 * self.owner.height), 10, 10, self.proj_speed, direction, self.damage)
+                    direction = math.degrees(
+                        math.atan2(pygame.mouse.get_pos()[1] - self.owner.get_y() - (.5 * self.owner.height),
+                                   pygame.mouse.get_pos()[0] - self.owner.get_x() - (.5 * self.owner.width)))
+                    projectile = Projectile(self.owner.get_x() + (.5 * self.owner.width),
+                                            self.owner.get_y() + (.5 * self.owner.height), 10, 10, self.proj_speed,
+                                            direction, self.damage)
                     self.projectiles.append(projectile)
                     self.mag_ammo -= 1
                     self.last_attack = current_time
-            # This is work towards enemies that can shoot. It's not completed because I was too busy doing everything else.
+            # This is work towards enemies that can shoot. It's not completed because I was too busy doing everything
+            # else.
             '''else:
                 direction = math.degrees(math.atan2(self.owner.character.get_x() - self.owner.get_y(), self.owner.character.get_x() - self.owner.get_x()))
                 projectile = Projectile(self.owner.get_x(), self.owner.get_y(), 10, 10, self.proj_speed, direction, self.damage)
                 self.projectiles.append(projectile)
                 self.last_attack = current_time'''
 
-    def update_projectiles(self, screen_width, screen_height):
+    def update_projectiles(self, player, screen_width, screen_height):
         """
         Move and update all active projectiles.
 
@@ -90,11 +96,15 @@ class Weapon(Item):
         projectiles_to_remove = []
         for projectile in self.projectiles:
             projectile.move()
-            if self.owner == glob_var.player:
-                if Projectile.projectile_out_of_bounds(projectile, screen_width, screen_height) or Projectile.projectile_hits_enemy(projectile) or Projectile.projectile_hits_object(projectile):
+            if self.owner == player:
+                if Projectile.projectile_out_of_bounds(projectile, screen_width,
+                                                       screen_height) or Projectile.projectile_hits_enemy(
+                        projectile) or Projectile.projectile_hits_object(projectile):
                     projectiles_to_remove.append(projectile)
             else:
-                if Projectile.projectile_out_of_bounds(projectile, screen_width, screen_height) or Projectile.projectile_hits_player(projectile) or Projectile.projectile_hits_object(projectile):
+                if Projectile.projectile_out_of_bounds(projectile, screen_width,
+                                                       screen_height) or Projectile.projectile_hits_player(
+                        projectile) or Projectile.projectile_hits_object(projectile):
                     projectiles_to_remove.append(projectile)
         # Remove projectiles that are out of bounds or hit something
         for projectile in projectiles_to_remove:
@@ -120,9 +130,9 @@ class Weapon(Item):
                 self.last_reload = current_time
 
 
-
 class Projectile:
     """ Class used for all projectiles sent out from all weapons. """
+
     def __init__(self, x, y, width, height, speed, direction, damage):
         """
         Args:
@@ -147,25 +157,25 @@ class Projectile:
         self.x += self.speed * math.cos(math.radians(self.direction))
         self.y += self.speed * math.sin(math.radians(self.direction))
 
-    def projectile_hits_enemy(self):
+    def projectile_hits_enemy(self, current_room):
         """
         Checks for any collision with enemies. If collision, does projectile damage to the enemy and returns True
         :return: Bool
         """
-        for enemy in glob_var.cur_room.enemies:
+        for enemy in current_room.enemies:
             if enemy.health > 0:
                 if self.x < enemy.x + enemy.width and self.x + self.width > enemy.x \
-                   and self.y < enemy.y + enemy.height and self.y + self.height > enemy.y:
+                        and self.y < enemy.y + enemy.height and self.y + self.height > enemy.y:
                     enemy.take_damage(self.damage)
                     return True
 
-    def projectile_hits_object(self):
+    def projectile_hits_object(self, current_room):
         """
         Checks for collision with objects. If collision, returns True.
         :return: Bool
         """
-        if len(glob_var.cur_room.objects) > 0:
-            for ob in glob_var.cur_room.objects:
+        if len(current_room.objects) > 0:
+            for ob in current_room.objects:
                 if self.x < ob.x + ob.width and self.x + self.width > ob.x \
                         and self.y < ob.y + ob.height and self.y + self.height > ob.y:
                     return True
@@ -175,14 +185,14 @@ class Projectile:
         else:
             return False
 
-    def projectile_hits_player(self):
+    def projectile_hits_player(self, player):
         """
         This method is only used on enemy projectiles. It currently doesn't work properly. Will return True when collision with player is detected.
         :return: Bool
         """
-        if self.x < glob_var.player.x + glob_var.player.width and self.x + self.width > glob_var.player.width \
-            and self.y < glob_var.player.y + glob_var.player.height and self.y + self.height > glob_var.player.y:
-            glob_var.player.take_damage(10)
+        if self.x < player.x + player.width and self.x + self.width > player.width \
+                and self.y < player.y + player.height and self.y + self.height > player.y:
+            player.take_damage(10)
             return True
 
     def projectile_out_of_bounds(self, screen_width, screen_height):
@@ -198,26 +208,30 @@ class Projectile:
 
 class Shotgun(Weapon):
     """ Child of Weapon with a different attack method """
-    def __init__(self, name, damage, proj_speed, attack_speed, mag_size, mag_count, reload_speed, owner, spread, proj_number, x, y, width, height, image_path):
+
+    def __init__(self, name, damage, proj_speed, attack_speed, mag_size, mag_count, reload_speed, owner, spread,
+                 proj_number, x, y, width, height, screen_width, screen_height, image_path):
         """
         Shotgun init function, essentially the same as it's Parent Weapon
 
         spread (int): Determines the degrees of spread in the shotgun.
         proj_number (int): Determines the number of pellets shot out of the shotgun.
         """
-        super().__init__(name, damage, proj_speed, attack_speed, mag_size, mag_count, reload_speed, owner, x, y, width, height, image_path)
+        super().__init__(name, damage, proj_speed, attack_speed, mag_size, mag_count, reload_speed, owner, x, y, width,
+                         height, screen_width, screen_height, image_path)
         self.spread = spread
         self.proj_number = proj_number
 
-    def attack(self):
+    def attack(self, player):
         """
         See Weapon.attack for more details. Primary differences in comments:
         """
         current_time = pygame.time.get_ticks()
         if current_time - self.last_attack >= 1000 / self.attack_speed:
-            if self.owner == glob_var.player:
+            if self.owner == player:
                 if self.mag_ammo > 0:
-                    direction = math.degrees(math.atan2(pygame.mouse.get_pos()[1] - self.owner.get_y(), pygame.mouse.get_pos()[0] - self.owner.get_x()))
+                    direction = math.degrees(math.atan2(pygame.mouse.get_pos()[1] - self.owner.get_y(),
+                                                        pygame.mouse.get_pos()[0] - self.owner.get_x()))
                     # Set an upper and lower bound for the shotgun spread
                     dir_upper = direction + self.spread
                     dir_lower = direction - self.spread
@@ -226,9 +240,11 @@ class Shotgun(Weapon):
                         # Randomly decide if it's going to the upper or lower bound
                         x = random.randint(0, 2)
                         if x == 0:
-                            p = Projectile(self.owner.get_x(), self.owner.get_y(), 10, 10, self.proj_speed, round((random.uniform(direction, dir_lower)),3), self.damage)
+                            p = Projectile(self.owner.get_x(), self.owner.get_y(), 10, 10, self.proj_speed,
+                                           round((random.uniform(direction, dir_lower)), 3), self.damage)
                         else:
-                            p = Projectile(self.owner.get_x(), self.owner.get_y(), 10, 10, self.proj_speed, round((random.uniform(direction, dir_upper)),3), self.damage)
+                            p = Projectile(self.owner.get_x(), self.owner.get_y(), 10, 10, self.proj_speed,
+                                           round((random.uniform(direction, dir_upper)), 3), self.damage)
 
                         self.projectiles.append(p)
                     self.mag_ammo -= 1

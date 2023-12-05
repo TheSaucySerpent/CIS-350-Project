@@ -1,7 +1,6 @@
 import random
 import pygame
 from character import Character
-import glob_var
 
 
 class Enemy(Character):
@@ -23,7 +22,7 @@ class Enemy(Character):
         image_path (str, optional): Path to the image for the enemy (default is None).
         """
         super().__init__(name, x, y, width, height, speed, health, armor, gun)
-        if character != glob_var.player:
+        if character.name != 'Player':
             raise ValueError("self.character must always be glob_var.player")
         if damage < 0:
             raise ValueError("Damage must be a non-negative integer.")
@@ -35,7 +34,7 @@ class Enemy(Character):
             self.image = pygame.image.load(self.image_path)
             self.image = pygame.transform.scale(self.image, (self.width, self.height))
 
-    def move_towards_character(self, screen_width, screen_height):
+    def move_towards_character(self, player, screen_width, screen_height):
         """
         Moves the enemy towards the player. Will be edited when enemy weapons are added.
         Calculates the direction vector toward the target character, normalizes it, and updates the enemy's
@@ -61,11 +60,11 @@ class Enemy(Character):
         entity_rect = pygame.Rect(new_x, new_y, self.width, self.height)
 
         # Check for collisions with the player
-        player_rect = pygame.Rect(glob_var.player.x, glob_var.player.y, glob_var.player.width, glob_var.player.height)
+        player_rect = pygame.Rect(player.x, player.y, player.width, player.height)
 
         if entity_rect.colliderect(player_rect):
             # Characters are colliding, player takes damage
-            glob_var.player.take_damage(self.damage)
+            player.take_damage(self.damage)
 
         # Check if the new position is within the screen bounds
         if 0 <= new_x <= screen_width - self.width and 0 <= new_y <= screen_height - self.height:
@@ -90,21 +89,21 @@ class Default(Enemy):
     '''
     A prebuilt instance of enemy, used for efficiently adding enemies to the first 3 levels
     '''
-    def __init__(self, name, x, y):
-        super().__init__(name=name, x=x, y=y, width=50, height=50, speed=.3, health=50, armor=10, gun=0, character=glob_var.player, damage=10, image_path="images/green monster.png")
+    def __init__(self, name, x, y, player):
+        super().__init__(name=name, x=x, y=y, width=50, height=50, speed=.3, health=50, armor=10, gun=0, character=player, damage=10, image_path="images/green monster.png")
 
 
 class Tank(Enemy):
     '''
     A prebuilt instance of enemy, used for efficiently adding enemies to the first 3 levels
     '''
-    def __init__(self, name, x, y):
-        super().__init__(name=name, x=x, y=y, width=85, height=68, speed=.1, health=80, armor=10, gun=0, character=glob_var.player, damage=60, image_path="images/SentryCrab.png")
+    def __init__(self, name, x, y, player):
+        super().__init__(name=name, x=x, y=y, width=85, height=68, speed=.1, health=80, armor=10, gun=0, character=player, damage=60, image_path="images/SentryCrab.png")
 
 
 class Runner(Enemy):
     '''
     A prebuilt instance of enemy, used for efficiently adding enemies to the first 3 levels
     '''
-    def __init__(self, name, x, y):
-        super().__init__(name=name, x=x, y=y, width=30, height=30, speed=.45, health=40, armor=0, gun=0, character=glob_var.player, damage=40, image_path="images/slime.png")
+    def __init__(self, name, x, y, player):
+        super().__init__(name=name, x=x, y=y, width=30, height=30, speed=.45, health=40, armor=0, gun=0, character=player, damage=40, image_path="images/slime.png")

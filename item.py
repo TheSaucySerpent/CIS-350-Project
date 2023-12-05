@@ -1,10 +1,9 @@
 import pygame
-import glob_var
 
 
 class Item:
     """ Class for items, anything that can be picked up is qualified as an item. """
-    def __init__(self, name, x, y, width, height, image_path=None):
+    def __init__(self, name, x, y, width, height, screen_width, screen_height, image_path=None):
         """
         Initialize an Item
 
@@ -20,10 +19,10 @@ class Item:
         if not isinstance(name, str) or not name:
             raise ValueError("Name must be a non-empty string.")
 
-        if not isinstance(x, (int, float) or 0 > x > glob_var.screen_width):
+        if not isinstance(x, (int, float) or 0 > x > screen_width):
             raise ValueError("X-coordinate must be a numeric value.")
 
-        if not isinstance(y, (int, float)) or 0 > y > glob_var.screen_height:
+        if not isinstance(y, (int, float)) or 0 > y > screen_height:
             raise ValueError("Y-coordinate must be a numeric value.")
 
         if not isinstance(width, (int, float)) or width <= 0:
