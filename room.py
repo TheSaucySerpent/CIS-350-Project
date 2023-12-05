@@ -41,9 +41,9 @@ class Room:
         self.screen_height = screen_height
         self.background = pygame.image.load(background_path)
         self.background = pygame.transform.scale(self.background, (screen_width, screen_height))
-        self.characters = []  # List to hold Character objects
-        self.enemies = []  # List to hold Enemy objects
-        self.objects = []  # List to hold Object objects
+        self.characters = []
+        self.enemies = []
+        self.objects = []
         self.weapons = []
         self.items = []
         self.entities = []
@@ -131,9 +131,6 @@ class Room:
 
         for character in self.characters:
             character.draw(screen)
-
-        for enemy in self.enemies:
-            enemy.draw(screen)
 
         for obj in self.objects:
             obj.draw(screen)
