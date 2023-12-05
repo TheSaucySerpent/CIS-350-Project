@@ -20,10 +20,12 @@ def main():
     screen = pygame.display.set_mode((screen_width, screen_height), pygame.RESIZABLE)
 
     # Set game window title
-    pygame.display.set_caption('CIS 350 DEMO')
+    pygame.display.set_caption('TOPDOWN SHOOTER')
 
     # Set the font for text
     font = pygame.font.Font(None, 36)
+
+
 
     # Flags for running the program and the game itself
     program_running = True

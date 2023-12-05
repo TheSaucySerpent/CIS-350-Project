@@ -48,7 +48,7 @@ class Weapon(Item):
         if current_time - self.last_attack >= 1000 / self.attack_speed:
             if self.owner == glob_var.player:
                 if self.mag_ammo > 0:
-                    direction = math.degrees(math.atan2(pygame.mouse.get_pos()[1] - self.owner.get_y(), pygame.mouse.get_pos()[0] - self.owner.get_x()))
+                    direction = math.degrees(math.atan2(pygame.mouse.get_pos()[1] - self.owner.get_y() - (.5 * self.owner.height), pygame.mouse.get_pos()[0] - self.owner.get_x()  - (.5 * self.owner.width)))
                     projectile = Projectile(self.owner.get_x() + (.5 * self.owner.width), self.owner.get_y() + (.5 * self.owner.height), 10, 10, self.proj_speed, direction, self.damage)
                     self.projectiles.append(projectile)
                     self.mag_ammo -= 1

@@ -42,6 +42,7 @@ class Game:
         self.prev_screen_height = screen_height
 
         self.setup_game()
+        self.crosshair = pygame.image.load("images/crosshair.png")
 
     def setup_game(self):
         self.player = glob_var.player
@@ -53,6 +54,7 @@ class Game:
 
     def run_game(self):
         ''' Runs the game loop. '''
+        pygame.mouse.set_visible(False)
 
         keys = pygame.key.get_pressed()
         if not self.game_over:
@@ -77,6 +79,7 @@ class Game:
                     self.player.gun.attack()
                 else:
                     print("You don't got a gun!")
+
 
             # Calls the collision function of every object
             for i in self.current_room.objects:
@@ -119,6 +122,15 @@ class Game:
         self.screen.blit(self.current_room.background, (0, 0))
         # draw background
         self.current_room.draw(self.screen)
+
+        # Get current mouse position
+        mouse_x, mouse_y = pygame.mouse.get_pos()
+
+        # Adjust the position to center the crosshair
+        crosshair_x = mouse_x - self.crosshair.get_width() // 2
+        crosshair_y = mouse_y - self.crosshair.get_height() // 2
+        # Draw crosshair on the screen
+        self.screen.blit(self.crosshair, (crosshair_x, crosshair_y))
 
         # Draws the player and stats
         glob_var.player.draw(self.screen)
