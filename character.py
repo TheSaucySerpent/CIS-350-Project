@@ -19,6 +19,31 @@ class Character:
         gun (Weapon): The type of gun the character wields.
         image_path (str, optional): Path to the image for the character (If none is given, uses a color instead.
         """
+        # Validate input values
+        if not isinstance(name, str) or not name:
+            raise ValueError("Name must be a non-empty string.")
+
+        if not isinstance(x, (int, float)) or 0 > x > 1200:
+            raise ValueError("X-coordinate must be a numeric value.")
+
+        if not isinstance(y, (int, float)) or 0 > y > 700:
+            raise ValueError("Y-coordinate must be a numeric value.")
+
+        if not isinstance(width, (int, float)) or width <= 0:
+            raise ValueError("Width must be a positive numeric value.")
+
+        if not isinstance(height, (int, float)) or height <= 0:
+            raise ValueError("Height must be a positive numeric value.")
+
+        if not isinstance(speed, (int, float)) or speed <= 0:
+            raise ValueError("Speed must be a positive numeric value.")
+
+        if not isinstance(health, int) or health < 0:
+            raise ValueError("Health must be a non-negative integer.")
+
+        if not isinstance(armor, int) or armor < 0:
+            raise ValueError("Armor must be a non-negative integer.")
+
         self.name = name
         self.x = x
         self.y = y
@@ -183,7 +208,7 @@ class Character:
         Args:
         amount (int): The amount of health to add to the character.
         """
-        if self.health >= self.max_health:
+        if self.health <= self.max_health:
             self.health = self.max_health
         else:
             self.health += amount

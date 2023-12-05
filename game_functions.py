@@ -125,7 +125,6 @@ class Game:
 
         # Get current mouse position
         mouse_x, mouse_y = pygame.mouse.get_pos()
-
         # Adjust the position to center the crosshair
         crosshair_x = mouse_x - self.crosshair.get_width() // 2
         crosshair_y = mouse_y - self.crosshair.get_height() // 2

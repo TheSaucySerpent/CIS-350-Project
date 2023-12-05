@@ -7,7 +7,7 @@ from item import Item
 
 class Weapon(Item):
     """ Class for all weapons, Parent of Shotgun """
-    def __init__(self, name, damage, proj_speed, attack_speed, mag_size, mag_count, reload_speed, owner, x, y, width, height, image_path):
+    def __init__(self, name, damage, proj_speed, attack_speed, mag_size, mag_count, reload_speed, owner, x, y, width, height, image_path=None):
         """
         Init for Weapon
 
@@ -23,6 +23,27 @@ class Weapon(Item):
         image_path (str, optional): Path to the image for the weapon (default is None). This will be used in the future to display a weapon design.
         """
         super().__init__(name, x, y, width, height, image_path)
+
+        # Validate input values
+        if not isinstance(damage, int) or damage < 0:
+            raise ValueError("Damage must be a non-negative integer.")
+
+        if not (isinstance(proj_speed, int) or isinstance(proj_speed, float)) or proj_speed <= 0:
+            raise ValueError("Projectile speed must be a positive integer.")
+
+        if not (isinstance(attack_speed, int) or isinstance(attack_speed, float)) or attack_speed <= 0:
+            raise ValueError("Attack speed must be a positive integer.")
+
+        if not isinstance(mag_size, int) or mag_size <= 0:
+            raise ValueError("Magazine size must be a positive integer.")
+
+        if not isinstance(mag_count, int) or mag_count < 0:
+            raise ValueError("Magazine count must be a non-negative integer.")
+
+        if not isinstance(reload_speed, (int, float)) or reload_speed <= 0:
+            raise ValueError("Reload speed must be a positive integer.")
+
+        # Continue with the initialization
         self.owner = owner
         self.damage = damage
         self.attack_speed = attack_speed

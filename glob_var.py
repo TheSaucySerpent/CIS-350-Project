@@ -10,6 +10,8 @@ from item import Item
 screen_width = 1200
 screen_height = 700
 
+
+
 '''
 This messy file is for all instances of all classes, located in one place for easy access universally. Although it streamlined the development process, it's been a nightmare to maintain
 but was too difficult to remove so late in development. 

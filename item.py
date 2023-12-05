@@ -1,5 +1,7 @@
 import pygame
 
+import glob_var
+
 
 class Item:
     """ Class for items, anything that can be picked up is qualified as an item. """
@@ -15,6 +17,26 @@ class Item:
         height (int): The height of the object.
         image_path (str, optional): Path to the image for the object (default is None).
         """
+        # Validate input values
+        if not isinstance(name, str) or not name:
+            raise ValueError("Name must be a non-empty string.")
+
+        if not isinstance(x, (int, float) or 0 > x > glob_var.screen_width):
+            raise ValueError("X-coordinate must be a numeric value.")
+
+        if not isinstance(y, (int, float)) or 0 > y > glob_var.screen_height:
+            raise ValueError("Y-coordinate must be a numeric value.")
+
+        if not isinstance(width, (int, float)) or width <= 0:
+            raise ValueError("Width must be a positive numeric value.")
+
+        if not isinstance(height, (int, float)) or height <= 0:
+            raise ValueError("Height must be a positive numeric value.")
+
+        if image_path is not None:
+            if not isinstance(image_path, str):
+                raise ValueError(f"Invalid image file path: {image_path}")
+
         self.name = name
         self.x = x
         self.y = y

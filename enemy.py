@@ -23,6 +23,10 @@ class Enemy(Character):
         image_path (str, optional): Path to the image for the enemy (default is None).
         """
         super().__init__(name, x, y, width, height, speed, health, armor, gun)
+        if character != glob_var.player:
+            raise ValueError("self.character must always be glob_var.player")
+        if damage < 0:
+            raise ValueError("Damage must be a non-negative integer.")
         self.character = character
         self.damage = damage
         self.image_path = image_path

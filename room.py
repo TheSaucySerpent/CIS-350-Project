@@ -1,5 +1,5 @@
 import pygame
-from object import Object
+from object import Object, Door
 from enemy import Enemy
 from character import Character
 from item import Item
@@ -27,6 +27,15 @@ class Room:
             starting_x (int): X-coordinate where the player starts in the room. Defaults to 100.
             starting_y (int): Y-coordinate where the player starts in the room. Defaults to 100.
         """
+        if not isinstance(background_path, str):
+            raise ValueError("Invalid background image file path: {background_path}")
+
+        if not isinstance(screen_width, int) or screen_width <= 0:
+            raise ValueError("Screen width must be a positive integer.")
+
+        if not isinstance(screen_height, int) or screen_height <= 0:
+            raise ValueError("Screen height must be a positive integer.")
+
         self.background_path = background_path
         self.screen_width = screen_width
         self.screen_height = screen_height
@@ -54,7 +63,7 @@ class Room:
             item.room = self
             self.items.append(item)
         else:
-            print("Error: Attempted to add an invalid item to the room.")
+            raise ValueError("Attempted to add an invalid item to the room.")
 
     def add_character(self, character):
         """
@@ -67,7 +76,7 @@ class Room:
             character.room = self
             self.characters.append(character)
         else:
-            print("Error: Attempted to add an invalid character to the room.")
+            raise ValueError("Attempted to add an invalid character to the room.")
 
     def add_enemy(self, enemy):
         """
@@ -80,7 +89,7 @@ class Room:
             enemy.room = self
             self.enemies.append(enemy)
         else:
-            print("Error: Attempted to add an invalid enemy to the room.")
+            raise ValueError("Attempted to add an invalid enemy to the room.")
 
     def add_object(self, obj):
         """
@@ -93,7 +102,7 @@ class Room:
             obj.room = self
             self.objects.append(obj)
         else:
-            print("Error: Attempted to add an invalid object to the room.")
+            raise ValueError("Attempted to add an invalid object to the room.")
 
     def add_weapon(self, weapon):
         """
@@ -106,7 +115,7 @@ class Room:
             weapon.room = self
             self.weapons.append(weapon)
         else:
-            print("Error: Attempted to add an invalid weapon to the room.")
+            raise ValueError("Attempted to add an invalid weapon to the room.")
 
     def draw(self, screen):
         """

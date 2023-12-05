@@ -19,6 +19,26 @@ class Object:
             health (int): The health of the object, ended up unused
             image_path (str): The path to the image for the object.
         """
+        if not isinstance(x, (int)) or 0 > x > 1200:
+            raise ValueError("X-coordinate must be a numeric value within bounds.")
+
+        if not isinstance(y, (int)) or 0 > y > 700:
+            raise ValueError("Y-coordinate must be a numeric value within bounds.")
+
+        if not isinstance(width, (int)) or width <= 0:
+            raise ValueError("Width must be a positive numeric value.")
+
+        if not isinstance(height, (int)) or height <= 0:
+            raise ValueError("Height must be a positive numeric value.")
+
+        if not isinstance(health, int) or health < 0:
+            raise ValueError("Health must be a non-negative integer.")
+
+        # Additional checks
+        if image_path is not None:
+            if not isinstance(image_path, str):
+                raise ValueError(f"Invalid image file path: {image_path}")
+
         self.x = x
         self.y = y
         self.width = width
