@@ -38,7 +38,6 @@ class Game:
         self.player = None
         self.obj = None
         self.enemies = None
-        self.room = None
         self.current_room = None
         self.game_over = False
         self.doors = None
@@ -60,14 +59,6 @@ class Game:
         game_over = Boolean to determine if the game is over
 
         """
-        # Path for player character
-        image_paths = {
-            'up': ['images/Up standing.png', 'images/Up running.png'],
-            'down': ['images/Down standing.png', 'images/Down running.png'],
-            'left': ['images/Left standing.png', 'images/Left running .png'],
-            'right': ['images/1.png', 'images/BackgroundEraser_image.png']
-        }
-
         self.player = Character(name="Player", x=100, y=100, width=50, height=50, speed=1, health=100, armor=50, gun=0,
                                 image_path="images/white_square.png")
 
@@ -105,9 +96,6 @@ class Game:
         # List of all enemies for drawing and player tracking
         enemies = [enemy1, enemy2, enemy3, enemy4, enemy5, enemy6]
 
-        # Separate list including all enemies and main character, used for object collision
-        self.entities = [self.player] + enemies
-
         obj = Object(x=200, y=100, width=50, height=150, health=1000)
         obj2 = Object(x=200, y=100, width=700, height=50, health=1000)
         obj3 = Object(x=850, y=100, width=50, height=150, health=1000)
@@ -120,6 +108,9 @@ class Game:
 
         self.current_room = Room(background_path="images/Tile Resized.jpg", screen_width=self.screen_width,
                                  screen_height=self.screen_height)
+
+        # Separate list including all enemies and main character, used for object collision
+        self.current_room.entities = [self.player] + enemies
 
         # Adds all enemies/entities to the room
         for i in enemies:
@@ -139,7 +130,7 @@ class Game:
         self.key = Item("Key", 950, 100, 75, 75, self.screen_width, self.screen_height, "images/golden key.png")
         self.medkit = Item("Medkit", 950, 100, 50, 50, self.screen_width, self.screen_height, "images/medkit.png")
 
-        self.enemies = enemies
+        self.current_room.enemies = enemies
         self.room = self.current_room
 
         self.game_over = False
@@ -159,6 +150,7 @@ class Game:
         r2enemy6 = Runner(name='enemy', x=random.randint(400, 800), y=random.randint(200, 600), player=self.player)
         r2enemies = [r2enemy1, r2enemy2, r2enemy3, r2enemy4, r2enemy5, r2enemy6]
         r2entities = [self.player]
+
         for i in r2enemies:
             r2entities.append(i)
 
@@ -351,7 +343,7 @@ class Game:
 
             # Call the collision function of every object
             for i in self.current_room.objects:
-                i.collision(self.player, self.entities)
+                i.collision(self.player, self.current_room.entities)
 
             # Call the function that makes items bounce
             for i in self.current_room.items:
@@ -374,7 +366,7 @@ class Game:
 
             # If there's a door the player is colliding with and the player has a key and presses 'f':
             if self.current_room.door:
-                if self.current_room.door.collision(self.player, self.entities) and keys[pygame.K_f] and \
+                if self.current_room.door.collision(self.player, self.current_room.entities) and keys[pygame.K_f] and \
                         self.key in self.player.inventory:
                     # Go to the next room, teleport player to that room's starting location, and remove the key from
                     # player's inventory
