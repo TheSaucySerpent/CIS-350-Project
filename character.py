@@ -4,6 +4,7 @@ import weapons
 
 class Character:
     """ Class used for all moving entities, including the player and enemies. """
+
     def __init__(self, name, x, y, width, height, speed, health, armor, gun, image_path=None):
         """
         Initializes the character
@@ -70,8 +71,8 @@ class Character:
             'right': ['images/1.png', 'images/BackgroundEraser_image.png']
             }'''
         self.image_path = {
-            'left' : ['images/player_assets/standing_left.png', 'images/player_assets/walking_left.png'],
-            'right' : ['images/player_assets/standing_right.png', 'images/player_assets/walking_right.png']
+            'left': ['images/player_assets/standing_left.png', 'images/player_assets/walking_left.png'],
+            'right': ['images/player_assets/standing_right.png', 'images/player_assets/walking_right.png']
 
         }
 
@@ -133,13 +134,13 @@ class Character:
 
         if keys[pygame.K_w]:
             new_y -= self.speed + extra_speed
-            #direction = 'up'
+            # direction = 'up'
         if keys[pygame.K_a]:
             new_x -= self.speed + extra_speed
             direction = 'left'
         if keys[pygame.K_s]:
             new_y += self.speed + extra_speed
-            #direction = 'down'
+            # direction = 'down'
         if keys[pygame.K_d]:
             new_x += self.speed + extra_speed
             direction = 'right'
@@ -173,7 +174,7 @@ class Character:
             current_time = pygame.time.get_ticks()
             # Needed to be done differently for player and enemies, so players can't be instantly killed and enemies can be destroyed by things like shotguns
             if self.name == 'Player':
-                #To change invulnerability time, change value of 300
+                # To change invulnerability time, change value of 300
                 if current_time - self.last_hurt > 300:
                     extra_damage = 0
                     if self.armor > 0:

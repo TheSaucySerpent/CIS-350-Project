@@ -75,7 +75,7 @@ class Game:
         pistol = Weapon(name="Pistol", damage=10, proj_speed=1, attack_speed=3, mag_size=9, mag_count=5,
                         reload_speed=10,
                         owner=self.player, x=50, y=50, width=50, height=50, screen_width=self.screen_width,
-                        screen_height=self.screen_height, image_path=None)
+                        screen_height=self.screen_height, image_path='images/pistol.png')
         ar = Weapon(name="Assault Rifle", damage=15, proj_speed=1.25, attack_speed=5, mag_size=30, mag_count=2,
                     reload_speed=20, owner=self.player, x=600, y=350, width=100, height=50,
                     screen_width=self.screen_width,
@@ -277,10 +277,10 @@ class Game:
         Here is everything added to Room 6:
         24 enemies for minigun practice
         '''
-        r6 = Room(background_path="images/darkness.png", screen_width=self.screen_width,
+        self.r6 = Room(background_path="images/darkness.png", screen_width=self.screen_width,
                   screen_height=self.screen_height)
-        r6.starting_y = 50
-        r6.starting_x = 600
+        self.r6.starting_y = 50
+        self.r6.starting_x = 600
 
         r6enemy1 = Default(name='enemy', x=random.randint(100, 1000), y=random.randint(200, 600), player=self.player)
         r6enemy2 = Default(name='enemy', x=random.randint(100, 1000), y=random.randint(200, 600), player=self.player)
@@ -314,9 +314,9 @@ class Game:
         r6entities = [self.player]
         for i in r6enemies:
             r6entities.append(i)
-        r6.enemies = r6enemies
-        r6.entities = r6entities
-        r5.next_room = r6
+        self.r6.enemies = r6enemies
+        self.r6.entities = r6entities
+        r5.next_room = self.r6
 
     def run_game(self):
         """ Runs the game loop. """
@@ -345,7 +345,7 @@ class Game:
             # If the left mouse button is clicked, calls the player's weapon's attack function.
             if pygame.mouse.get_pressed()[0]:
                 if self.player.gun != 0:
-                    self.player.gun.attack()
+                    self.player.gun.attack(self.player)
                 else:
                     print("You don't got a gun!")
 
@@ -374,7 +374,8 @@ class Game:
 
             # If there's a door the player is colliding with and the player has a key and presses 'f':
             if self.current_room.door:
-                if self.current_room.door.collision() and keys[pygame.K_f] and self.key in self.player.inventory:
+                if self.current_room.door.collision(self.player, self.entities) and keys[pygame.K_f] and \
+                        self.key in self.player.inventory:
                     # Go to the next room, teleport player to that room's starting location, and remove the key from
                     # player's inventory
                     self.current_room = self.current_room.next_room
@@ -409,7 +410,7 @@ class Game:
             for p in g.projectiles:
                 p.move()
                 pygame.draw.rect(self.screen, colors.YELLOW, (p.x, p.y, p.width, p.height))
-            g.update_projectiles(self.current_room, self.screen_width, self.screen_height)
+            g.update_projectiles(self.player, self.current_room, self.screen_width, self.screen_height)
 
         # draws enemies and removes them from the room if they die
         if len(self.current_room.enemies) > 0:

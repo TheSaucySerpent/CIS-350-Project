@@ -87,7 +87,7 @@ class Weapon(Item):
                 self.projectiles.append(projectile)
                 self.last_attack = current_time'''
 
-    def update_projectiles(self, player, screen_width, screen_height):
+    def update_projectiles(self, player, current_room, screen_width, screen_height):
         """
         Move and update all active projectiles.
 
@@ -99,12 +99,12 @@ class Weapon(Item):
             if self.owner == player:
                 if Projectile.projectile_out_of_bounds(projectile, screen_width,
                                                        screen_height) or Projectile.projectile_hits_enemy(
-                        projectile) or Projectile.projectile_hits_object(projectile):
+                        projectile, current_room) or Projectile.projectile_hits_object(projectile, current_room):
                     projectiles_to_remove.append(projectile)
             else:
-                if Projectile.projectile_out_of_bounds(projectile, screen_width,
-                                                       screen_height) or Projectile.projectile_hits_player(
-                        projectile) or Projectile.projectile_hits_object(projectile):
+                if Projectile.projectile_out_of_bounds(projectile, screen_width, screen_height) or \
+                        Projectile.projectile_hits_player(projectile, player) \
+                        or Projectile.projectile_hits_object(projectile):
                     projectiles_to_remove.append(projectile)
         # Remove projectiles that are out of bounds or hit something
         for projectile in projectiles_to_remove:
