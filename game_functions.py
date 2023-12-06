@@ -134,6 +134,7 @@ class Game:
         # Items are universal, meaning there's only one instance of them that is reused and reset when called.
         self.key = Item("Key", 950, 100, 75, 75, self.screen_width, self.screen_height, "images/golden key.png")
         self.medkit = Item("Medkit", 950, 100, 50, 50, self.screen_width, self.screen_height, "images/medkit.png")
+        self.ammobox = Item("Ammobox", 950, 100, 50, 50, self.screen_width, self.screen_height, "images/ammo_storage.png")
 
         self.current_room.enemies = enemies
         self.room = self.current_room
@@ -356,6 +357,11 @@ class Game:
             # Weird function that goes through every item in the current room to see if there's collision with player
             self.player.pick_up(self.current_room)
 
+            #Looks for Ammoboxes and uses them if found
+            for i in self.player.inventory:
+                if i.name == 'Ammobox':
+                    self.player.inventory.remove(i)
+                    self.player.gun.mag_count += 1
             # Looks for medkits and uses them if found
             for i in self.player.inventory:
                 if i.name == 'Medkit':
@@ -428,7 +434,7 @@ class Game:
                     else:
                         # Roll a die and
                         luck = random.randint(0, 5)
-                        # If you roll lucky and not on last room:
+                        # If you roll 1 and not on last room:
                         if luck == 1 and self.current_room != self.r6 and len(self.current_room.items) == 0:
                             # Drop a medkit at enemy death coords
                             self.medkit.x = enemy.x
@@ -436,6 +442,14 @@ class Game:
                             self.medkit.y = enemy.y
                             self.current_room.add_item(self.medkit)
                             print("Medkit Dropped!")
+                        # If you roll 2 and not on last room:
+                        elif luck == 2 and self.current_room != self.r6:
+                            # Drop a ammobox at enemy death coords
+                            self.ammobox.x = enemy.x
+                            self.ammobox.original_y = enemy.y
+                            self.ammobox.y = enemy.y
+                            self.current_room.add_item(self.ammobox)
+                            print("AmmoBox Dropped!")
                     # 'Kill' enemy
                     self.current_room.enemies.remove(enemy)
 
