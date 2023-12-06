@@ -139,14 +139,14 @@ class Room:
             weapon.draw(screen)
 
     def scale(self, prev_screen_width, prev_screen_height, new_screen_width, new_screen_height):
-        '''
+        """
         Used to scale the room to a specified width and height.
         Args:
             prev_screen_width = previous screen width
             prev_screen_height = previous screen height
             new_screen_width = new screen width
             new_screen_height = new screen height
-        '''
+        """
         self.background = pygame.transform.scale(self.background, (new_screen_width, new_screen_height))
         game_objects = self.items + self.characters + self.enemies + self.objects + self.weapons
 
