@@ -394,13 +394,14 @@ class Game:
         # draw background
         self.current_room.draw(self.screen)
 
+        # Draws the current room's door
+        if self.current_room.door:
+            self.screen.blit(self.current_room.door.image, (self.current_room.door.x, self.current_room.door.y))
+
         # Draws the player and stats
         self.player.draw(self.screen)
         self.user_interface.display_player_stats(self.player)
 
-        # Draws the current room's door
-        if self.current_room.door:
-            self.screen.blit(self.current_room.door.image, (self.current_room.door.x, self.current_room.door.y))
 
         # Draws projectiles
         for g in self.guns:

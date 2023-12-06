@@ -210,7 +210,7 @@ class Character:
         Args:
         amount (int): The amount of health to add to the character.
         """
-        if self.health <= self.max_health:
+        if self.health + amount > self.max_health:
             self.health = self.max_health
         else:
             self.health += amount
