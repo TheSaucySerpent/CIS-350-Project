@@ -455,6 +455,7 @@ class Game:
             'player_y': self.player.y,
             'player_health': self.player.health,
             'ammo_count': self.player.gun.mag_ammo,
+            'mag_size': self.player.gun.mag_size,
             'mag_count': self.player.gun.mag_count,
             'player_inventory': [],
             'room_items': [],
@@ -527,6 +528,7 @@ class Game:
         self.player.y = game_state['player_y']
         self.player.health = game_state['player_health']
         self.player.gun.mag_ammo = game_state['ammo_count']
+        self.player.gun.mag_size = game_state['mag_size']
         self.player.gun.mag_count = game_state['mag_count']
         room_items = []
 
@@ -537,7 +539,8 @@ class Game:
 
         for item_info in game_state['room_items']:
             item = Item(item_info['name'], item_info['position'][0], item_info['position'][1],
-                        item_info['width'], item_info['height'], self.screen_width, self.screen_height, item_info['image_path'])
+                        item_info['width'], item_info['height'], self.screen_width, self.screen_height,
+                        item_info['image_path'])
             room_items.append(item)
 
         room_enemies = []
