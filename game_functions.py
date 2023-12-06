@@ -41,6 +41,11 @@ class Game:
         self.current_room = None
         self.game_over = False
         self.doors = None
+        self.room = None
+        self.guns = None
+        self.key = None
+        self.medkit = None
+        self.r6 = None
 
         self.prev_screen_width = screen_width
         self.prev_screen_height = screen_height
@@ -270,7 +275,7 @@ class Game:
         24 enemies for minigun practice
         '''
         self.r6 = Room(background_path="images/darkness.png", screen_width=self.screen_width,
-                  screen_height=self.screen_height)
+                       screen_height=self.screen_height)
         self.r6.starting_y = 50
         self.r6.starting_x = 600
 
@@ -497,6 +502,8 @@ class Game:
 
             if obj_info['type'] == Door:
                 obj_info['image_path'] = obj.image_path
+            else:
+                obj_info['image_path'] = None
 
             game_state['room_objects'].append(obj_info)
 
@@ -530,18 +537,18 @@ class Game:
 
         for item_info in game_state['room_items']:
             item = Item(item_info['name'], item_info['position'][0], item_info['position'][1],
-                        item_info['width'], item_info['height'], item_info['image_path'])
+                        item_info['width'], item_info['height'], self.screen_width, self.screen_height, item_info['image_path'])
             room_items.append(item)
 
         room_enemies = []
         for enemy_info in game_state['room_enemies']:
             enemy = enemy_info['type'](enemy_info['name'], enemy_info['position'][0],
-                                       enemy_info['position'][1])
+                                       enemy_info['position'][1], self.player)
             enemy.health = enemy_info['health']
 
             room_enemies.append(enemy)
-            self.enemies(enemy)
-            self.entities.append(enemy)
+            self.current_room.enemies.append(enemy)
+            self.current_room.entities.append(enemy)
 
         for obj_info in game_state['room_objects']:
             obj = obj_info['type'](obj_info['position'][0], obj_info['position'][1],
