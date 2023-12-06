@@ -45,6 +45,7 @@ class Game:
         self.guns = None
         self.key = None
         self.medkit = None
+        self.items = None
         self.r6 = None
 
         self.prev_screen_width = screen_width
@@ -134,6 +135,8 @@ class Game:
         # Items are universal, meaning there's only one instance of them that is reused and reset when called.
         self.key = Item("Key", 950, 100, 75, 75, self.screen_width, self.screen_height, "images/golden key.png")
         self.medkit = Item("Medkit", 950, 100, 50, 50, self.screen_width, self.screen_height, "images/medkit.png")
+
+        self.items = [self.key, self.medkit]
 
         self.current_room.enemies = enemies
         self.room = self.current_room
@@ -366,9 +369,6 @@ class Game:
             for enemy in self.current_room.enemies:
                 enemy.move_towards_character(self.player, self.screen_width, self.screen_height)
 
-            # Call the render assets function to render all assets in correct positions
-            self.render_assets()
-
             # If there's a door the player is colliding with and the player has a key and presses 'f':
             if self.current_room.door:
                 if self.current_room.door.collision(self.player, self.current_room.entities) and keys[pygame.K_f] and \
@@ -386,8 +386,8 @@ class Game:
                 self.user_interface.display_death_menu()
                 self.game_over = True
 
-            # update the display
-            pygame.display.update()
+            # Call the render assets function to render all assets in correct positions
+            self.render_assets()
 
     def render_assets(self):
         self.screen.blit(self.current_room.background, (0, 0))
@@ -401,7 +401,6 @@ class Game:
         # Draws the player and stats
         self.player.draw(self.screen)
         self.user_interface.display_player_stats(self.player)
-
 
         # Draws projectiles
         for g in self.guns:
@@ -450,11 +449,15 @@ class Game:
         # Draw crosshair on the screen
         self.screen.blit(self.crosshair, (crosshair_x, crosshair_y))
 
+        # update the display
+        pygame.display.flip()
+
     def save_game_state(self):
         game_state = {
             'player_x': self.player.x,
             'player_y': self.player.y,
             'player_health': self.player.health,
+            'player_gun_name': self.player.gun.name,
             'ammo_count': self.player.gun.mag_ammo,
             'mag_size': self.player.gun.mag_size,
             'mag_count': self.player.gun.mag_count,
@@ -465,14 +468,7 @@ class Game:
         }
 
         for item in self.player.inventory:
-            item_info = {
-                'name': item.name,
-                'position': (item.x, item.y),
-                'width': item.width,
-                'height': item.height,
-                'image_path': item.image_path,
-            }
-            game_state['player_inventory'].append(item_info)
+            game_state['player_inventory'].append(item.name)
 
         for item in self.current_room.items:
             item_info = {
@@ -528,15 +524,18 @@ class Game:
         self.player.x = game_state['player_x']
         self.player.y = game_state['player_y']
         self.player.health = game_state['player_health']
+        self.player.gun = None
+        for gun in self.guns:
+            if gun.name == game_state['player_gun_name']:
+                self.player.gun = gun
         self.player.gun.mag_ammo = game_state['ammo_count']
         self.player.gun.mag_size = game_state['mag_size']
         self.player.gun.mag_count = game_state['mag_count']
         room_items = []
 
-        for item_info in game_state['player_inventory']:
-            item = Item(item_info['name'], item_info['position'][0], item_info['position'][1],
-                        item_info['width'], item_info['height'], item_info['image_path'])
-            self.player.inventory.append(item)
+        for item in self.items:
+            if item.name in game_state['player_inventory']:
+                self.player.inventory.append(item)
 
         for item_info in game_state['room_items']:
             item = Item(item_info['name'], item_info['position'][0], item_info['position'][1],
