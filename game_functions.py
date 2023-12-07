@@ -321,7 +321,7 @@ class Game:
         self.r6.entities = r6entities
         r5.next_room = self.r6
 
-        self.rooms = [r1, r2, r3, r4, r5, self.r6,]
+        self.rooms = [r1, r2, r3, r4, r5, self.r6]
 
     def run_game(self):
         """ Runs the game loop. """

@@ -249,4 +249,3 @@ class Shotgun(Weapon):
                         self.projectiles.append(p)
                     self.mag_ammo -= 1
                     self.last_attack = current_time
-

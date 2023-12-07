@@ -65,6 +65,9 @@
                         <li>
                                 <a class="function" href="#UI.display_player_stats">display_player_stats</a>
                         </li>
+                        <li>
+                                <a class="function" href="#UI.display_player_inventory">display_player_inventory</a>
+                        </li>
                 </ul>
 
             </li>
@@ -247,6 +250,43 @@ UI    </h1>
 </span><span id="L-156"><a href="#L-156"><span class="linenos">156</span></a>        <span class="c1"># # Display the remaining mags in the gun using the magazine image</span>
 </span><span id="L-157"><a href="#L-157"><span class="linenos">157</span></a>        <span class="c1"># mag_count = player.gun.mag_count</span>
 </span><span id="L-158"><a href="#L-158"><span class="linenos">158</span></a>        <span class="c1"># screen.blit(mag_image, (50, 58))  # Adjust the horizontal position and spacing as needed</span>
+</span><span id="L-159"><a href="#L-159"><span class="linenos">159</span></a>    <span class="k">def</span> <span class="nf">display_player_inventory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player</span><span class="p">):</span>
+</span><span id="L-160"><a href="#L-160"><span class="linenos">160</span></a>        <span class="c1"># inventory_hotbar = pygame.image.load(&quot;images/inventory_hotbar.png&quot;)</span>
+</span><span id="L-161"><a href="#L-161"><span class="linenos">161</span></a>        <span class="c1"># inventory_hotbar.convert()</span>
+</span><span id="L-162"><a href="#L-162"><span class="linenos">162</span></a>        <span class="c1">#</span>
+</span><span id="L-163"><a href="#L-163"><span class="linenos">163</span></a>        <span class="c1"># inventory_hotbar = pygame.transform.scale(inventory_hotbar, (</span>
+</span><span id="L-164"><a href="#L-164"><span class="linenos">164</span></a>        <span class="c1"># inventory_hotbar.get_width() * .5, inventory_hotbar.get_height() * .5))</span>
+</span><span id="L-165"><a href="#L-165"><span class="linenos">165</span></a>        <span class="c1">#</span>
+</span><span id="L-166"><a href="#L-166"><span class="linenos">166</span></a>        <span class="c1"># img_rect = inventory_hotbar.get_rect()</span>
+</span><span id="L-167"><a href="#L-167"><span class="linenos">167</span></a>        <span class="c1"># img_rect.center = self.screen_width // 2, self.screen_height - 25</span>
+</span><span id="L-168"><a href="#L-168"><span class="linenos">168</span></a>        <span class="c1">#</span>
+</span><span id="L-169"><a href="#L-169"><span class="linenos">169</span></a>        <span class="c1"># # displays the inventory_hotbar</span>
+</span><span id="L-170"><a href="#L-170"><span class="linenos">170</span></a>        <span class="c1"># self.screen.blit(inventory_hotbar, img_rect)</span>
+</span><span id="L-171"><a href="#L-171"><span class="linenos">171</span></a>
+</span><span id="L-172"><a href="#L-172"><span class="linenos">172</span></a>        <span class="c1"># Display inventory title</span>
+</span><span id="L-173"><a href="#L-173"><span class="linenos">173</span></a>        <span class="c1"># inventory_title = self.font.render(&quot;Player Inventory&quot;, True, colors.WHITE)</span>
+</span><span id="L-174"><a href="#L-174"><span class="linenos">174</span></a>        <span class="c1"># self.screen.blit(inventory_title, (self.screen_width // 2, self.screen_height - 25))</span>
+</span><span id="L-175"><a href="#L-175"><span class="linenos">175</span></a>
+</span><span id="L-176"><a href="#L-176"><span class="linenos">176</span></a>        <span class="c1"># starting x-coordinate</span>
+</span><span id="L-177"><a href="#L-177"><span class="linenos">177</span></a>        <span class="n">x_coordinate</span> <span class="o">=</span> <span class="mi">10</span>
+</span><span id="L-178"><a href="#L-178"><span class="linenos">178</span></a>        <span class="n">y_coordinate</span> <span class="o">=</span> <span class="mi">85</span>
+</span><span id="L-179"><a href="#L-179"><span class="linenos">179</span></a>
+</span><span id="L-180"><a href="#L-180"><span class="linenos">180</span></a>        <span class="n">gun_image</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">player</span><span class="o">.</span><span class="n">gun</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="n">player</span><span class="o">.</span><span class="n">gun</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+</span><span id="L-181"><a href="#L-181"><span class="linenos">181</span></a>                                                              <span class="n">player</span><span class="o">.</span><span class="n">gun</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
+</span><span id="L-182"><a href="#L-182"><span class="linenos">182</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">gun_image</span><span class="p">,</span> <span class="p">(</span><span class="n">x_coordinate</span><span class="p">,</span> <span class="n">y_coordinate</span><span class="p">))</span>
+</span><span id="L-183"><a href="#L-183"><span class="linenos">183</span></a>        <span class="n">x_coordinate</span> <span class="o">+=</span> <span class="mi">35</span>
+</span><span id="L-184"><a href="#L-184"><span class="linenos">184</span></a>
+</span><span id="L-185"><a href="#L-185"><span class="linenos">185</span></a>        <span class="c1"># Display each item in the inventory</span>
+</span><span id="L-186"><a href="#L-186"><span class="linenos">186</span></a>        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">player</span><span class="o">.</span><span class="n">inventory</span><span class="p">:</span>
+</span><span id="L-187"><a href="#L-187"><span class="linenos">187</span></a>            <span class="n">item_image</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_width</span><span class="p">(),</span>
+</span><span id="L-188"><a href="#L-188"><span class="linenos">188</span></a>                                                             <span class="n">item</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span> <span class="o">*</span> <span class="mf">.7</span><span class="p">))</span>
+</span><span id="L-189"><a href="#L-189"><span class="linenos">189</span></a>
+</span><span id="L-190"><a href="#L-190"><span class="linenos">190</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">item_image</span><span class="p">,</span> <span class="p">(</span><span class="n">x_coordinate</span><span class="p">,</span> <span class="n">y_coordinate</span> <span class="o">-</span> <span class="mi">10</span><span class="p">))</span>
+</span><span id="L-191"><a href="#L-191"><span class="linenos">191</span></a>
+</span><span id="L-192"><a href="#L-192"><span class="linenos">192</span></a>            <span class="n">x_coordinate</span> <span class="o">+=</span> <span class="mi">40</span>
+</span><span id="L-193"><a href="#L-193"><span class="linenos">193</span></a>
+</span><span id="L-194"><a href="#L-194"><span class="linenos">194</span></a>        <span class="c1"># Update the display</span>
+</span><span id="L-195"><a href="#L-195"><span class="linenos">195</span></a>        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">flip</span><span class="p">()</span>
 </span></pre></div>
 
 
@@ -267,7 +307,7 @@ UI    </h1>
                 <section id="menu_background_selection">
                     <div class="attr variable">
             <span class="name">menu_background_selection</span>        =
-<span class="default_value">&#39;images/menu_background2.png&#39;</span>
+<span class="default_value">&#39;images/menu_background5.png&#39;</span>
 
         
     </div>
@@ -424,6 +464,54 @@ UI    </h1>
 </span><span id="UI-146"><a href="#UI-146"><span class="linenos">146</span></a>        <span class="c1"># display the remaining mags in the gun</span>
 </span><span id="UI-147"><a href="#UI-147"><span class="linenos">147</span></a>        <span class="n">mag_text</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">font</span><span class="o">.</span><span class="n">render</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Mags: </span><span class="si">{</span><span class="n">player_gun_mag_count</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">colors</span><span class="o">.</span><span class="n">BLACK</span><span class="p">)</span>
 </span><span id="UI-148"><a href="#UI-148"><span class="linenos">148</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">mag_text</span><span class="p">,</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">58</span><span class="p">))</span>  <span class="c1"># Adjust the vertical position as needed</span>
+</span><span id="UI-149"><a href="#UI-149"><span class="linenos">149</span></a>
+</span><span id="UI-150"><a href="#UI-150"><span class="linenos">150</span></a>        <span class="c1"># this is causing the game to run extremely slow, need to explore different options</span>
+</span><span id="UI-151"><a href="#UI-151"><span class="linenos">151</span></a>        <span class="c1"># also need a different picture, was thinking a cartoon looking magazine of an ak-47</span>
+</span><span id="UI-152"><a href="#UI-152"><span class="linenos">152</span></a>
+</span><span id="UI-153"><a href="#UI-153"><span class="linenos">153</span></a>        <span class="c1"># load the magazine image</span>
+</span><span id="UI-154"><a href="#UI-154"><span class="linenos">154</span></a>        <span class="c1"># mag_image = pygame.image.load(&#39;images/ammo_storage.png&#39;)  # Replace &#39;magazine.png&#39; with the actual image file path</span>
+</span><span id="UI-155"><a href="#UI-155"><span class="linenos">155</span></a>        <span class="c1"># mag_image = pygame.transform.scale(mag_image, (50, 50))  # Adjust the size as needed</span>
+</span><span id="UI-156"><a href="#UI-156"><span class="linenos">156</span></a>        <span class="c1">#</span>
+</span><span id="UI-157"><a href="#UI-157"><span class="linenos">157</span></a>        <span class="c1"># # Display the remaining mags in the gun using the magazine image</span>
+</span><span id="UI-158"><a href="#UI-158"><span class="linenos">158</span></a>        <span class="c1"># mag_count = player.gun.mag_count</span>
+</span><span id="UI-159"><a href="#UI-159"><span class="linenos">159</span></a>        <span class="c1"># screen.blit(mag_image, (50, 58))  # Adjust the horizontal position and spacing as needed</span>
+</span><span id="UI-160"><a href="#UI-160"><span class="linenos">160</span></a>    <span class="k">def</span> <span class="nf">display_player_inventory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player</span><span class="p">):</span>
+</span><span id="UI-161"><a href="#UI-161"><span class="linenos">161</span></a>        <span class="c1"># inventory_hotbar = pygame.image.load(&quot;images/inventory_hotbar.png&quot;)</span>
+</span><span id="UI-162"><a href="#UI-162"><span class="linenos">162</span></a>        <span class="c1"># inventory_hotbar.convert()</span>
+</span><span id="UI-163"><a href="#UI-163"><span class="linenos">163</span></a>        <span class="c1">#</span>
+</span><span id="UI-164"><a href="#UI-164"><span class="linenos">164</span></a>        <span class="c1"># inventory_hotbar = pygame.transform.scale(inventory_hotbar, (</span>
+</span><span id="UI-165"><a href="#UI-165"><span class="linenos">165</span></a>        <span class="c1"># inventory_hotbar.get_width() * .5, inventory_hotbar.get_height() * .5))</span>
+</span><span id="UI-166"><a href="#UI-166"><span class="linenos">166</span></a>        <span class="c1">#</span>
+</span><span id="UI-167"><a href="#UI-167"><span class="linenos">167</span></a>        <span class="c1"># img_rect = inventory_hotbar.get_rect()</span>
+</span><span id="UI-168"><a href="#UI-168"><span class="linenos">168</span></a>        <span class="c1"># img_rect.center = self.screen_width // 2, self.screen_height - 25</span>
+</span><span id="UI-169"><a href="#UI-169"><span class="linenos">169</span></a>        <span class="c1">#</span>
+</span><span id="UI-170"><a href="#UI-170"><span class="linenos">170</span></a>        <span class="c1"># # displays the inventory_hotbar</span>
+</span><span id="UI-171"><a href="#UI-171"><span class="linenos">171</span></a>        <span class="c1"># self.screen.blit(inventory_hotbar, img_rect)</span>
+</span><span id="UI-172"><a href="#UI-172"><span class="linenos">172</span></a>
+</span><span id="UI-173"><a href="#UI-173"><span class="linenos">173</span></a>        <span class="c1"># Display inventory title</span>
+</span><span id="UI-174"><a href="#UI-174"><span class="linenos">174</span></a>        <span class="c1"># inventory_title = self.font.render(&quot;Player Inventory&quot;, True, colors.WHITE)</span>
+</span><span id="UI-175"><a href="#UI-175"><span class="linenos">175</span></a>        <span class="c1"># self.screen.blit(inventory_title, (self.screen_width // 2, self.screen_height - 25))</span>
+</span><span id="UI-176"><a href="#UI-176"><span class="linenos">176</span></a>
+</span><span id="UI-177"><a href="#UI-177"><span class="linenos">177</span></a>        <span class="c1"># starting x-coordinate</span>
+</span><span id="UI-178"><a href="#UI-178"><span class="linenos">178</span></a>        <span class="n">x_coordinate</span> <span class="o">=</span> <span class="mi">10</span>
+</span><span id="UI-179"><a href="#UI-179"><span class="linenos">179</span></a>        <span class="n">y_coordinate</span> <span class="o">=</span> <span class="mi">85</span>
+</span><span id="UI-180"><a href="#UI-180"><span class="linenos">180</span></a>
+</span><span id="UI-181"><a href="#UI-181"><span class="linenos">181</span></a>        <span class="n">gun_image</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">player</span><span class="o">.</span><span class="n">gun</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="n">player</span><span class="o">.</span><span class="n">gun</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+</span><span id="UI-182"><a href="#UI-182"><span class="linenos">182</span></a>                                                              <span class="n">player</span><span class="o">.</span><span class="n">gun</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
+</span><span id="UI-183"><a href="#UI-183"><span class="linenos">183</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">gun_image</span><span class="p">,</span> <span class="p">(</span><span class="n">x_coordinate</span><span class="p">,</span> <span class="n">y_coordinate</span><span class="p">))</span>
+</span><span id="UI-184"><a href="#UI-184"><span class="linenos">184</span></a>        <span class="n">x_coordinate</span> <span class="o">+=</span> <span class="mi">35</span>
+</span><span id="UI-185"><a href="#UI-185"><span class="linenos">185</span></a>
+</span><span id="UI-186"><a href="#UI-186"><span class="linenos">186</span></a>        <span class="c1"># Display each item in the inventory</span>
+</span><span id="UI-187"><a href="#UI-187"><span class="linenos">187</span></a>        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">player</span><span class="o">.</span><span class="n">inventory</span><span class="p">:</span>
+</span><span id="UI-188"><a href="#UI-188"><span class="linenos">188</span></a>            <span class="n">item_image</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_width</span><span class="p">(),</span>
+</span><span id="UI-189"><a href="#UI-189"><span class="linenos">189</span></a>                                                             <span class="n">item</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span> <span class="o">*</span> <span class="mf">.7</span><span class="p">))</span>
+</span><span id="UI-190"><a href="#UI-190"><span class="linenos">190</span></a>
+</span><span id="UI-191"><a href="#UI-191"><span class="linenos">191</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">item_image</span><span class="p">,</span> <span class="p">(</span><span class="n">x_coordinate</span><span class="p">,</span> <span class="n">y_coordinate</span> <span class="o">-</span> <span class="mi">10</span><span class="p">))</span>
+</span><span id="UI-192"><a href="#UI-192"><span class="linenos">192</span></a>
+</span><span id="UI-193"><a href="#UI-193"><span class="linenos">193</span></a>            <span class="n">x_coordinate</span> <span class="o">+=</span> <span class="mi">40</span>
+</span><span id="UI-194"><a href="#UI-194"><span class="linenos">194</span></a>
+</span><span id="UI-195"><a href="#UI-195"><span class="linenos">195</span></a>        <span class="c1"># Update the display</span>
+</span><span id="UI-196"><a href="#UI-196"><span class="linenos">196</span></a>        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">flip</span><span class="p">()</span>
 </span></pre></div>
 
 
@@ -685,6 +773,60 @@ UI    </h1>
             <div class="docstring"><p>Display the player's health and ammo stats on the screen.</p>
 </div>
 
+
+                            </div>
+                            <div id="UI.display_player_inventory" class="classattr">
+                                        <input id="UI.display_player_inventory-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
+<div class="attr function">
+            
+        <span class="def">def</span>
+        <span class="name">display_player_inventory</span><span class="signature pdoc-code condensed">(<span class="param"><span class="bp">self</span>, </span><span class="param"><span class="n">player</span></span><span class="return-annotation">):</span></span>
+
+                <label class="view-source-button" for="UI.display_player_inventory-view-source"><span>View Source</span></label>
+
+    </div>
+    <a class="headerlink" href="#UI.display_player_inventory"></a>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="UI.display_player_inventory-160"><a href="#UI.display_player_inventory-160"><span class="linenos">160</span></a>    <span class="k">def</span> <span class="nf">display_player_inventory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">player</span><span class="p">):</span>
+</span><span id="UI.display_player_inventory-161"><a href="#UI.display_player_inventory-161"><span class="linenos">161</span></a>        <span class="c1"># inventory_hotbar = pygame.image.load(&quot;images/inventory_hotbar.png&quot;)</span>
+</span><span id="UI.display_player_inventory-162"><a href="#UI.display_player_inventory-162"><span class="linenos">162</span></a>        <span class="c1"># inventory_hotbar.convert()</span>
+</span><span id="UI.display_player_inventory-163"><a href="#UI.display_player_inventory-163"><span class="linenos">163</span></a>        <span class="c1">#</span>
+</span><span id="UI.display_player_inventory-164"><a href="#UI.display_player_inventory-164"><span class="linenos">164</span></a>        <span class="c1"># inventory_hotbar = pygame.transform.scale(inventory_hotbar, (</span>
+</span><span id="UI.display_player_inventory-165"><a href="#UI.display_player_inventory-165"><span class="linenos">165</span></a>        <span class="c1"># inventory_hotbar.get_width() * .5, inventory_hotbar.get_height() * .5))</span>
+</span><span id="UI.display_player_inventory-166"><a href="#UI.display_player_inventory-166"><span class="linenos">166</span></a>        <span class="c1">#</span>
+</span><span id="UI.display_player_inventory-167"><a href="#UI.display_player_inventory-167"><span class="linenos">167</span></a>        <span class="c1"># img_rect = inventory_hotbar.get_rect()</span>
+</span><span id="UI.display_player_inventory-168"><a href="#UI.display_player_inventory-168"><span class="linenos">168</span></a>        <span class="c1"># img_rect.center = self.screen_width // 2, self.screen_height - 25</span>
+</span><span id="UI.display_player_inventory-169"><a href="#UI.display_player_inventory-169"><span class="linenos">169</span></a>        <span class="c1">#</span>
+</span><span id="UI.display_player_inventory-170"><a href="#UI.display_player_inventory-170"><span class="linenos">170</span></a>        <span class="c1"># # displays the inventory_hotbar</span>
+</span><span id="UI.display_player_inventory-171"><a href="#UI.display_player_inventory-171"><span class="linenos">171</span></a>        <span class="c1"># self.screen.blit(inventory_hotbar, img_rect)</span>
+</span><span id="UI.display_player_inventory-172"><a href="#UI.display_player_inventory-172"><span class="linenos">172</span></a>
+</span><span id="UI.display_player_inventory-173"><a href="#UI.display_player_inventory-173"><span class="linenos">173</span></a>        <span class="c1"># Display inventory title</span>
+</span><span id="UI.display_player_inventory-174"><a href="#UI.display_player_inventory-174"><span class="linenos">174</span></a>        <span class="c1"># inventory_title = self.font.render(&quot;Player Inventory&quot;, True, colors.WHITE)</span>
+</span><span id="UI.display_player_inventory-175"><a href="#UI.display_player_inventory-175"><span class="linenos">175</span></a>        <span class="c1"># self.screen.blit(inventory_title, (self.screen_width // 2, self.screen_height - 25))</span>
+</span><span id="UI.display_player_inventory-176"><a href="#UI.display_player_inventory-176"><span class="linenos">176</span></a>
+</span><span id="UI.display_player_inventory-177"><a href="#UI.display_player_inventory-177"><span class="linenos">177</span></a>        <span class="c1"># starting x-coordinate</span>
+</span><span id="UI.display_player_inventory-178"><a href="#UI.display_player_inventory-178"><span class="linenos">178</span></a>        <span class="n">x_coordinate</span> <span class="o">=</span> <span class="mi">10</span>
+</span><span id="UI.display_player_inventory-179"><a href="#UI.display_player_inventory-179"><span class="linenos">179</span></a>        <span class="n">y_coordinate</span> <span class="o">=</span> <span class="mi">85</span>
+</span><span id="UI.display_player_inventory-180"><a href="#UI.display_player_inventory-180"><span class="linenos">180</span></a>
+</span><span id="UI.display_player_inventory-181"><a href="#UI.display_player_inventory-181"><span class="linenos">181</span></a>        <span class="n">gun_image</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">player</span><span class="o">.</span><span class="n">gun</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="n">player</span><span class="o">.</span><span class="n">gun</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_width</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span><span class="p">,</span>
+</span><span id="UI.display_player_inventory-182"><a href="#UI.display_player_inventory-182"><span class="linenos">182</span></a>                                                              <span class="n">player</span><span class="o">.</span><span class="n">gun</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span>
+</span><span id="UI.display_player_inventory-183"><a href="#UI.display_player_inventory-183"><span class="linenos">183</span></a>        <span class="bp">self</span><span class="o">.</span><span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">gun_image</span><span class="p">,</span> <span class="p">(</span><span class="n">x_coordinate</span><span class="p">,</span> <span class="n">y_coordinate</span><span class="p">))</span>
+</span><span id="UI.display_player_inventory-184"><a href="#UI.display_player_inventory-184"><span class="linenos">184</span></a>        <span class="n">x_coordinate</span> <span class="o">+=</span> <span class="mi">35</span>
+</span><span id="UI.display_player_inventory-185"><a href="#UI.display_player_inventory-185"><span class="linenos">185</span></a>
+</span><span id="UI.display_player_inventory-186"><a href="#UI.display_player_inventory-186"><span class="linenos">186</span></a>        <span class="c1"># Display each item in the inventory</span>
+</span><span id="UI.display_player_inventory-187"><a href="#UI.display_player_inventory-187"><span class="linenos">187</span></a>        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">player</span><span class="o">.</span><span class="n">inventory</span><span class="p">:</span>
+</span><span id="UI.display_player_inventory-188"><a href="#UI.display_player_inventory-188"><span class="linenos">188</span></a>            <span class="n">item_image</span> <span class="o">=</span> <span class="n">pygame</span><span class="o">.</span><span class="n">transform</span><span class="o">.</span><span class="n">scale</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">image</span><span class="p">,</span> <span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_width</span><span class="p">(),</span>
+</span><span id="UI.display_player_inventory-189"><a href="#UI.display_player_inventory-189"><span class="linenos">189</span></a>                                                             <span class="n">item</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">get_height</span><span class="p">()</span> <span class="o">*</span> <span class="mf">.7</span><span class="p">))</span>
+</span><span id="UI.display_player_inventory-190"><a href="#UI.display_player_inventory-190"><span class="linenos">190</span></a>
+</span><span id="UI.display_player_inventory-191"><a href="#UI.display_player_inventory-191"><span class="linenos">191</span></a>            <span class="bp">self</span><span class="o">.</span><span class="n">screen</span><span class="o">.</span><span class="n">blit</span><span class="p">(</span><span class="n">item_image</span><span class="p">,</span> <span class="p">(</span><span class="n">x_coordinate</span><span class="p">,</span> <span class="n">y_coordinate</span> <span class="o">-</span> <span class="mi">10</span><span class="p">))</span>
+</span><span id="UI.display_player_inventory-192"><a href="#UI.display_player_inventory-192"><span class="linenos">192</span></a>
+</span><span id="UI.display_player_inventory-193"><a href="#UI.display_player_inventory-193"><span class="linenos">193</span></a>            <span class="n">x_coordinate</span> <span class="o">+=</span> <span class="mi">40</span>
+</span><span id="UI.display_player_inventory-194"><a href="#UI.display_player_inventory-194"><span class="linenos">194</span></a>
+</span><span id="UI.display_player_inventory-195"><a href="#UI.display_player_inventory-195"><span class="linenos">195</span></a>        <span class="c1"># Update the display</span>
+</span><span id="UI.display_player_inventory-196"><a href="#UI.display_player_inventory-196"><span class="linenos">196</span></a>        <span class="n">pygame</span><span class="o">.</span><span class="n">display</span><span class="o">.</span><span class="n">flip</span><span class="p">()</span>
+</span></pre></div>
+
+
+    
 
                             </div>
                 </section>

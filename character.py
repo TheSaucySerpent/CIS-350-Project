@@ -240,9 +240,9 @@ class Character:
         items = current_room.items.copy()  # Make a copy of the items in the room to avoid modifying the original list while iterating
         for item in items:
             if (self.x < item.x + item.width and
-                self.x + self.width > item.x and
-                self.y < item.y + item.height and
-                self.y + self.height > item.y) and keys[pygame.K_e]:
+                    self.x + self.width > item.x and
+                    self.y < item.y + item.height and
+                    self.y + self.height > item.y) and keys[pygame.K_e]:
                 if type(item) == weapons.Weapon or type(item) == weapons.Shotgun:
                     self.gun = item
                     current_room.items.remove(item)
