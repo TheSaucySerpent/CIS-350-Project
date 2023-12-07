@@ -42,7 +42,7 @@ class UI:
         img_rect.center = self.screen_width // 2, self.screen_height // 2
 
         # relevant text for the menu
-        game_title = self.font.render('CIS 350 Project', True, c.WHITE)
+        game_title = self.font.render('Top Down Shooter', True, c.WHITE)
         new_game_text = self.font.render('Press N for New Game', True, c.WHITE)
         continue_game_text = self.font.render('Press C to Load Saved Game', True, c.WHITE)
 
@@ -85,15 +85,56 @@ class UI:
         self.screen.blit(death_background, img_rect)
 
         # display new game text on death menu
-        new_game_text = self.font.render("Press N to Start New Game", True, (255, 255, 255))
+        new_game_text = self.font.render("Press N to Start New Game", True, colors.WHITE)
         self.screen.blit(new_game_text,
                          ((self.screen_width - new_game_text.get_width()) // 2,
                           (self.screen_height - new_game_text.get_height()) // 2 + 150))
+
+        # display quit game text on death menu
+        quit_game_text = self.font.render("Press Esc to Quit", True, colors.WHITE)
+        self.screen.blit(quit_game_text,
+                         ((self.screen_width - quit_game_text.get_width()) // 2,
+                          (self.screen_height - quit_game_text.get_height()) // 2 + 180))
 
         # updates the display
         pygame.display.flip()
 
         print('You Died!')
+
+    def display_win_menu(self):
+        """
+        Display the win menu with the win screen background image.
+        """
+
+        win_background = pygame.image.load("images/win_screen.png")
+        win_background.convert()
+
+        # scales background image to screen size
+        win_background = pygame.transform.scale(win_background, (self.screen_width, self.screen_height))
+
+        # creates bounding box for the image
+        img_rect = win_background.get_rect()
+        img_rect.center = self.screen_width // 2, self.screen_height // 2
+
+        # displays the win menu
+        self.screen.blit(win_background, img_rect)
+
+        # display new game text on win menu
+        new_game_text = self.font.render("Press N to Start New Game", True, colors.WHITE)
+        self.screen.blit(new_game_text,
+                         ((self.screen_width - new_game_text.get_width()) // 2,
+                          (self.screen_height - new_game_text.get_height()) // 2 + 180))
+
+        # display quit game text on win menu
+        quit_game_text = self.font.render("Press Esc to Quit", True, colors.WHITE)
+        self.screen.blit(quit_game_text,
+                         ((self.screen_width - quit_game_text.get_width()) // 2,
+                          (self.screen_height - quit_game_text.get_height()) // 2 + 210))
+
+        # updates the display
+        pygame.display.flip()
+
+        print('You Win!')
 
     def display_player_stats(self, player):
         """

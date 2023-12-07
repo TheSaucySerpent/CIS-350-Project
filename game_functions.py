@@ -394,6 +394,13 @@ class Game:
                 self.user_interface.display_death_menu()
                 self.game_over = True
 
+            # Win condition
+            # if self.current_room == self.r6 and self.current_room.enemies == []:
+            if self.current_room.enemies == []:
+                self.user_interface.display_win_menu()
+                self.game_over = True
+                print('You win!')
+
     def render_assets(self):
         self.screen.blit(self.current_room.background, (0, 0))
         # draw background
