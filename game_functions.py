@@ -242,7 +242,8 @@ class Game:
                      character=self.player,
                      damage=50, image_path='images/bossGolem.png')
 
-        r4 = Room('r4', background_path="images/ocean.png", screen_width=self.screen_width, screen_height=self.screen_height)
+        r4 = Room('r4', background_path="images/ocean.png", screen_width=self.screen_width,
+                  screen_height=self.screen_height)
         r4.starting_x = 100
         r4.starting_y = 300
         r4enemies = [boss, r4enemy2, r4enemy3]
@@ -269,9 +270,8 @@ class Game:
         r5.starting_y = 300
         r5.starting_x = 100
         r5enemies = [little_guy]
-        r5entities = [self.player, little_guy]
+        r5.entities = [self.player, little_guy]
         r5.enemies = r5enemies
-        r5entities = r5entities
         r5.add_item(dev_gun)
         r5.door = Door(x=1100, y=300, width=100, height=100, health=1000, image_path='images/door.png')
         r4.next_room = r5
@@ -449,9 +449,6 @@ class Game:
                     # 'Kill' enemy
                     self.current_room.enemies.remove(enemy)
 
-        # draws player inventory
-        self.user_interface.display_player_inventory(self.player)
-
         # Get current mouse position
         mouse_x, mouse_y = pygame.mouse.get_pos()
         # Adjust the position to center the crosshair
@@ -459,6 +456,9 @@ class Game:
         crosshair_y = mouse_y - self.crosshair.get_height() // 2
         # Draw crosshair on the screen
         self.screen.blit(self.crosshair, (crosshair_x, crosshair_y))
+
+        # draws player inventory
+        self.user_interface.display_player_inventory(self.player)
 
         # update the display
         pygame.display.flip()
