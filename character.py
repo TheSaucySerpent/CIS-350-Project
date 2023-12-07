@@ -170,6 +170,8 @@ class Character:
         Args:
         damage (int): The amount of damage to subtract from the character's health.
         """
+        initial_health = self.health  # Store initial health for assertions
+        initial_armor = self.armor
         if not self.invulnerable:
             current_time = pygame.time.get_ticks()
             # Needed to be done differently for player and enemies, so players can't be instantly killed and enemies can be destroyed by things like shotguns
@@ -189,6 +191,10 @@ class Character:
                     if self.health < 0:
                         self.health = 0
                     self.last_hurt = current_time
+
+                    # Testing
+                    assert self.health < initial_health or self.armor < initial_armor, "Character health or armor not reduced"
+                    assert self.armor >= 0, "Character armor is negative"
             else:
                 extra_damage = 0
                 if self.armor > 0:
