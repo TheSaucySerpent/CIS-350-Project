@@ -381,13 +381,13 @@ class Game:
                     self.player.y = self.current_room.starting_y
                     self.player.inventory.remove(self.key)
 
+            # Call the render assets function to render all assets in correct positions
+            self.render_assets()
+
             # Death Message/Game Over
             if self.player.health == 0:
                 self.user_interface.display_death_menu()
                 self.game_over = True
-
-            # Call the render assets function to render all assets in correct positions
-            self.render_assets()
 
     def render_assets(self):
         self.screen.blit(self.current_room.background, (0, 0))
@@ -462,7 +462,7 @@ class Game:
             'mag_size': self.player.gun.mag_size,
             'mag_count': self.player.gun.mag_count,
             'player_inventory': [],
-            'room_items': [],
+            'room_items': {},
             'room_enemies': [],
             'room_objects': [],
         }
@@ -471,14 +471,7 @@ class Game:
             game_state['player_inventory'].append(item.name)
 
         for item in self.current_room.items:
-            item_info = {
-                'name': item.name,
-                'position': (item.x, item.y),
-                'width': item.width,
-                'height': item.height,
-                'image_path': item.image_path,
-            }
-            game_state['room_items'].append(item_info)
+            game_state['room_items'][item.name] = (item.x, item.y)
 
         for enemy in self.current_room.enemies:
             enemy_info = {
@@ -524,24 +517,21 @@ class Game:
         self.player.x = game_state['player_x']
         self.player.y = game_state['player_y']
         self.player.health = game_state['player_health']
-        self.player.gun = None
         for gun in self.guns:
             if gun.name == game_state['player_gun_name']:
                 self.player.gun = gun
         self.player.gun.mag_ammo = game_state['ammo_count']
         self.player.gun.mag_size = game_state['mag_size']
         self.player.gun.mag_count = game_state['mag_count']
-        room_items = []
 
         for item in self.items:
             if item.name in game_state['player_inventory']:
-                self.player.inventory.append(item)
+                self.player.inventory.append(self.item)
 
-        for item_info in game_state['room_items']:
-            item = Item(item_info['name'], item_info['position'][0], item_info['position'][1],
-                        item_info['width'], item_info['height'], self.screen_width, self.screen_height,
-                        item_info['image_path'])
-            room_items.append(item)
+        for item in self.items + self.guns:
+            if item.name in game_state['room_items'].keys():
+                self.current_room.items.append(item)
+                item.x, item.y = game_state['room_items'][item.name]
 
         room_enemies = []
         for enemy_info in game_state['room_enemies']:
@@ -560,5 +550,4 @@ class Game:
                                    obj_info['image_path'])
             self.current_room.objects.append(obj)
 
-        self.current_room.items = room_items
         self.current_room.enemies = room_enemies

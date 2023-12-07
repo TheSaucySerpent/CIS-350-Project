@@ -95,12 +95,12 @@ class Object:
 
 
 class Door(Object):
-    '''
+    """
     Door Class, used to have custom collision and image paths with an object
-    '''
+    """
 
     def __init__(self, x, y, width, height, health, image_path):
-        '''
+        """
         Initialize a door
 
         Args
@@ -110,17 +110,17 @@ class Door(Object):
         height (int): The height of the door
         health (int): The health of the door, ended up unused
         image_path (str): The path to the image for the door.
-        '''
+        """
         super().__init__(x, y, width, height, health, image_path)
         self.rect = pygame.Rect(self.x, self.y, self.width, self.height)
 
     def collision(self, player, entities):
-        '''
+        """
         Handles the collision and use of the door
         Creates an instance of the player's hitbox, then checks if it collides with the door and if the player has a key in their inventory.
 
         returns Boolean, updates room if True, ignores if False
-        '''
+        """
         player_rect = pygame.Rect(player.x, player.y, player.width, player.height)
         for item in player.inventory:
             if self.rect.colliderect(player_rect) and item.name == 'Key':
