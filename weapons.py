@@ -79,6 +79,17 @@ class Weapon(Item):
                     self.projectiles.append(projectile)
                     self.mag_ammo -= 1
                     self.last_attack = current_time
+
+                    # Assertions for testing
+                    # self.projectiles = []
+                    # self.mag_ammo = -1
+                    # self.last_attack = 21
+                    assert len(self.projectiles) > 0, "No projectile created"
+                    assert self.mag_ammo >= 0, "Negative ammo count after attack"
+                    assert current_time == self.last_attack, "Last attack time not updated correctly"
+            else:
+                print("No weapon owner?")
+
             # This is work towards enemies that can shoot. It's not completed because I was too busy doing everything
             # else.
             '''else:
@@ -106,6 +117,12 @@ class Weapon(Item):
                         Projectile.projectile_hits_player(projectile, player) \
                         or Projectile.projectile_hits_object(projectile):
                     projectiles_to_remove.append(projectile)
+
+            # Add assertions for testing
+            assert projectile.x >= -5, "Projectile x-coordinate is negative"  # Given 5 pixel buffer for time it takes to update
+            assert projectile.y >= -5, "Projectile y-coordinate is negative"  # Given 5 pixel buffer for time it takes to update
+            assert projectile.x < screen_width, "Projectile x-coordinate exceeds screen width"
+            assert projectile.y < screen_height, "Projectile y-coordinate exceeds screen height"
         # Remove projectiles that are out of bounds or hit something
         for projectile in projectiles_to_remove:
             self.projectiles.remove(projectile)
@@ -128,6 +145,11 @@ class Weapon(Item):
             else:
                 print("Out of Mags")
                 self.last_reload = current_time
+
+        # Test Assertions
+        # Needed to give it a 1 bullet buffer for if you reload at just the right time while firing
+        assert self.mag_ammo == self.mag_size or self.mag_ammo == self.mag_size - 1, "Magazine ammo not filled to capacity"
+        assert self.mag_count >= 0, "Magazine count cannot be negative"
 
 
 class Projectile:
@@ -154,8 +176,13 @@ class Projectile:
 
     def move(self):
         """ Update the projectile's position based on its direction and speed """
+        initial_x, initial_y = self.x, self.y  # Store initial position for assertion
+
         self.x += self.speed * math.cos(math.radians(self.direction))
         self.y += self.speed * math.sin(math.radians(self.direction))
+
+        # Test to make sure the projectile moves
+        assert self.x != initial_x or self.y != initial_y, "Projectile position not updated"
 
     def projectile_hits_enemy(self, current_room):
         """
@@ -163,10 +190,12 @@ class Projectile:
         :return: Bool
         """
         for enemy in current_room.enemies:
+            initial_health = enemy.health  # Store initial health for assertions
             if enemy.health > 0:
                 if self.x < enemy.x + enemy.width and self.x + self.width > enemy.x \
                         and self.y < enemy.y + enemy.height and self.y + self.height > enemy.y:
                     enemy.take_damage(self.damage)
+                    assert enemy.health < initial_health, "Enemy health not reduced after projectile hit"
                     return True
 
     def projectile_hits_object(self, current_room):
