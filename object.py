@@ -58,6 +58,7 @@ class Object:
         for entity in entities:
             entity_rect = pygame.Rect(entity.x, entity.y, entity.width, entity.height)
             if entity_rect.colliderect(self.obj_rect):
+                initial_x, initial_y = entity.x, entity.y
                 # Left Border
                 if entity.x + entity.width < self.x + 2:
                     entity.x -= 1
@@ -70,6 +71,10 @@ class Object:
                 # Lower Board
                 elif entity.y > self.y:
                     entity.y += 1
+
+                # Test to make sure it moved entity
+                assert (initial_x, initial_y) != (entity.x, entity.y), "Entity position not updated after collision"
+
 
     def load_image(self):
         """

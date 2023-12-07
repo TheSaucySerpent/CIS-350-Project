@@ -68,12 +68,15 @@ class Item:
         This method updates the y position of the object for bouncing and reverses the bounce direction when reaching
         the bounce limits.
         """
+        initial_y = self.y
         self.y += self.bounce_speed * self.bounce_direction
 
         # Check if the object is within the bounce range
         if self.y >= self.original_y + 10 or self.y <= self.original_y - 10:
             # Reverse the bounce direction when reaching the limits
             self.bounce_direction *= -1
+
+        assert self.y != initial_y, "Object position not updated after bouncing"
 
     def draw(self, screen):
         """

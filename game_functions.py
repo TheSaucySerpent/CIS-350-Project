@@ -420,7 +420,7 @@ class Game:
                 if enemy.health > 0:
                     self.screen.blit(enemy.image, (enemy.x, enemy.y))
                 else:
-                    # When an enemy dies, if it's the last enemy and it's not on the final level:
+                    # When an enemy dies, if it's the last enemy, and it's not on the final level:
                     if len(self.current_room.enemies) == 1 and self.current_room != self.r6:
                         # Drop a key at the last enemy's death coords
                         self.key.x = self.current_room.enemies[0].x
@@ -431,15 +431,15 @@ class Game:
                     # Else, everytime any enemy besides the last enemy
                     else:
                         # Roll a die and
-                        luck = random.randint(0, 5)
-                        # If you roll lucky and not on last room:
+                        luck = random.randint(0, 4)
+                        # If you roll lucky and not on last room and no medkits on the stage yet:
                         if luck == 1 and self.current_room != self.r6 and len(self.current_room.items) == 0:
                             # Drop a medkit at enemy death coords
                             self.medkit.x = enemy.x
                             self.medkit.original_y = enemy.y
                             self.medkit.y = enemy.y
                             self.current_room.add_item(self.medkit)
-                            print("Medkit Dropped!")
+                            print("Med-kit Dropped!")
                     # 'Kill' enemy
                     self.current_room.enemies.remove(enemy)
 
