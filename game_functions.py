@@ -395,8 +395,7 @@ class Game:
                 self.game_over = True
 
             # Win condition
-            # if self.current_room == self.r6 and self.current_room.enemies == []:
-            if self.current_room.enemies == []:
+            if self.current_room == self.r6 and self.current_room.enemies == []:
                 self.user_interface.display_win_menu()
                 self.game_over = True
                 print('You win!')
