@@ -8,7 +8,7 @@ from weapons import Weapon
 
 class Room:
     """ Class for all Rooms, used to create, draw, and add to rooms. """
-    def __init__(self, background_path, screen_width, screen_height):
+    def __init__(self, name, background_path, screen_width, screen_height):
         """
         Initialize a Room object.
 
@@ -36,6 +36,7 @@ class Room:
         if not isinstance(screen_height, int) or screen_height <= 0:
             raise ValueError("Screen height must be a positive integer.")
 
+        self.name = name
         self.background_path = background_path
         self.screen_width = screen_width
         self.screen_height = screen_height

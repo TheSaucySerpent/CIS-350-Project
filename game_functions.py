@@ -47,6 +47,7 @@ class Game:
         self.medkit = None
         self.items = None
         self.r6 = None
+        self.rooms = None
 
         self.prev_screen_width = screen_width
         self.prev_screen_height = screen_height
@@ -112,8 +113,10 @@ class Game:
         # Object list, used for drawing and collision
         r1objs = [obj, obj2, obj3, obj4, obj5, obj6, r1door1]
 
-        self.current_room = Room(background_path="images/Tile Resized.jpg", screen_width=self.screen_width,
-                                 screen_height=self.screen_height)
+        r1 = Room('r1', background_path="images/Tile Resized.jpg", screen_width=self.screen_width,
+                  screen_height=self.screen_height)
+
+        self.current_room = r1
 
         # Separate list including all enemies and main character, used for object collision
         self.current_room.entities = [self.player] + enemies
@@ -170,7 +173,7 @@ class Game:
         r2objs = [r2obj, r2obj2, r2obj3, r2obj4, r2obj5]
         r2door = Door(x=1100, y=300, width=100, height=100, health=1000, image_path='images/door.png')
 
-        r2 = Room(background_path="images/Tile Resized.jpg", screen_width=self.screen_width,
+        r2 = Room('r2', background_path="images/Tile Resized.jpg", screen_width=self.screen_width,
                   screen_height=self.screen_height)
 
         # Determines where the player spawns in the next level
@@ -210,7 +213,7 @@ class Game:
         r3objs = [r3obj, r3obj2, r3obj3, r3obj4, r3obj5, r3obj6]
         r3door = Door(x=1100, y=300, width=100, height=100, health=1000, image_path='images/door.png')
 
-        r3 = Room(background_path="images/Tile Resized.jpg", screen_width=self.screen_width,
+        r3 = Room('r3', background_path="images/Tile Resized.jpg", screen_width=self.screen_width,
                   screen_height=self.screen_height)
         r3.starting_x = 100
         r3.starting_y = 100
@@ -239,7 +242,7 @@ class Game:
                      character=self.player,
                      damage=50, image_path='images/bossGolem.png')
 
-        r4 = Room(background_path="images/ocean.png", screen_width=self.screen_width, screen_height=self.screen_height)
+        r4 = Room('r4', background_path="images/ocean.png", screen_width=self.screen_width, screen_height=self.screen_height)
         r4.starting_x = 100
         r4.starting_y = 300
         r4enemies = [boss, r4enemy2, r4enemy3]
@@ -259,7 +262,7 @@ class Game:
         A minigun. Self Explanatory
         Door
         '''
-        r5 = Room(background_path="images/darkness.png", screen_width=self.screen_width,
+        r5 = Room('r5', background_path="images/darkness.png", screen_width=self.screen_width,
                   screen_height=self.screen_height)
         little_guy = Enemy(name='enemy', x=800, y=500, width=50, height=50, speed=.001, health=10, armor=0, gun=0,
                            character=self.player, damage=20, image_path='images/little_guy.png')
@@ -277,7 +280,7 @@ class Game:
         Here is everything added to Room 6:
         24 enemies for minigun practice
         '''
-        self.r6 = Room(background_path="images/darkness.png", screen_width=self.screen_width,
+        self.r6 = Room('r6', background_path="images/darkness.png", screen_width=self.screen_width,
                        screen_height=self.screen_height)
         self.r6.starting_y = 50
         self.r6.starting_x = 600
@@ -317,6 +320,8 @@ class Game:
         self.r6.enemies = r6enemies
         self.r6.entities = r6entities
         r5.next_room = self.r6
+
+        self.rooms = [r1, r2, r3, r4, r5, self.r6,]
 
     def run_game(self):
         """ Runs the game loop. """
@@ -465,6 +470,7 @@ class Game:
             'room_items': {},
             'room_enemies': [],
             'room_objects': [],
+            'current_room': self.current_room.name
         }
 
         for item in self.player.inventory:
@@ -508,6 +514,10 @@ class Game:
             with open('game_save.pkl', 'rb') as file:
                 game_state = pickle.load(file)
 
+        for room in self.rooms:
+            if room.name == game_state['current_room']:
+                self.current_room = room
+
         # Clear all preset objects of the game
         self.current_room.objects.clear()
         self.current_room.enemies.clear()
@@ -526,7 +536,7 @@ class Game:
 
         for item in self.items:
             if item.name in game_state['player_inventory']:
-                self.player.inventory.append(self.item)
+                self.player.inventory.append(item)
 
         for item in self.items + self.guns:
             if item.name in game_state['room_items'].keys():
