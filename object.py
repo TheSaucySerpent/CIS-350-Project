@@ -54,6 +54,10 @@ class Object:
         """
         Handle collision between objects and entities using pygame's built-in rectangle collision functions.
         Adds or subtracts from the entity's x and y values corresponding to the direction in which they collide.
+
+        Args:
+            player (Character):  The player character.
+            entities (list): list of entities in the current room.
         """
         for entity in entities:
             entity_rect = pygame.Rect(entity.x, entity.y, entity.width, entity.height)
@@ -74,7 +78,6 @@ class Object:
 
                 # Test to make sure it moved entity
                 assert (initial_x, initial_y) != (entity.x, entity.y), "Entity position not updated after collision"
-
 
     def load_image(self):
         """
@@ -121,10 +124,16 @@ class Door(Object):
 
     def collision(self, player, entities):
         """
-        Handles the collision and use of the door
-        Creates an instance of the player's hitbox, then checks if it collides with the door and if the player has a key in their inventory.
+        Handles the collision and use of the door Creates an instance of the player's hitbox, then checks if it
+        collides with the door and if the player has a key in their inventory.
 
-        returns Boolean, updates room if True, ignores if False
+        Returns Boolean, updates room if True, ignores if False
+
+        Args:
+            player (Character):  The player character.
+            entities (list): list of entities in the current room.
+
+        Returns: Bool
         """
         player_rect = pygame.Rect(player.x, player.y, player.width, player.height)
         for item in player.inventory:

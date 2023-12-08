@@ -21,6 +21,12 @@ class Weapon(Item):
         mag_count (int): The number of magazines the weapon has.
         reload_speed (int): The reload speed of the weapon.
         owner: The entity (e.g., player or enemy) that owns the weapon.
+        x (int): The x position of the item.
+        y (int): The y position of the item.
+        width (int): The width of the item.
+        height (height): The height of the item.
+        screen_width (int): The width of the screen.
+        screen_height (int): The height of the screen.
         image_path (str, optional): Path to the image for the weapon (default is None). This will be used in the future to display a weapon design.
         """
         super().__init__(name, x, y, width, height, screen_width, screen_height, image_path)
@@ -65,6 +71,9 @@ class Weapon(Item):
         This method checks if enough time has passed since the last shot to fire again. If the owner is the player, it also
         checks if there is enough ammunition in the magazine. It then calculates the direction and creates a new
         projectile. The method updates the last attack time and decreases the magazine ammo.
+
+        Args:
+            player (Character): The player character of the game.
         """
         current_time = pygame.time.get_ticks()
         if current_time - self.last_attack >= 1000 / self.attack_speed:
@@ -102,7 +111,14 @@ class Weapon(Item):
         """
         Move and update all active projectiles.
 
-        This method updates the position of all active projectiles, and removes any projectiles that collide with something.
+        This method updates the position of all active projectiles,
+        and removes any projectiles that collide with something.
+
+        Args:
+            player (Character): The player character of the game.
+            current_room (Room): The current room the player is in.
+            screen_width (int): The width of the screen.
+            screen_height (int): The height of the screen.
         """
         projectiles_to_remove = []
         for projectile in self.projectiles:
@@ -187,7 +203,11 @@ class Projectile:
     def projectile_hits_enemy(self, current_room):
         """
         Checks for any collision with enemies. If collision, does projectile damage to the enemy and returns True
-        :return: Bool
+
+        Args:
+            current_room (Room): The current room the player is in.
+
+        Returns: Bool
         """
         for enemy in current_room.enemies:
             initial_health = enemy.health  # Store initial health for assertions
@@ -201,7 +221,11 @@ class Projectile:
     def projectile_hits_object(self, current_room):
         """
         Checks for collision with objects. If collision, returns True.
-        :return: Bool
+
+        Args:
+            current_room (Room): The current room that the player is in.
+
+        Returns: Bool
         """
         if len(current_room.objects) > 0:
             for ob in current_room.objects:
@@ -216,8 +240,13 @@ class Projectile:
 
     def projectile_hits_player(self, player):
         """
-        This method is only used on enemy projectiles. It currently doesn't work properly. Will return True when collision with player is detected.
-        :return: Bool
+        This method is only used on enemy projectiles. It currently doesn't work properly. Will return True when
+        collision with player is detected.
+
+        Args:
+             player (Character): The player character of the game.
+
+        Returns: Bool
         """
         if self.x < player.x + player.width and self.x + self.width > player.width \
                 and self.y < player.y + player.height and self.y + self.height > player.y:
@@ -227,7 +256,12 @@ class Projectile:
     def projectile_out_of_bounds(self, screen_width, screen_height):
         """
         Removes any projectiles That go off-screen.
-        :return: Bool
+
+        Args:
+            screen_width (int): The width of the screen.
+            screen_height (int): The height of the screen.
+
+        Returns: Bool
         """
         if 0 <= self.x <= screen_width - self.width and 0 <= self.y <= screen_height - self.height:
             return False
@@ -243,8 +277,23 @@ class Shotgun(Weapon):
         """
         Shotgun init function, essentially the same as it's Parent Weapon
 
+        name (str): The name of the weapon.
+        damage (int): How much damage the weapon does each hit.
+        proj_speed (int): How fast the projectile from the weapon travels.
+        attack_speed (int): How fast the gun fires.
+        mag_size (int): The size of the gun magazine.
+        mag_count (int): How many magazines remaining the gun has.
+        reload_speed (int): How long it takes to reload.
+        owner (Character): Who is holding the weapon.
         spread (int): Determines the degrees of spread in the shotgun.
         proj_number (int): Determines the number of pellets shot out of the shotgun.
+        x (int): The x position of the weapon.
+        y (int): The y position of the weapon.
+        width (int): The width of the weapon.
+        height (int): The height of the weapon.
+        screen_width (int): The width of the screen.
+        screen_height (int): The height of the screen.
+        image_path (str): The path to the image for the weapon.
         """
         super().__init__(name, damage, proj_speed, attack_speed, mag_size, mag_count, reload_speed, owner, x, y, width,
                          height, screen_width, screen_height, image_path)
@@ -253,7 +302,10 @@ class Shotgun(Weapon):
 
     def attack(self, player):
         """
-        See Weapon.attack for more details. Primary differences in comments:
+        Handles shooting a weapon.
+
+        Args:
+            player (Character): The player of the game who is shooting the weapon.
         """
         current_time = pygame.time.get_ticks()
         if current_time - self.last_attack >= 1000 / self.attack_speed:

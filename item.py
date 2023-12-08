@@ -13,6 +13,8 @@ class Item:
         y (int): The y-coordinate of the object.
         width (int): The width of the object.
         height (int): The height of the object.
+        screen_width (int): The width of the screen.
+        screen_height (int): The height of the screen.
         image_path (str, optional): Path to the image for the object (default is None).
         """
         # Validate input values

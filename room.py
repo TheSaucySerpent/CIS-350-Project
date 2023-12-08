@@ -13,19 +13,10 @@ class Room:
         Initialize a Room object.
 
         Args:
+            name (str): The name of the room.
             background_path (str): Path to the background image for the room.
             screen_width (int): Width of the screen.
             screen_height (int): Height of the screen.
-            characters (list): List to hold player character.
-            enemies (list): List to hold Enemies. Defaults to an empty list.
-            objects (list): List to hold Objects. Defaults to an empty list.
-            weapons (list): List to hold Weapons. Defaults to an empty list.
-            items (list): List to hold Items. Defaults to an empty list.
-            entities (list): List to hold general Entities. Defaults to an empty list.
-            door (Door): Door to next room. Defaults to None.
-            next_room (Any): Reference to the next room. Defaults to None. Needs to be added if there's a door.
-            starting_x (int): X-coordinate where the player starts in the room. Defaults to 100.
-            starting_y (int): Y-coordinate where the player starts in the room. Defaults to 100.
         """
         if not isinstance(background_path, str):
             raise ValueError("Invalid background image file path: {background_path}")
@@ -142,6 +133,7 @@ class Room:
     def scale(self, prev_screen_width, prev_screen_height, new_screen_width, new_screen_height):
         """
         Used to scale the room to a specified width and height.
+
         Args:
             prev_screen_width = previous screen width
             prev_screen_height = previous screen height

@@ -1,4 +1,3 @@
-import random
 import pygame
 from character import Character
 
@@ -41,6 +40,11 @@ class Enemy(Character):
         position based on speed and direction.
         Checks for collisions with the target character and deals damage
         to the target character if they collide.
+
+        Args:
+            player (Character): The player character
+            screen_width (int): The width of the screen
+            screen_height (int): The height of the screen
         """
         # Calculate the direction towards the character
         dx = self.character.x - self.x
@@ -93,7 +97,17 @@ class Default(Enemy):
     A prebuilt instance of enemy, used for efficiently adding enemies to the first 3 levels
     """
     def __init__(self, name, x, y, player):
-        super().__init__(name=name, x=x, y=y, width=50, height=50, speed=.3, health=50, armor=10, gun=0, character=player, damage=10, image_path="images/green monster.png")
+        """
+        Calls constructor of the Enemy class
+
+        Args:
+            name (str): the name of the enemy.
+            x (int): The x-coordinate of the enemy's position.
+            y (int): The y-coordinate of the enemy's position.
+            player (Character): The player character that the enemy is moving towards.
+        """
+        super().__init__(name=name, x=x, y=y, width=50, height=50, speed=.3, health=50, armor=10, gun=0,
+                         character=player, damage=10, image_path="images/green monster.png")
 
 
 class Tank(Enemy):
@@ -101,7 +115,17 @@ class Tank(Enemy):
     A prebuilt instance of enemy, used for efficiently adding enemies to the first 3 levels
     """
     def __init__(self, name, x, y, player):
-        super().__init__(name=name, x=x, y=y, width=85, height=68, speed=.1, health=80, armor=10, gun=0, character=player, damage=60, image_path="images/SentryCrab.png")
+        """
+        Calls constructor of the Enemy class
+
+        Args:
+            name (str): the name of the enemy.
+            x (int): The x-coordinate of the enemy's position.
+            y (int): The y-coordinate of the enemy's position.
+            player (Character): The player character that the enemy is moving towards.
+        """
+        super().__init__(name=name, x=x, y=y, width=85, height=68, speed=.1, health=80, armor=10,
+                         gun=0, character=player, damage=60, image_path="images/SentryCrab.png")
 
 
 class Runner(Enemy):
@@ -109,4 +133,14 @@ class Runner(Enemy):
     A prebuilt instance of enemy, used for efficiently adding enemies to the first 3 levels
     """
     def __init__(self, name, x, y, player):
-        super().__init__(name=name, x=x, y=y, width=30, height=30, speed=.45, health=40, armor=0, gun=0, character=player, damage=40, image_path="images/slime.png")
+        """
+        Calls constructor of the Enemy class
+
+        Args:
+            name (str): the name of the enemy.
+            x (int): The x-coordinate of the enemy's position.
+            y (int): The y-coordinate of the enemy's position.
+            player (Character): The player character that the enemy is moving towards.
+        """
+        super().__init__(name=name, x=x, y=y, width=30, height=30, speed=.45, health=40, armor=0,
+                         gun=0, character=player, damage=40, image_path="images/slime.png")

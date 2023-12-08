@@ -57,14 +57,8 @@ class Game:
 
     def setup_game(self):
         """
-        Creates the starting variables of the game
-        player = the main character used everywhere
-        obj = the object class
-        enemies = list of starting enemies
-        room = Room class
-        current_room = Starting room
-        game_over = Boolean to determine if the game is over
-
+        Creates all necessary variables for the game and sets up a new game instance
+        so that the game can be run properly
         """
         self.player = Character(name="Player", x=100, y=100, width=50, height=50, speed=1, health=100, armor=50, gun=0,
                                 image_path="images/white_square.png")
@@ -324,7 +318,7 @@ class Game:
         self.rooms = [r1, r2, r3, r4, r5, self.r6]
 
     def run_game(self):
-        """ Runs the game loop. """
+        """ Runs the core game loop. """
 
         # Make the cursor invisible so a custom cursor can be used
         pygame.mouse.set_visible(False)
@@ -401,6 +395,9 @@ class Game:
                 print('You win!')
 
     def render_assets(self):
+        """
+        Renders all game assets and related overlays
+        """
         self.screen.blit(self.current_room.background, (0, 0))
         # draw background
         self.current_room.draw(self.screen)
@@ -464,6 +461,9 @@ class Game:
         pygame.display.flip()
 
     def save_game_state(self):
+        """
+        Saves the current game state
+        """
         game_state = {
             'player_x': self.player.x,
             'player_y': self.player.y,
@@ -516,6 +516,9 @@ class Game:
         print('Game Saved')
 
     def load_game_state(self):
+        """
+        Loads the last saved game state
+        """
         if os.path.isfile('game_save.pkl'):
             with open('game_save.pkl', 'rb') as file:
                 game_state = pickle.load(file)

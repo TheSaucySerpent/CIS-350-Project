@@ -9,7 +9,9 @@ menu_background_selection = random.choice(menu_background_options)
 
 
 class UI:
-    """Class for the game's user interface and relevant menus that are displayed throughout the game."""
+    """
+    Class for the game's user interface and relevant menus that are displayed throughout the game.
+    """
 
     def __init__(self, screen, screen_width, screen_height, font):
         """
@@ -138,7 +140,7 @@ class UI:
 
     def display_player_stats(self, player):
         """
-            Display the player's health and ammo stats on the screen.
+        Display the player's health and ammo stats on the screen.
         """
         # create the red background rectangle for the health bar
         red_rect = pygame.Rect(10, 10, 200, 20)
@@ -187,33 +189,13 @@ class UI:
         mag_text = self.font.render(f"Mags: {player_gun_mag_count}", True, colors.BLACK)
         self.screen.blit(mag_text, (10, 58))  # Adjust the vertical position as needed
 
-        # this is causing the game to run extremely slow, need to explore different options
-        # also need a different picture, was thinking a cartoon looking magazine of an ak-47
-
-        # load the magazine image
-        # mag_image = pygame.image.load('images/ammo_storage.png')  # Replace 'magazine.png' with the actual image file path
-        # mag_image = pygame.transform.scale(mag_image, (50, 50))  # Adjust the size as needed
-        #
-        # # Display the remaining mags in the gun using the magazine image
-        # mag_count = player.gun.mag_count
-        # screen.blit(mag_image, (50, 58))  # Adjust the horizontal position and spacing as needed
     def display_player_inventory(self, player):
-        # inventory_hotbar = pygame.image.load("images/inventory_hotbar.png")
-        # inventory_hotbar.convert()
-        #
-        # inventory_hotbar = pygame.transform.scale(inventory_hotbar, (
-        # inventory_hotbar.get_width() * .5, inventory_hotbar.get_height() * .5))
-        #
-        # img_rect = inventory_hotbar.get_rect()
-        # img_rect.center = self.screen_width // 2, self.screen_height - 25
-        #
-        # # displays the inventory_hotbar
-        # self.screen.blit(inventory_hotbar, img_rect)
+        """
+        Displays the items in the player's inventory.
 
-        # Display inventory title
-        # inventory_title = self.font.render("Player Inventory", True, colors.WHITE)
-        # self.screen.blit(inventory_title, (self.screen_width // 2, self.screen_height - 25))
-
+        Args:
+        player (Character): The player character of the game.
+        """
         # starting x-coordinate
         x_coordinate = 10
         y_coordinate = 85

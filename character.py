@@ -63,6 +63,7 @@ class Character:
         self.image = None
         self.picked_up = False
         self.inventory = []
+        self.images = None
 
         '''self.image_path = {
             'up': ['images/Up standing.png', 'images/Up running.png'],
@@ -92,6 +93,7 @@ class Character:
 
         Loads images for character animations in different directions.
         """
+
         self.images = {}
         for direction, paths in self.image_path.items():
             self.images[direction] = [pygame.image.load(path) for path in paths]
@@ -120,6 +122,8 @@ class Character:
         Method used for normal movement as well as dodge. Moves the given Character by their speed
 
         Args:
+        screen_width (int) : The width of the screen
+        screen_height (int) : The height of the screen
         keys (arr): The key pressed determines the direction the speed is added to
         extra_speed (int): Gets added to the character's base speed, used for dodge ability
         is_invulnerable (bool, optional): Used to make the player invulnerable during dodge
@@ -174,7 +178,6 @@ class Character:
         initial_armor = self.armor
         if not self.invulnerable:
             current_time = pygame.time.get_ticks()
-            # Needed to be done differently for player and enemies, so players can't be instantly killed and enemies can be destroyed by things like shotguns
             if self.name == 'Player':
                 # To change invulnerability time, change value of 300
                 if current_time - self.last_hurt > 300:
@@ -193,7 +196,8 @@ class Character:
                     self.last_hurt = current_time
 
                     # Testing
-                    assert self.health < initial_health or self.armor < initial_armor, "Character health or armor not reduced"
+                    assert self.health < initial_health or self.armor < initial_armor, \
+                        "Character health or armor not reduced"
                     assert self.armor >= 0, "Character armor is negative"
             else:
                 extra_damage = 0
@@ -237,13 +241,14 @@ class Character:
     def pick_up(self, current_room):
         """
         Allow the character to pick up items from the current room.
-        This method sees if the chracter pressed e on an item, and, if so, adds it to inventory.
+        This method sees if the character pressed e on an item, and, if so, adds it to inventory.
 
         Args:
         current_room (Room): The current room the character is in.
         """
         keys = pygame.key.get_pressed()
-        items = current_room.items.copy()  # Make a copy of the items in the room to avoid modifying the original list while iterating
+        items = current_room.items.copy()  # Make a copy of the items in the room to avoid modifying the original
+        # list while iterating
         for item in items:
             if (self.x < item.x + item.width and
                     self.x + self.width > item.x and
