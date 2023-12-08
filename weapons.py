@@ -131,7 +131,7 @@ class Weapon(Item):
             else:
                 if Projectile.projectile_out_of_bounds(projectile, screen_width, screen_height) or \
                         Projectile.projectile_hits_player(projectile, player) \
-                        or Projectile.projectile_hits_object(projectile):
+                        or Projectile.projectile_hits_object(projectile, current_room):
                     projectiles_to_remove.append(projectile)
 
             # Add assertions for testing
