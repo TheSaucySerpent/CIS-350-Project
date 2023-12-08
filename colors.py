@@ -1,5 +1,4 @@
 # Colors used in program, set variables for readability
-
 RED = (255, 0, 0)
 GRAY = (150, 150, 150)
 WHITE = (255, 255, 255)

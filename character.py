@@ -1,8 +1,10 @@
 import pygame
+import weapons
 
 
 class Character:
     """ Class used for all moving entities, including the player and enemies. """
+
     def __init__(self, name, x, y, width, height, speed, health, armor, gun, image_path=None):
         """
         Initializes the character
@@ -19,6 +21,31 @@ class Character:
         gun (Weapon): The type of gun the character wields.
         image_path (str, optional): Path to the image for the character (If none is given, uses a color instead.
         """
+        # Validate input values
+        if not isinstance(name, str) or not name:
+            raise ValueError("Name must be a non-empty string.")
+
+        if not isinstance(x, (int, float)) or 0 > x > 1200:
+            raise ValueError("X-coordinate must be a numeric value.")
+
+        if not isinstance(y, (int, float)) or 0 > y > 700:
+            raise ValueError("Y-coordinate must be a numeric value.")
+
+        if not isinstance(width, (int, float)) or width <= 0:
+            raise ValueError("Width must be a positive numeric value.")
+
+        if not isinstance(height, (int, float)) or height <= 0:
+            raise ValueError("Height must be a positive numeric value.")
+
+        if not isinstance(speed, (int, float)) or speed <= 0:
+            raise ValueError("Speed must be a positive numeric value.")
+
+        if not isinstance(health, int) or health < 0:
+            raise ValueError("Health must be a non-negative integer.")
+
+        if not isinstance(armor, int) or armor < 0:
+            raise ValueError("Armor must be a non-negative integer.")
+
         self.name = name
         self.x = x
         self.y = y
@@ -36,15 +63,21 @@ class Character:
         self.image = None
         self.picked_up = False
         self.inventory = []
+        self.images = None
 
-        self.image_path = {
+        '''self.image_path = {
             'up': ['images/Up standing.png', 'images/Up running.png'],
             'down': ['images/Down standing.png', 'images/Down running.png'],
             'left': ['images/Left standing.png', 'images/Left running .png'],
             'right': ['images/1.png', 'images/BackgroundEraser_image.png']
-            }
+            }'''
+        self.image_path = {
+            'left': ['images/player_assets/standing_left.png', 'images/player_assets/walking_left.png'],
+            'right': ['images/player_assets/standing_right.png', 'images/player_assets/walking_right.png']
 
-        self.direction = 'down'
+        }
+
+        self.direction = 'right'
         self.image_change_delay = 100  # Delay between frame changes
         self.frame_count = 0
 
@@ -60,6 +93,7 @@ class Character:
 
         Loads images for character animations in different directions.
         """
+
         self.images = {}
         for direction, paths in self.image_path.items():
             self.images[direction] = [pygame.image.load(path) for path in paths]
@@ -88,6 +122,8 @@ class Character:
         Method used for normal movement as well as dodge. Moves the given Character by their speed
 
         Args:
+        screen_width (int) : The width of the screen
+        screen_height (int) : The height of the screen
         keys (arr): The key pressed determines the direction the speed is added to
         extra_speed (int): Gets added to the character's base speed, used for dodge ability
         is_invulnerable (bool, optional): Used to make the player invulnerable during dodge
@@ -102,13 +138,13 @@ class Character:
 
         if keys[pygame.K_w]:
             new_y -= self.speed + extra_speed
-            direction = 'up'
+            # direction = 'up'
         if keys[pygame.K_a]:
             new_x -= self.speed + extra_speed
             direction = 'left'
         if keys[pygame.K_s]:
             new_y += self.speed + extra_speed
-            direction = 'down'
+            # direction = 'down'
         if keys[pygame.K_d]:
             new_x += self.speed + extra_speed
             direction = 'right'
@@ -138,11 +174,12 @@ class Character:
         Args:
         damage (int): The amount of damage to subtract from the character's health.
         """
+        initial_health = self.health  # Store initial health for assertions
+        initial_armor = self.armor
         if not self.invulnerable:
             current_time = pygame.time.get_ticks()
-            # Needed to be done differently for player and enemies, so players can't be instantly killed and enemies can be destroyed by things like shotguns
             if self.name == 'Player':
-                #To change invulnerability time, change value of 300
+                # To change invulnerability time, change value of 300
                 if current_time - self.last_hurt > 300:
                     extra_damage = 0
                     if self.armor > 0:
@@ -157,6 +194,11 @@ class Character:
                     if self.health < 0:
                         self.health = 0
                     self.last_hurt = current_time
+
+                    # Testing
+                    assert self.health < initial_health or self.armor < initial_armor, \
+                        "Character health or armor not reduced"
+                    assert self.armor >= 0, "Character armor is negative"
             else:
                 extra_damage = 0
                 if self.armor > 0:
@@ -173,12 +215,12 @@ class Character:
 
     def heal(self, amount):
         """
-        Increase the character's health by a specified amount, up to the maximum health.
+        Increase the character's health by a specified amount, up to the maximum health. Used exlusively for medkits.
 
         Args:
         amount (int): The amount of health to add to the character.
         """
-        if self.health >= self.max_health:
+        if self.health + amount > self.max_health:
             self.health = self.max_health
         else:
             self.health += amount
@@ -199,22 +241,27 @@ class Character:
     def pick_up(self, current_room):
         """
         Allow the character to pick up items from the current room.
-        This method sees if the chracter pressed e on an item, and, if so, adds it to inventory.
+        This method sees if the character pressed e on an item, and, if so, adds it to inventory.
 
         Args:
         current_room (Room): The current room the character is in.
         """
         keys = pygame.key.get_pressed()
-        items = current_room.items.copy()  # Make a copy of the items in the room to avoid modifying the original list while iterating
+        items = current_room.items.copy()  # Make a copy of the items in the room to avoid modifying the original
+        # list while iterating
         for item in items:
             if (self.x < item.x + item.width and
-                self.x + self.width > item.x and
-                self.y < item.y + item.height and
-                self.y + self.height > item.y) and keys[pygame.K_e]:
-                # Add the object to the character's inventory
-                self.inventory.append(item)
-                # Remove the object from the list of objects in the room
-                current_room.items.remove(item)
+                    self.x + self.width > item.x and
+                    self.y < item.y + item.height and
+                    self.y + self.height > item.y) and keys[pygame.K_e]:
+                if type(item) == weapons.Weapon or type(item) == weapons.Shotgun:
+                    self.gun = item
+                    current_room.items.remove(item)
+                else:
+                    # Add the object to the character's inventory
+                    self.inventory.append(item)
+                    # Remove the object from the list of objects in the room
+                    current_room.items.remove(item)
 
     def update_position(self):
         """ Update the object's position to the character inventory if it's picked up """

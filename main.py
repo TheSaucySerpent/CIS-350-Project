@@ -20,7 +20,7 @@ def main():
     screen = pygame.display.set_mode((screen_width, screen_height), pygame.RESIZABLE)
 
     # Set game window title
-    pygame.display.set_caption('CIS 350 DEMO')
+    pygame.display.set_caption('TOPDOWN SHOOTER')
 
     # Set the font for text
     font = pygame.font.Font(None, 36)
@@ -51,7 +51,8 @@ def main():
                     game.prev_screen_height = screen_height
                     game.screen_width = event.w
                     game.screen_height = event.h
-                    game.current_room.scale(game.prev_screen_width, game.prev_screen_height, game.screen_width, game.screen_height)
+                    game.current_room.scale(game.prev_screen_width, game.prev_screen_height, game.screen_width,
+                                            game.screen_height)
                 else:
                     screen_width, screen_height = event.w, event.h
             # Handles keyboard input
@@ -59,11 +60,18 @@ def main():
                 # Terminates program if esc is pressed
                 if event.key == pygame.K_ESCAPE:
                     program_running = False
+                    if game is not None:
+                        game.save_game_state()
                 # Starts new game if N is pressed
                 elif event.key == pygame.K_n:
                     # Ensures a new game can be created only when game is None
-                    if game is None:
+                    if game is None or game.game_over:
                         game = game_functions.Game(screen, screen_width, screen_height, user_interface, font)
+                        game_in_progress = True
+                elif event.key == pygame.K_c and game is None:
+                    # Create a new Game object
+                    game = game_functions.Game(screen, screen_width, screen_height, user_interface, font)
+                    game.load_game_state()
                     game_in_progress = True
 
         if game_in_progress:
